@@ -10,13 +10,14 @@ export default function Hero() {
   return (
     <section className="relative w-full h-[70vh] md:h-screen flex items-center justify-center">
       {/* ✅ Background Image */}
-      <Image
-        src={hero}
-        alt="Hero Background"
-        fill
-        className="object-cover"
-        priority
-      />
+      <video
+        autoPlay
+        loop
+        muted
+        className="absolute w-full h-full object-cover z-2"
+      >
+        <source src="/kpd-goa.mp4" type="video/mp4" />
+      </video>
 
       {/* ✅ Optional Overlay for readability */}
       <div className="absolute inset-0 bg-black/40"></div>
