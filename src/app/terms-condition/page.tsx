@@ -32,10 +32,10 @@ export default function TermsPage() {
         <h3>Definitions</h3>
         <p>
           <strong>Affiliate</strong> means an entity that controls, is
-          controlled by or is under common control with a party, where "control"
-          means ownership of 50% or more of the shares, equity interest or other
-          securities entitled to vote for election of directors or other
-          managing authority.
+          controlled by or is under common control with a party, where
+          &#34;control&#34; means ownership of 50% or more of the shares, equity
+          interest or other securities entitled to vote for election of
+          directors or other managing authority.
         </p>
         <p>
           <strong>Country:</strong> Goa, India
@@ -130,7 +130,7 @@ export default function TermsPage() {
           of the Company and any of its suppliers under any provision of this
           Terms and Your exclusive remedy for all of the foregoing shall be
           limited to the amount actually paid by You through the Service or 100
-          USD if You haven't purchased anything through the Service.
+          USD if You haven&#39;t purchased anything through the Service.
         </p>
         <p>
           To the maximum extent permitted by applicable law, the Company or its
@@ -138,13 +138,14 @@ export default function TermsPage() {
           or consequential damages whatsoever.
         </p>
 
-        <h2>"AS IS" and "AS AVAILABLE" Disclaimer</h2>
+        <h2>&#34;AS IS&#34; and &#34;AS AVAILABLE&#34; Disclaimer</h2>
         <p>
-          The Service is provided to You "AS IS" and "AS AVAILABLE" and with all
-          faults and defects without warranty of any kind.
+          The Service is provided to You &#34;AS IS&#34; and &#34;AS
+          AVAILABLE&#34; and with all faults and defects without warranty of any
+          kind.
         </p>
         <p>
-          Neither the Company nor any of the company's provider makes any
+          Neither the Company nor any of the company&#39;s provider makes any
           representation or warranty of any kind, express or implied, including
           availability, accuracy, or freedom from harmful components.
         </p>
