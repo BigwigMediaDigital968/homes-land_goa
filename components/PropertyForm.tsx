@@ -212,7 +212,7 @@ export default function PropertyForm({
             name="purpose"
             value={formData.purpose || ""}
             onChange={handleChange}
-            className="w-full rounded-lg p-3 bg-white text-black border border-gray-300 focus:ring focus:ring-green-200"
+            className="w-full rounded-lg p-3 bg-[#1e2939] text-black border border-gray-300 focus:ring focus:ring-green-200"
           >
             <option value="">Select purpose</option>
             <option value="Buy">Buy</option>
