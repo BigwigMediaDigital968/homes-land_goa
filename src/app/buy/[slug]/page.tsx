@@ -21,6 +21,7 @@ import HelpSection from "../../../../components/HelpSection";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import ContactInfo from "../../../../components/ContactInfo";
+import { LeadForm } from "../../../../components/LeadForm";
 
 interface Property {
   _id: string;
@@ -221,85 +222,94 @@ export default function BuyDetails() {
         </div>
       </section>
 
-      {/* Video Tour */}
-      {property.videoLink && (
-        <section className="w-11/12 md:w-5/6 mx-auto py-12">
-          <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
-            Virtual Tour
-          </h2>
-          <div className="w-full h-[500px] overflow-hidden rounded-xl shadow">
-            {property.videoLink.includes("youtube") ||
-            property.videoLink.includes("youtu.be") ? (
-              <iframe
-                src={getYouTubeEmbedUrl(property.videoLink)!}
-                width="100%"
-                height="100%"
-                allowFullScreen
-              />
-            ) : (
-              <video
-                src={property.videoLink}
-                controls
-                className="w-full h-full object-cover"
-              />
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* Features */}
-      {property.featuresAmenities.length > 0 && (
-        <section className="w-11/12 md:w-5/6 mx-auto py-12">
-          <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
-            Features & Amenities
-          </h2>
-          <div className="flex flex-wrap gap-6">
-            {property.featuresAmenities.map((f, idx) => (
-              <div
-                key={idx}
-                className="px-4 py-2 bg-[var(--bg-color)] rounded-full shadow text-sm"
-              >
-                {f}
+      <div className="w-11/12 md:w-5/6 mx-auto grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <div className="col-span-2">
+          {/* Video Tour */}
+          {property.videoLink && (
+            <section className=" py-12">
+              <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
+                Virtual Tour
+              </h2>
+              <div className="w-full h-[500px] overflow-hidden rounded-xl shadow">
+                {property.videoLink.includes("youtube") ||
+                property.videoLink.includes("youtu.be") ? (
+                  <iframe
+                    src={getYouTubeEmbedUrl(property.videoLink)!}
+                    width="100%"
+                    height="100%"
+                    allowFullScreen
+                  />
+                ) : (
+                  <video
+                    src={property.videoLink}
+                    controls
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </div>
-            ))}
-          </div>
-        </section>
-      )}
+            </section>
+          )}
 
-      {/* Nearby */}
-      {property.nearby.length > 0 && (
-        <section className="w-11/12 md:w-5/6 mx-auto py-12">
-          <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
-            Nearby Places
-          </h2>
-          <div className="flex flex-wrap gap-3">
-            {property.nearby.map((n, idx) => (
-              <span
-                key={idx}
-                className="px-5 py-2 bg-[var(--bg-color)] rounded-full"
-              >
-                {n}
-              </span>
-            ))}
-          </div>
-        </section>
-      )}
+          {/* Features */}
+          {property.featuresAmenities.length > 0 && (
+            <section className=" py-12">
+              <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
+                Features & Amenities
+              </h2>
+              <div className="flex flex-wrap gap-6">
+                {property.featuresAmenities.map((f, idx) => (
+                  <div
+                    key={idx}
+                    className="px-4 py-2 bg-[var(--bg-color)] rounded-full shadow text-sm"
+                  >
+                    {f}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
-      {/* Map */}
-      {property.googleMapUrl && (
-        <section className="w-11/12 md:w-5/6 mx-auto py-12">
-          <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
-            Location
-          </h2>
-          <iframe
-            src={property.googleMapUrl}
-            width="100%"
-            height="450"
-            loading="lazy"
-            className="rounded-xl shadow border-0"
-          />
-        </section>
-      )}
+          {/* Nearby */}
+          {property.nearby.length > 0 && (
+            <section className=" py-12">
+              <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
+                Nearby Places
+              </h2>
+              <div className="flex flex-wrap gap-3">
+                {property.nearby.map((n, idx) => (
+                  <span
+                    key={idx}
+                    className="px-5 py-2 bg-[var(--bg-color)] rounded-full"
+                  >
+                    {n}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Map */}
+          {property.googleMapUrl && (
+            <section className=" py-12">
+              <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
+                Location
+              </h2>
+              <iframe
+                src={property.googleMapUrl}
+                width="100%"
+                height="450"
+                loading="lazy"
+                className="rounded-xl shadow border-0"
+              />
+            </section>
+          )}
+        </div>
+        <div className="col-span-1 mb-10">
+          <div className="sticky top-28">
+            <LeadForm />
+          </div>
+        </div>
+      </div>
 
       {/* Floating Contact Widget */}
       <div className="fixed bottom-6 right-6 bg-[var(--primary-color)] text-white p-4 rounded-full shadow-xl cursor-pointer hover:scale-105 transition">
@@ -313,7 +323,7 @@ export default function BuyDetails() {
       </div>
 
       <ContactInfo />
-      <HelpSection />
+      {/* <HelpSection /> */}
       <Footer />
 
       {/* Lightbox */}

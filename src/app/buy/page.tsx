@@ -217,9 +217,20 @@ export default function BuyPage() {
                       {p.title}
                     </h3>
                     {p.location && (
-                      <p className="flex items-center text-[var(--primary-color)] text-sm mt-1">
-                        <MapPin size={16} className="mr-1" /> {p.location}
-                      </p>
+                      <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                          p.location
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center text-[var(--primary-color)] "
+                        onClick={(e) => e.stopPropagation()} // prevent link triggering card click
+                      >
+                        <MapPin className="w-5 h-5 mr-2" />
+                        <span className="font-semibold text-base line-clamp-1">
+                          {p.location}
+                        </span>
+                      </a>
                     )}
                     {p.price !== null && (
                       <p className="mt-1 font-semibold text-gray-800">
@@ -295,7 +306,7 @@ export default function BuyPage() {
       </div>
 
       <ContactInfo />
-      <HelpSection />
+      {/* <HelpSection /> */}
       <Footer />
     </div>
   );

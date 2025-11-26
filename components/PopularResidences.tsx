@@ -111,12 +111,20 @@ const PropertySection = ({
                 </h3>
 
                 {house.location && (
-                  <div className="flex items-center text-[var(--title)]">
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                      house.location
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center text-[var(--primary-color)] "
+                    onClick={(e) => e.stopPropagation()} // prevent link triggering card click
+                  >
                     <MapPin className="w-5 h-5 mr-2" />
-                    <h3 className="font-semibold text-[var(--title)] text-base line-clamp-1">
+                    <span className="font-semibold text-base line-clamp-1">
                       {house.location}
-                    </h3>
-                  </div>
+                    </span>
+                  </a>
                 )}
               </div>
             </div>
