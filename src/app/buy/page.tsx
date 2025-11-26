@@ -208,8 +208,8 @@ export default function BuyPage() {
             </h2>
 
             <p className="text-lg opacity-90">
-              Tell us what you're looking for, and our team will share the best
-              options curated for you.
+              Tell us what you&#39;re looking for, and our team will share the
+              best options curated for you.
             </p>
 
             <div className="w-full md:max-w-3xl mx-auto py-10">
