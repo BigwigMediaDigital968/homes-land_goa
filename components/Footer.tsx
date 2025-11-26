@@ -20,7 +20,7 @@ const Footer = () => {
 
         {/* Quick Links */}
         <div>
-          <h3 className="text-2xl font-bold mb-3">Quick Links</h3>
+          <h3 className="text-2xl font-semibold mb-3">Quick Links</h3>
           <ul className="space-y-2 text-base ">
             <li>
               <Link href="/buy">Buy</Link>
@@ -39,7 +39,7 @@ const Footer = () => {
 
         {/* Support */}
         <div>
-          <h3 className="text-2xl font-bold mb-3">Support</h3>
+          <h3 className="text-2xl font-semibold mb-3">Support</h3>
           <ul className="space-y-2 text-base ">
             <li>
               <Link href="/faq">FAQ</Link>
@@ -58,7 +58,7 @@ const Footer = () => {
 
         {/* Social Links */}
         <div>
-          <h3 className=" text-2xl font-bold mb-3">Our Social</h3>
+          <h3 className=" text-2xl font-semibold mb-3">Our Social</h3>
           <ul className="space-y-3 text-base ">
             <li>
               <Link
