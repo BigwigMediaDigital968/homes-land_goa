@@ -21,6 +21,7 @@ import Link from "next/link";
 import abc from "../../assets/abc.avif";
 import sell from "../../assets/sell.webp";
 import ContactInfo from "../../components/ContactInfo";
+import FAQPage from "../../components/Faq";
 
 const features = [
   {
@@ -192,7 +193,8 @@ function Landing() {
         <div className="relative z-10 px-4"></div>
       </section>
       <ContactInfo />
-      <HelpSection />
+      {/* <HelpSection /> */}
+      <FAQPage />
       <Footer />
       <WhatsAppButton />
       <ScrollToTopButton />
