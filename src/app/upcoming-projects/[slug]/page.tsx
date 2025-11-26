@@ -146,7 +146,7 @@ export default function UpcomingDetails() {
           ))}
           {extraCount > 0 && (
             <div
-              className="relative h-40 flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-xl text-2xl font-bold cursor-pointer"
+              className="relative h-40 flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-xl text-2xl font-semibold cursor-pointer"
               onClick={() => {
                 setPhotoIndex(10);
                 setIsOpen(true);
@@ -160,7 +160,7 @@ export default function UpcomingDetails() {
         {/* Info + Description - Right Side */}
         <div className="sticky top-24 self-start space-y-6">
           {/* Title + Location + Price */}
-          <h1 className="text-3xl font-bold">{property.title}</h1>
+          <h1 className="text-3xl font-semibold">{property.title}</h1>
           {property.location && (
             <p className="flex items-center gap-2 text-lg text-gray-600 dark:text-gray-300">
               <MapPin size={18} /> {property.location}

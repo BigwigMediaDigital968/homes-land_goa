@@ -109,7 +109,7 @@ export default function BuyPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <h1 className="text-4xl md:text-5xl font-bold tracking-widest">
+          <h1 className="text-4xl md:text-5xl font-semibold tracking-widest">
             Find Your Dream Home in Goa
           </h1>
           <p className="mt-4 text-lg tracking-widest">
@@ -213,7 +213,7 @@ export default function BuyPage() {
 
                   {/* Info */}
                   <div className="p-4 bg-[var(--bg-color)]">
-                    <h3 className="font-bold text-[var(--title)] text-lg line-clamp-1">
+                    <h3 className="font-semibold text-[var(--title)] text-lg line-clamp-1">
                       {p.title}
                     </h3>
                     {p.location && (

@@ -95,7 +95,7 @@ export default function ContactPage() {
         />
         <div className="absolute inset-0 bg-black/60"></div>
         <div className="relative z-10 text-center text-white px-4">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-widest">
+          <h1 className="text-4xl md:text-5xl font-semibold mb-4 tracking-widest">
             Contact Us
           </h1>
           <p className="text-lg md:text-2xl max-w-2xl mx-auto tracking-widest">
@@ -118,7 +118,7 @@ export default function ContactPage() {
       >
         {/* Left info */}
         <div className="space-y-8 tracking-widest">
-          <h2 className="text-3xl font-bold text-[var(--primary-color)]">
+          <h2 className="text-3xl font-semibold text-[var(--primary-color)]">
             Contact Information
           </h2>
           <p className="text-gray-700 dark:text-gray-300">

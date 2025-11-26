@@ -76,7 +76,7 @@ export default function OurJourney() {
 
         {/* Content */}
         <div className="relative z-10 text-center text-white px-4 ">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-widest">
+          <h1 className="text-4xl md:text-5xl font-semibold mb-4 tracking-widest">
             About Us
           </h1>
           <p className="text-lg md:text-2xl max-w-2xl mx-auto tracking-widest">
@@ -108,7 +108,7 @@ export default function OurJourney() {
 
           {/* Right Side - Content */}
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-[var(--title)] mb-6 tracking-widest">
+            <h2 className="text-3xl md:text-4xl font-semibold text-[var(--title)] mb-6 tracking-widest">
               Our Story
             </h2>
             <p className="text-md text-gray-800 dark:text-gray-200 leading-loose mb-4 tracking-widest text-justify">
@@ -140,7 +140,7 @@ export default function OurJourney() {
           data-aos="fade-up"
         >
           {/* Heading */}
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[var(--title)] tracking-widest ">
+          <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-[var(--title)] tracking-widest ">
             Why Choose Us
           </h2>
           <p className="text-lg md:text-xl text-[var(--primary-color)] mb-12">

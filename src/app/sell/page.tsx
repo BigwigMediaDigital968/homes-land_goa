@@ -46,7 +46,7 @@ function Sell() {
         />
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="relative text-white">
-          <h1 className="text-3xl md:text-5xl font-bold tracking-widest">
+          <h1 className="text-3xl md:text-5xl font-semibold tracking-widest">
             Sell Your Property With Us
           </h1>
           <button
@@ -62,7 +62,7 @@ function Sell() {
         ref={sellRef}
         className="py-12 bg-white w-11/12 md:w-5/6 text-[var(--primary-color)] mx-auto tracking-widest"
       >
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 tracking-widest">
+        <h2 className="text-3xl md:text-4xl font-semibold text-center mb-12 tracking-widest">
           Our Selling Process
         </h2>
         <div className="grid md:grid-cols-3 gap-10 ">
@@ -101,7 +101,7 @@ function Sell() {
 
       {/* Why Choose Us */}
       <section className="py-12 bg-[var(--bg-color)] text-[var(--primary-color)] tracking-widest">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 tracking-widest">
+        <h2 className="text-3xl md:text-4xl font-semibold text-center mb-12 tracking-widest">
           Why Sell With Us?
         </h2>
         <div className="grid md:grid-cols-3 gap-10 w-11/12 md:w-5/6 mx-auto">
@@ -138,7 +138,7 @@ function Sell() {
       {/* Sell Form */}
       {/* Sell Form */}
       <section className="py-16 bg-white w-11/12 md:w-5/6 mx-auto text-[var(--primary-color)]">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 tracking-widest ">
+        <h2 className="text-3xl md:text-4xl font-semibold text-center mb-12 tracking-widest ">
           Get In Touch With Us
         </h2>
         <div className="grid md:grid-cols-2 gap-10 items-center tracking-widest">
@@ -185,7 +185,7 @@ function Sell() {
               <X size={28} />
             </button>
 
-            <h2 className="text-2xl font-bold mb-6 text-[var(--title)] text-center">
+            <h2 className="text-2xl font-semibold mb-6 text-[var(--title)] text-center">
               List Your Property
             </h2>
 
