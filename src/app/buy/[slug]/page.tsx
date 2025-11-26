@@ -302,8 +302,14 @@ export default function BuyDetails() {
       )}
 
       {/* Floating Contact Widget */}
-      <div className="fixed bottom-6 right-6 bg-[var(--primary-color)] text-white p-4 rounded-full shadow-xl flex items-center gap-2 cursor-pointer hover:scale-105 transition">
-        <Phone /> Enquire
+      <div className="fixed bottom-6 right-6 bg-[var(--primary-color)] text-white p-4 rounded-full shadow-xl cursor-pointer hover:scale-105 transition">
+        <a
+          href="tel:+919623858108"
+          className="flex items-center gap-2 text-white"
+        >
+          <Phone />
+          <span>Enquire</span>
+        </a>
       </div>
 
       <ContactInfo />
