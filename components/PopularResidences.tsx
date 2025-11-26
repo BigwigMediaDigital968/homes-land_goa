@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-import { MapPin, BedDouble, Ruler } from "lucide-react";
+import { MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -43,12 +43,11 @@ const PropertySection = ({
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/property`);
         const data = await res.json();
 
-        // Filter based on purpose
         const filtered = data
           .filter(
             (p: Property) => p.purpose?.toLowerCase() === purpose.toLowerCase()
           )
-          .slice(0, 3); // ✅ show only 3
+          .slice(0, 3);
 
         setProperties(filtered);
       } catch (err) {
@@ -61,13 +60,13 @@ const PropertySection = ({
     fetchProperties();
   }, [purpose]);
 
-  if (loading) return null; // skip loader, keep clean
-
-  if (properties.length === 0) return null; // ✅ Don’t render section if empty
+  if (loading) return null;
+  if (properties.length === 0) return null;
 
   return (
     <section className="py-12 bg-white">
       <p className="uppercase tracking-widest text-center">{title}</p>
+
       <h2
         className="text-3xl md:text-4xl font-semibold text-center text-[var(--title)] mb-12 tracking-widest"
         data-aos="fade-up"
@@ -75,41 +74,34 @@ const PropertySection = ({
         Our Popular Residences for {purpose === "buy" ? "Buy" : "Rent"}
       </h2>
 
-      {/* Grid */}
-      {/* Flex Wrap instead of Grid */}
       <div className="flex flex-wrap justify-center gap-8 w-11/12 md:w-5/6 mx-auto">
         {properties.map((house, index) => (
           <Link
             key={house._id}
             href={`/${purpose}/${house.slug}`}
             scroll={true}
+            className="w-80"
           >
             <div
-              className="bg-[var(--bg-color)]  shadow-lg overflow-hidden flex flex-col cursor-pointer w-80"
+              className="bg-[var(--bg-color)] shadow-lg overflow-hidden flex flex-col cursor-pointer transition-all duration-300 hover:-translate-y-1 group"
               data-aos="zoom-in-up"
-              data-aos-delay={index * 200}
+              data-aos-delay={index * 150}
             >
-              {/* ✅ Image */}
-              <div className="relative h-60 w-full flex items-center justify-center bg-gray-100">
-                {house.images?.length > 0 ? (
-                  <Image
-                    src={house.images[0]}
-                    alt={house.title}
-                    fill={house.images.length > 1 ? true : undefined}
-                    width={house.images.length === 1 ? 300 : undefined}
-                    height={house.images.length === 1 ? 200 : undefined}
-                    className={
-                      house.images.length === 1
-                        ? "object-contain"
-                        : "object-cover"
-                    }
-                    unoptimized
-                  />
-                ) : (
-                  <div className="h-60 flex items-center justify-center text-gray-400">
-                    No Image
-                  </div>
-                )}
+              {/* 🔥 AUTO HORIZONTAL SLIDE ON HOVER */}
+              <div className="relative h-60 w-full overflow-hidden bg-gray-100">
+                <div className="flex h-full w-max transition-transform duration-[12000ms] ease-linear group-hover:-translate-x-[80%]">
+                  {house.images.map((img, i) => (
+                    <div key={i} className="relative h-60 w-80 flex-shrink-0">
+                      <Image
+                        src={img}
+                        alt={`${house.title}-${i}`}
+                        fill
+                        className="object-cover"
+                        unoptimized
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Content */}
@@ -126,21 +118,6 @@ const PropertySection = ({
                     </h3>
                   </div>
                 )}
-
-                {/* <div className="flex items-center justify-between text-[var(--title)] text-sm">
-                  {house.bedrooms && (
-                    <div className="flex items-center gap-1">
-                      <BedDouble className="w-5 h-5" />
-                      <span>{house.bedrooms} Rooms</span>
-                    </div>
-                  )}
-                  {house.size && (
-                    <div className="flex items-center gap-1">
-                      <Ruler className="w-5 h-5" />
-                      <span>{house.size}</span>
-                    </div>
-                  )}
-                </div> */}
               </div>
             </div>
           </Link>
@@ -150,7 +127,6 @@ const PropertySection = ({
   );
 };
 
-// ✅ Export both Buy + Rent Sections
 const PopularResidences = () => {
   return (
     <>
