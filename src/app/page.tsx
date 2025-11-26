@@ -64,7 +64,7 @@ function Landing() {
       <Hero />
 
       <section className="w-11/12 md:w-5/6 mx-auto py-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-center text-[var(--title)] mb-12 tracking-widest">
+        <h2 className="text-3xl md:text-4xl font-semibold text-center text-[var(--title)] mb-12 tracking-widest">
           What Are You Looking For?
         </h2>
 
@@ -119,7 +119,7 @@ function Landing() {
         {/* Content */}
         <div className="relative z-10 px-4">
           <h2
-            className="text-3xl md:text-4xl font-bold mb-4 tracking-widest"
+            className="text-3xl md:text-4xl font-semibold mb-4 tracking-widest"
             data-aos="fade-up"
           >
             Find Your Dream Home
@@ -141,7 +141,7 @@ function Landing() {
         data-aos="fade-up"
       >
         {/* Heading */}
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[var(--title)] tracking-widest">
+        <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-[var(--title)] tracking-widest">
           Why Choose Us
         </h2>
         <p className="text-lg md:text-xl text-[var(--primary-color)] mb-12">

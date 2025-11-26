@@ -61,7 +61,7 @@ export default function ReviewSection() {
         {/* Section Label */}
 
         {/* Heading */}
-        <h2 className="text-center text-3xl md:text-4xl font-bold text-[var(--title)] mt-2 mb-6 tracking-widest">
+        <h2 className="text-center text-3xl md:text-4xl font-semibold text-[var(--title)] mt-2 mb-6 tracking-widest">
           What Our Clients Say About Us
         </h2>
 

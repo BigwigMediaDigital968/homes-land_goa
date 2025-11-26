@@ -6,7 +6,7 @@ const HelpSection = () => {
   return (
     <section className="bg-white py-16 px-6 text-center">
       {/* Heading */}
-      <h2 className="text-3xl md:text-4xl font-bold text-[var(--title)] mb-4 tracking-widest">
+      <h2 className="text-3xl md:text-4xl font-semibold text-[var(--title)] mb-4 tracking-widest">
         Do You Have Any Questions?
         <br />
         Get Help From Us

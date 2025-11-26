@@ -69,7 +69,7 @@ const PropertySection = ({
     <section className="py-12 bg-white">
       <p className="uppercase tracking-widest text-center">{title}</p>
       <h2
-        className="text-3xl md:text-4xl font-bold text-center text-[var(--title)] mb-12 tracking-widest"
+        className="text-3xl md:text-4xl font-semibold text-center text-[var(--title)] mb-12 tracking-widest"
         data-aos="fade-up"
       >
         Our Popular Residences for {purpose === "buy" ? "Buy" : "Rent"}
@@ -114,7 +114,7 @@ const PropertySection = ({
 
               {/* Content */}
               <div className="p-6 flex flex-col flex-grow space-y-3">
-                <h3 className="font-semibold text-[var(--title)] text-lg line-clamp-1">
+                <h3 className="font-semibold text-[var(--title)] text-base line-clamp-1">
                   {house.title}
                 </h3>
 
@@ -127,7 +127,7 @@ const PropertySection = ({
                   </div>
                 )}
 
-                <div className="flex items-center justify-between text-[var(--title)] text-sm">
+                {/* <div className="flex items-center justify-between text-[var(--title)] text-sm">
                   {house.bedrooms && (
                     <div className="flex items-center gap-1">
                       <BedDouble className="w-5 h-5" />
@@ -140,7 +140,7 @@ const PropertySection = ({
                       <span>{house.size}</span>
                     </div>
                   )}
-                </div>
+                </div> */}
               </div>
             </div>
           </Link>

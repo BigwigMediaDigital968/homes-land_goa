@@ -80,13 +80,13 @@ const Stats: React.FC = () => {
         {/* Text Content */}
         <div className="z-10">
           <h2
-            className="text-3xl md:text-4xl font-bold text-[var(--title)] mt-2 tracking-widest"
+            className="text-3xl md:text-4xl font-semibold text-[var(--title)] mt-2 tracking-widest"
             data-aos="fade-right"
           >
             We Help You To Find Your Dream Home
           </h2>
           <p
-            className="text-[var(--primary-color)] text-lg font-semibold mb-8 mt-4 tracking-widest"
+            className="text-[var(--primary-color)] text-lg  mb-8 mt-4 tracking-widest"
             data-aos="fade-right"
           >
             From charming cottages to breathtaking luxury estates, our expert
@@ -97,7 +97,7 @@ const Stats: React.FC = () => {
           {/* Stats */}
           <div className="grid grid-cols-1 tracking-widest sm:grid-cols-2 md:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x border-t border-gray-300 mb-8">
             <div className="py-4 sm:pr-6 ">
-              <p className="text-[var(--primary-color)] text-4xl font-sans font-bold">
+              <p className="text-[var(--primary-color)] text-4xl font-sans font-semibold">
                 {avlHouses}K+
               </p>
               <p className="text-[var(--primary-color)] text-md font-semibold">
@@ -105,7 +105,7 @@ const Stats: React.FC = () => {
               </p>
             </div>
             <div className="py-4 sm:pl-6">
-              <p className="text-[var(--primary-color)] text-4xl font-sans font-bold">
+              <p className="text-[var(--primary-color)] text-4xl font-sans font-semibold">
                 {soldHouses}K+
               </p>
               <p className="text-[var(--primary-color)] text-md font-semibold">
@@ -113,7 +113,7 @@ const Stats: React.FC = () => {
               </p>
             </div>
             <div className="py-4 sm:pl-6">
-              <p className="text-[var(--primary-color)] text-4xl font-sans font-bold">
+              <p className="text-[var(--primary-color)] text-4xl font-sans font-semibold">
                 {agents}K+
               </p>
               <p className="text-[var(--primary-color)] text-md font-semibold">

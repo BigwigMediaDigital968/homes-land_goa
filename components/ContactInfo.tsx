@@ -34,7 +34,7 @@ const ContactInfo = () => {
   return (
     <section className="bg-[var(--bg-color)]  py-12">
       {/* Heading */}
-      <h2 className="text-center text-3xl md:text-4xl font-bold text-[var(--title)] mb-10 tracking-widest">
+      <h2 className="text-center text-3xl md:text-4xl font-semibold text-[var(--title)] mb-10 tracking-widest">
         Your Dream House Is One Step Away!
       </h2>
 
