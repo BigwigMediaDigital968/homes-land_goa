@@ -6,10 +6,11 @@ import { MapPin, Home } from "lucide-react";
 import banner from "../../../assets/buy-banner.jpg";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
-import HelpSection from "../../../components/HelpSection";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import ContactInfo from "../../../components/ContactInfo";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { LeadForm } from "../../../components/LeadForm";
+import Link from "next/link";
 
 interface Property {
   _id: string;
@@ -23,37 +24,64 @@ interface Property {
 }
 
 export default function BuyPage() {
-  const [selectedType, setSelectedType] = useState("All");
+  const [selectedType, setSelectedType] = useState("All Locations");
+  const [selectedLocation, setSelectedLocation] = useState("All Locations");
+
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const [locations, setLocations] = useState<string[]>([]);
+
   const buyRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
 
-  // Pagination state
+  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const propertiesPerPage = 9;
 
-  // Fetch properties from backend
+  const GOA_LOCATIONS = [
+    "All Locations",
+    "Panaji",
+    "Mapusa",
+    "Calangute",
+    "Tiswadi Taluka",
+    "Candolim",
+    "Baga",
+  ];
+
+  // Fetch properties
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_BASE}/property`)
       .then((res) => res.json())
-      .then((data) => {
-        const buyProperties = data.filter(
+      .then((data: Property[]) => {
+        const buyProps = data.filter(
           (p: Property) => p.purpose?.toLowerCase() === "buy"
         );
-        setProperties(buyProperties);
+
+        setProperties(buyProps);
         setLoading(false);
+
+        // Generate unique locations
+        setLocations(GOA_LOCATIONS);
       })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
+      .catch(() => setLoading(false));
   }, []);
 
-  const filtered =
-    selectedType === "All"
-      ? properties
-      : properties.filter((p) => p.type === selectedType);
+  // Apply filters
+  const filtered = properties.filter((p) => {
+    const typeMatch =
+      selectedType === "All Locations" ||
+      p.type?.toLowerCase().trim() === selectedType.toLowerCase().trim();
+
+    const locationMatch =
+      selectedLocation === "All Locations" ||
+      p.location
+        ?.toLowerCase()
+        .trim()
+        .includes(selectedLocation.toLowerCase().trim());
+
+    return typeMatch && locationMatch;
+  });
 
   // Pagination logic
   const totalPages = Math.ceil(filtered.length / propertiesPerPage);
@@ -72,10 +100,10 @@ export default function BuyPage() {
     }
   };
 
-  // Generate page numbers (with ellipsis)
+  // Page numbers
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
-    const maxVisible = 3; // show 3 around current
+    const maxVisible = 3;
 
     if (totalPages <= 7) {
       for (let i = 1; i <= totalPages; i++) pages.push(i);
@@ -95,8 +123,8 @@ export default function BuyPage() {
     <div className="w-full min-h-screen flex flex-col">
       <Navbar />
 
-      {/* Hero Section */}
-      <div className="relative h-[70vh] md:h-[100vh]  bg-black text-white flex items-center justify-center">
+      {/* HERO */}
+      <div className="relative h-[70vh] md:h-[100vh] bg-black text-white flex items-center justify-center">
         <Image
           src={banner}
           alt="Goa Homes"
@@ -124,52 +152,69 @@ export default function BuyPage() {
         </motion.div>
       </div>
 
-      {/* Filters */}
+      {/* FILTERS */}
       <motion.div
-        className="sticky top-0 bg-white shadow-md z-20 flex gap-4 p-4 justify-center tracking-widest"
+        className="px-4 md:px-10 sticky top-0 bg-white shadow-md z-20 flex flex-wrap gap-4 p-4 justify-between tracking-widest"
         initial="hidden"
         animate="visible"
-        variants={{
-          hidden: { opacity: 0 },
-          visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.15 },
-          },
-        }}
       >
-        {["All", "Apartment", "Villa", "Plot"].map((type) => (
-          <motion.button
-            key={type}
-            onClick={() => {
-              setSelectedType(type);
-              setCurrentPage(1);
-            }}
-            className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
-              selectedType === type
-                ? "bg-[#E50E0B] text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
-          >
-            {type}
-          </motion.button>
-        ))}
+        <div></div>
+
+        {/* TYPE FILTER */}
+        <div className="flex gap-3">
+          {["All", "Apartment", "Villa", "Plot"].map((type) => (
+            <motion.button
+              key={type}
+              onClick={() => {
+                setSelectedType(type);
+                setCurrentPage(1);
+              }}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
+                selectedType === type
+                  ? "bg-[#E50E0B] text-white"
+                  : "bg-gray-100 text-black hover:bg-gray-200"
+              }`}
+            >
+              {type}
+            </motion.button>
+          ))}
+        </div>
+
+        {/* LOCATION FILTER */}
+        <motion.select
+          value={selectedLocation}
+          onChange={(e) => {
+            setSelectedLocation(e.target.value);
+            setCurrentPage(1);
+          }}
+          className="px-4 py-2 rounded-full text-sm font-semibold bg-gray-100 !text-black hover:bg-gray-200 outline-none cursor-pointer"
+        >
+          {locations.map((loc) => (
+            <option key={loc} value={loc} className="!text-black bg-white">
+              {loc}
+            </option>
+          ))}
+        </motion.select>
       </motion.div>
 
-      {/* Property List */}
+      {/* PROPERTY LIST */}
       <div ref={buyRef} className="py-12">
         {loading ? (
-          <p className="text-center py-20 text-gray-500">
-            Loading properties...
-          </p>
+          <p className="text-center py-12 text-gray-500">Loading...</p>
         ) : paginatedProperties.length === 0 ? (
-          <div className="text-center py-20 text-gray-500 col-span-full tracking-widest">
-            <h2 className="text-2xl font-semibold mb-2">
-              No properties available
+          <div className="text-center py-20 text-gray-600 tracking-widest">
+            <h2 className="text-3xl font-semibold mb-3">
+              No Properties Match Your Search
             </h2>
+
+            <p className="text-lg opacity-90">
+              Tell us what you're looking for, and our team will share the best
+              options curated for you.
+            </p>
+
+            <div className="w-full md:max-w-3xl mx-auto py-10">
+              <LeadForm />
+            </div>
           </div>
         ) : (
           <>
@@ -192,9 +237,7 @@ export default function BuyPage() {
                     hidden: { opacity: 0, scale: 0.9, y: 30 },
                     visible: { opacity: 1, scale: 1, y: 0 },
                   }}
-                  transition={{ duration: 0.6 }}
                 >
-                  {/* Image */}
                   <div className="relative h-64 w-full">
                     {p.images?.[0] ? (
                       <Image
@@ -211,11 +254,12 @@ export default function BuyPage() {
                     )}
                   </div>
 
-                  {/* Info */}
+                  {/* INFO */}
                   <div className="p-4 bg-[var(--bg-color)]">
                     <h3 className="font-semibold text-[var(--title)] text-lg line-clamp-1">
                       {p.title}
                     </h3>
+
                     {p.location && (
                       <a
                         href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
@@ -223,8 +267,7 @@ export default function BuyPage() {
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center text-[var(--primary-color)] "
-                        onClick={(e) => e.stopPropagation()} // prevent link triggering card click
+                        className="flex items-center text-[var(--primary-color)]"
                       >
                         <MapPin className="w-5 h-5 mr-2" />
                         <span className="font-semibold text-base line-clamp-1">
@@ -232,37 +275,39 @@ export default function BuyPage() {
                         </span>
                       </a>
                     )}
+
                     {p.price !== null && (
                       <p className="mt-1 font-semibold text-gray-800">
                         ₹ {p.price?.toLocaleString()}
                       </p>
                     )}
+
                     {p.type && (
                       <p className="mt-1 text-sm text-gray-600 flex items-center">
                         <Home size={16} className="mr-1" /> {p.type}
                       </p>
                     )}
-
-                    <button
-                      onClick={() => router.push(`/buy/${p.slug}`)}
-                      className="relative px-6 py-3 bg-[#E50E0B] text-white font-semibold 
-                      overflow-hidden group cursor-pointer transition-all duration-300 w-full mt-4 rounded"
-                    >
-                      <span className="relative z-10 tracking-widest">
-                        View Details
-                      </span>
-                      <span
-                        className="absolute inset-0 w-full h-full bg-gradient-to-r from-black/20 to-transparent 
-                        translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out"
-                      ></span>
-                    </button>
+                    <Link href={`/buy/${p.slug}`}>
+                      <button
+                        className="px-6 py-3 bg-[#E50E0B] text-white font-semibold 
+                      w-full mt-4 rounded relative overflow-hidden group cursor-pointer"
+                      >
+                        <span className="relative z-10 tracking-widest">
+                          View Details
+                        </span>
+                        <span
+                          className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent translate-x-[-100%] 
+                        group-hover:translate-x-[100%] transition-transform duration-700"
+                        />
+                      </button>
+                    </Link>
                   </div>
                 </motion.div>
               ))}
             </motion.div>
 
-            {/* Pagination */}
-            {totalPages > 1 && getPageNumbers().length > 0 && (
+            {/* PAGINATION */}
+            {totalPages > 1 && (
               <div className="flex justify-center items-center gap-2 mt-10">
                 <button
                   disabled={currentPage === 1}
@@ -306,7 +351,6 @@ export default function BuyPage() {
       </div>
 
       <ContactInfo />
-      {/* <HelpSection /> */}
       <Footer />
     </div>
   );
