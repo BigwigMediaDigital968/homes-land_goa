@@ -23,15 +23,13 @@ const Stats: React.FC = () => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
-          animateValue(setAvlHouses, 8, 1000); // total signature dishes
-          animateValue(setSoldHouses, 6, 1000); // years of serving
+          animateValue(setAvlHouses, 8, 1000);
+          animateValue(setSoldHouses, 6, 1000);
           animateValue(setAgents, 2, 1000);
           setHasAnimated(true);
         }
       },
-      {
-        threshold: 0.4,
-      }
+      { threshold: 0.4 }
     );
 
     if (sectionRef.current) observer.observe(sectionRef.current);
@@ -64,29 +62,32 @@ const Stats: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="bg-[var(--bg-color)]  text-[var(--primary-color)]  font-raleway font-light  relative overflow-hidden"
+      className="bg-[var(--bg-color)] text-[var(--primary-color)] font-raleway font-light relative overflow-hidden shadow-lg shadow-gray-400/40"
     >
       <div className="w-11/12 md:w-5/6 mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center py-16">
-        {/* Image with dotted background */}
-        <div className="relative w-full h-full z-10 rounded-2xl">
+        {/* IMAGE WITH SHADOW */}
+        <div className="relative w-full h-full z-10 rounded-2xl bg-white overflow-hidden shadow-xl shadow-gray-400/50">
           <Image
             src={Hero2}
-            alt="Dining"
+            alt="Dream Home"
             width={600}
             height={400}
-            className="relative z-10 w-full h-[300px] md:h-[400px] object-cover "
+            className="w-full h-[300px] md:h-[400px] object-cover rounded-2xl"
+            priority
           />
         </div>
-        {/* Text Content */}
-        <div className="z-10">
+
+        {/* TEXT AREA */}
+        <div className="z-10 ">
           <h2
             className="text-3xl md:text-4xl font-semibold text-[var(--title)] mt-2 tracking-widest"
             data-aos="fade-right"
           >
             We Help You To Find Your Dream Home
           </h2>
+
           <p
-            className="text-[var(--primary-color)] text-lg  mb-8 mt-4 tracking-widest"
+            className="text-[var(--primary-color)] text-lg mb-8 mt-4 tracking-widest"
             data-aos="fade-right"
           >
             From charming cottages to breathtaking luxury estates, our expert
@@ -94,9 +95,9 @@ const Stats: React.FC = () => {
             vision, but a reality.
           </p>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 tracking-widest sm:grid-cols-2 md:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x border-t border-gray-300 mb-8">
-            <div className="py-4 sm:pr-6 ">
+          {/* STATS WITH SHADOWS */}
+          <div className="grid grid-cols-1 tracking-widest sm:grid-cols-2 md:grid-cols-3 border-t border-gray-300 mb-8 shadow-md shadow-gray-400/40 rounded-xl overflow-hidden">
+            <div className="py-6 px-6 bg-white shadow-inner shadow-gray-300/30">
               <p className="text-[var(--primary-color)] text-4xl font-sans font-semibold">
                 {avlHouses}K+
               </p>
@@ -104,7 +105,8 @@ const Stats: React.FC = () => {
                 Houses Available
               </p>
             </div>
-            <div className="py-4 sm:pl-6">
+
+            <div className="py-6 px-6 bg-white shadow-inner shadow-gray-300/30 border-l">
               <p className="text-[var(--primary-color)] text-4xl font-sans font-semibold">
                 {soldHouses}K+
               </p>
@@ -112,7 +114,8 @@ const Stats: React.FC = () => {
                 Houses Sold
               </p>
             </div>
-            <div className="py-4 sm:pl-6">
+
+            <div className="py-6 px-6 bg-white shadow-inner shadow-gray-300/30 border-l">
               <p className="text-[var(--primary-color)] text-4xl font-sans font-semibold">
                 {agents}K+
               </p>

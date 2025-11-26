@@ -146,27 +146,64 @@ function Landing() {
           Why Choose Us
         </h2>
         <p className="text-lg md:text-xl text-[var(--primary-color)] mb-12">
-          Elevating Your Home Buying Experience with Expertise, Integrity,{" "}
+          Elevating Your Home Buying Experience with Expertise, Integrity,
           <br />
           and Unmatched Personalized Service
         </p>
 
-        {/* Features Grid */}
+        {/* Modern Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-[var(--bg-color)] text-left p-6  shadow-sm hover:shadow-md transition-all"
+              className="
+          group 
+          p-6 
+          rounded-xl 
+          bg-white/10 
+          backdrop-blur-xl 
+          border border-white/20 
+          shadow-[0_8px_30px_rgb(0,0,0,0.12)] 
+          hover:shadow-[0_15px_40px_rgba(0,0,0,0.25)]
+          transition-all 
+          duration-500 
+          hover:-translate-y-2
+          text-left              /* ✅ FIXED */
+        "
               data-aos="zoom-in-up"
-              data-aos-delay={index * 200} // stagger animation
+              data-aos-delay={index * 200}
             >
-              <div className="bg-[var(--bg-color)] p-3 rounded-md w-fit mb-4 text-[var(--title)]">
-                {feature.icon}
+              {/* Icon Container */}
+              <div className="flex items-start">
+                {" "}
+                {/* ✅ FIXED */}
+                <div
+                  className="
+              p-4 
+              rounded-lg 
+              bg-gradient-to-br 
+              from-[var(--title)]/10 
+              to-[var(--primary-color)]/10 
+              backdrop-blur-xl 
+              shadow-inner
+              group-hover:scale-110 
+              transition 
+              duration-300 
+              w-fit 
+              text-[var(--title)]
+            "
+                >
+                  {feature.icon}
+                </div>
               </div>
-              <h3 className="text-lg font-semibold mb-2 text-[var(--title)]">
+
+              {/* Title */}
+              <h3 className="text-xl font-semibold mt-4 mb-2 text-[var(--title)]">
                 {feature.title}
               </h3>
-              <p className="text-sm text-[var(--primary-color)]">
+
+              {/* Description */}
+              <p className="text-sm text-[var(--primary-color)] leading-relaxed">
                 {feature.description}
               </p>
             </div>

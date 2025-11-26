@@ -253,13 +253,13 @@ export default function BuyDetails() {
           <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
             Features & Amenities
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+          <div className="flex flex-wrap gap-6">
             {property.featuresAmenities.map((f, idx) => (
               <div
                 key={idx}
-                className="p-4 bg-[var(--bg-color)] rounded-lg shadow text-center"
+                className="px-4 py-2 bg-[var(--bg-color)] rounded-full shadow text-sm"
               >
-                ⭐ {f}
+                {f}
               </div>
             ))}
           </div>
