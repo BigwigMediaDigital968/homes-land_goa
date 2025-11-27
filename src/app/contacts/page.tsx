@@ -1,65 +1,46 @@
 "use client";
 
-import {
-  FaMapMarkerAlt,
-  FaPhoneAlt,
-  FaClock,
-  FaEnvelope,
-} from "react-icons/fa";
-import contactBanner from "../../../assets/contact.jpg";
 import { useRef, useState } from "react";
-import Navbar from "../../../components/Navbar";
 import Image from "next/image";
+import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import contactBanner from "../../../assets/contact.jpg";
+import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "",
+    phone: "",
+    purpose: "",
     message: "",
   });
 
+  const [otp, setOtp] = useState("");
+  const [step, setStep] = useState<"form" | "otp" | "success">("form");
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
-  const contactRef = useRef<HTMLDivElement | null>(null);
-  const scrollToNext = () => {
-    if (contactRef.current) {
-      const yOffset = -50;
-      const y =
-        contactRef.current.getBoundingClientRect().top +
-        window.scrollY +
-        yOffset;
-
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  };
-
-  // Handle input change
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
+  // SEND OTP
+  const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setSuccess(false);
     setError("");
+    setLoading(true);
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE}/api/contacts`,
+        `${process.env.NEXT_PUBLIC_API_BASE}/api/lead/send-otp`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
         }
       );
@@ -67,14 +48,52 @@ export default function ContactPage() {
       const data = await res.json();
 
       if (res.ok) {
-        setSuccess(true);
-        setFormData({ name: "", email: "", subject: "", message: "" });
+        setStep("otp");
       } else {
-        setError(data.message || "Something went wrong!");
+        setError(data.message || "Failed to send OTP.");
       }
     } catch (err) {
       console.error(err);
-      setError("Failed to submit. Try again later.");
+      setError("Network error. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // VERIFY OTP
+  const handleVerifyOtp = async () => {
+    if (!otp) return setError("Enter OTP");
+
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE}/api/lead/verify-otp`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: formData.email, otp }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setStep("success");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          purpose: "",
+          message: "",
+        });
+      } else {
+        setError(data.message || "Invalid OTP.");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Network error. Try again.");
     } finally {
       setLoading(false);
     }
@@ -84,7 +103,7 @@ export default function ContactPage() {
     <div className="text-black transition-colors">
       <Navbar />
 
-      {/* Hero Banner */}
+      {/* Banner */}
       <section className="relative w-full h-[70vh] md:h-[100vh] flex items-center justify-center pt-32">
         <Image
           src={contactBanner}
@@ -95,37 +114,19 @@ export default function ContactPage() {
         />
         <div className="absolute inset-0 bg-black/60"></div>
         <div className="relative z-10 text-center text-white px-4">
-          <h1 className="text-4xl md:text-5xl font-semibold mb-4 tracking-widest">
+          <h1 className="text-5xl font-semibold mb-4 tracking-widest">
             Contact Us
           </h1>
-          <p className="text-lg md:text-2xl max-w-2xl mx-auto tracking-widest">
-            Get in touch with our team for property inquiries, collaborations,
-            or support.
-          </p>
-          <button
-            onClick={scrollToNext}
-            className="mt-10 animate-bounce border rounded-full w-fit px-1 py-2 mx-auto cursor-pointer"
-          >
-            <span className="text-3xl">↓</span>
-          </button>
         </div>
       </section>
 
       {/* Main Section */}
-      <section
-        ref={contactRef}
-        className="w-11/12 md:w-5/6 mx-auto py-16 grid md:grid-cols-2 gap-12 items-start"
-      >
-        {/* Left info */}
+      <section className="w-11/12 md:w-5/6 mx-auto py-16 grid md:grid-cols-2 gap-12 items-start">
+        {/* Contact Info */}
         <div className="space-y-8 tracking-widest">
           <h2 className="text-3xl font-semibold text-[var(--primary-color)]">
             Contact Information
           </h2>
-          <p className="text-gray-700 dark:text-gray-300">
-            Whether you’re buying your first home, investing in real estate, or
-            exploring new projects, our team is here to assist you every step of
-            the way.
-          </p>
 
           <div className="flex items-start gap-3">
             <FaMapMarkerAlt className="mt-1 text-[var(--primary-color)]" />
@@ -135,83 +136,130 @@ export default function ContactPage() {
               Calangute 403516
             </span>
           </div>
+
           <p className="flex items-center gap-3">
-            <FaPhoneAlt className="text-[var(--primary-color)]" />
-            +91 96238 58108
+            <FaPhoneAlt className="text-[var(--primary-color)]" /> +91 96238
+            58108
           </p>
 
           <a href="mailto:info@homesandlandgoa.com">
             <p className="flex items-center gap-3">
-              <FaEnvelope size={18} className="text-[var(--primary-color)]" />{" "}
+              <FaEnvelope className="text-[var(--primary-color)]" />{" "}
               info@homesandlandgoa.com
             </p>
           </a>
         </div>
 
-        {/* Right form */}
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-6 bg-white dark:bg-[#1e1e1e] p-8  shadow-lg border dark:border-white/10"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <input
-              type="text"
-              name="name"
-              placeholder="Your Name"
-              value={formData.name}
-              onChange={handleChange}
-              className="border border-gray-300 dark:border-gray-700 p-3  bg-white dark:bg-[#2c2c2c] text-black dark:text-white"
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Your Email"
-              value={formData.email}
-              onChange={handleChange}
-              className="border border-gray-300 dark:border-gray-700 p-3  bg-white dark:bg-[#2c2c2c] text-black dark:text-white"
-              required
-            />
-          </div>
-          <input
-            type="text"
-            name="subject"
-            placeholder="Subject"
-            value={formData.subject}
-            onChange={handleChange}
-            className="w-full border border-gray-300 dark:border-gray-700 p-3  bg-white dark:bg-[#2c2c2c] text-black dark:text-white"
-          />
-          <textarea
-            name="message"
-            rows={5}
-            placeholder="Your Message"
-            value={formData.message}
-            onChange={handleChange}
-            className="w-full border border-gray-300 dark:border-gray-700 p-3  bg-white dark:bg-[#2c2c2c] text-black dark:text-white"
-            required
-          />
+        {/* FORM / OTP / SUCCESS */}
+        <div className="space-y-6  p-8 shadow-lg border">
+          {/* Step 1 — Form */}
+          {step === "form" && (
+            <form onSubmit={handleSendOtp} className="space-y-6">
+              <input
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Your Name"
+                required
+                className="w-full p-3 border "
+              />
 
-          {/* Success / Error messages */}
-          {success && (
-            <p className="text-green-600">Message sent successfully!</p>
+              <input
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Your Email"
+                required
+                className="w-full p-3 border "
+              />
+
+              <input
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Phone Number"
+                required
+                className="w-full p-3 border "
+              />
+
+              <select
+                name="purpose"
+                value={formData.purpose}
+                onChange={handleChange}
+                required
+                className="w-full p-3 border  !text-black"
+              >
+                <option className="!text-black" value="">
+                  Select Purpose
+                </option>
+                <option className="!text-black" value="Buy Property">
+                  Buy Property
+                </option>
+                <option className="!text-black" value="Sell Property">
+                  Sell Property
+                </option>
+                <option className="!text-black" value="Rent Property">
+                  Rent Property
+                </option>
+                <option className="!text-black" value="General Inquiry">
+                  General Inquiry
+                </option>
+              </select>
+
+              <textarea
+                name="message"
+                rows={4}
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Your Message"
+                required
+                className="w-full p-3 border dark:bg-[#2c2c2c]"
+              />
+
+              {error && <p className="text-red-600">{error}</p>}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-6 py-3 bg-[#E50E0B] text-white rounded cursor-pointer"
+              >
+                {loading ? "Sending OTP..." : "Send "}
+              </button>
+            </form>
           )}
-          {error && <p className="text-red-600">{error}</p>}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="relative px-6 py-3  bg-[#E50E0B] text-white font-semibold 
-  overflow-hidden group cursor-pointer transition-all duration-300 rounded"
-          >
-            <span className="relative z-10">
-              {loading ? "Submitting..." : "Submit"}
-            </span>
-            <span
-              className="absolute inset-0 w-full h-full bg-gradient-to-r from-white/20 to-transparent 
-    translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out"
-            ></span>
-          </button>
-        </form>
+          {/* Step 2 — OTP */}
+          {step === "otp" && (
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">Enter OTP sent to email</h3>
+
+              <input
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                placeholder="Enter 6-digit OTP"
+                className="w-full p-3 border dark:bg-[#2c2c2c]"
+              />
+
+              {error && <p className="text-red-600">{error}</p>}
+
+              <button
+                onClick={handleVerifyOtp}
+                disabled={loading}
+                className="px-6 py-3 bg-green-600 text-white rounded"
+              >
+                {loading ? "Verifying..." : "Verify OTP"}
+              </button>
+            </div>
+          )}
+
+          {/* Step 3 — Success */}
+          {step === "success" && (
+            <p className="text-green-600 text-center text-lg font-semibold">
+              ✔ Your message has been submitted successfully!
+            </p>
+          )}
+        </div>
       </section>
 
       <Footer />
