@@ -24,6 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <meta
+        name="google-site-verification"
+        content="yoASm41IVFHOXhRAFs956RnT4fR_WYzHiZBbvhR6ILU"
+      />
       <style>{`
           body > .skiptranslate {
             display: none;
