@@ -6,38 +6,42 @@ const LanguageSelector = () => {
     const selectedLang = e.target.value;
     if (!selectedLang) return;
 
-    // 1️⃣ Set the cookie that Google Translate reads:
-    document.cookie = `googtrans=/en/${selectedLang};path=/`;
+    const cookieVal = `/en/${selectedLang}`;
+    const expires = new Date(
+      Date.now() + 7 * 24 * 60 * 60 * 1000
+    ).toUTCString();
 
-    // 2️⃣ Optionally set URL hash (for some implementations):
-    window.location.hash = `#googtrans=en/${selectedLang}`;
+    // 1) Remove old variants that can conflict
+    try {
+      document.cookie =
+        "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+      document.cookie =
+        "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=homesandlandgoa.com";
+      document.cookie =
+        "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.homesandlandgoa.com";
+      document.cookie =
+        "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=www.homesandlandgoa.com";
+    } catch (err) {
+      // ignore
+    }
 
-    // 3️⃣ Click the matching language anchor in the iframe:
-    const intervalId = setInterval(() => {
-      const iframe = document.querySelector(
-        "iframe.goog-te-menu-frame"
-      ) as HTMLIFrameElement;
-      if (!iframe) return;
+    // 2) Set one authoritative cookie (leading-dot domain)
+    try {
+      document.cookie = `googtrans=${cookieVal};expires=${expires};path=/;domain=.homesandlandgoa.com;SameSite=None;Secure`;
+    } catch (err) {
+      // ignore
+    }
 
-      const innerDoc = iframe.contentDocument || iframe.contentWindow?.document;
-      if (!innerDoc) return;
+    // 3) Persist preference (optional but useful)
+    try {
+      localStorage.setItem("preferredLang", selectedLang);
+    } catch (e) {}
 
-      const anchors = Array.from(
-        innerDoc.querySelectorAll("a.goog-te-menu2-item")
-      );
-      const match = anchors.find((a) =>
-        a.getAttribute("href")?.includes(`#${selectedLang}`)
-      );
-      if (match) {
-        (match as HTMLElement).click();
-        clearInterval(intervalId);
-      }
-    }, 300);
-
-    setTimeout(() => clearInterval(intervalId), 5000);
-
-    // 4️⃣ Force a reload so translation applies everywhere:
-    setTimeout(() => window.location.reload(), 500);
+    // 4) Update hash & reload to apply globally
+    try {
+      window.location.hash = `#googtrans=${cookieVal}`;
+    } catch (e) {}
+    setTimeout(() => window.location.reload(), 300);
   };
 
   return (
