@@ -45,7 +45,7 @@ const PropertySection = ({
 
         const filtered = data
           .filter(
-            (p: Property) => p.purpose?.toLowerCase() === purpose.toLowerCase()
+            (p: Property) => p.purpose?.toLowerCase() === purpose.toLowerCase(),
           )
           .slice(0, 3);
 
@@ -111,20 +111,24 @@ const PropertySection = ({
                 </h3>
 
                 {house.location && (
-                  <a
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                      house.location
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center text-[var(--primary-color)] "
-                    onClick={(e) => e.stopPropagation()} // prevent link triggering card click
+                  <button
+                    type="button"
+                    className="flex items-center text-[var(--primary-color)] cursor-pointer"
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                      e.stopPropagation();
+
+                      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                        house.location ?? "",
+                      )}`;
+
+                      window.open(mapUrl, "_blank", "noopener,noreferrer");
+                    }}
                   >
                     <MapPin className="w-5 h-5 mr-2" />
                     <span className="font-semibold text-base line-clamp-1">
                       {house.location}
                     </span>
-                  </a>
+                  </button>
                 )}
               </div>
             </div>

@@ -73,7 +73,13 @@ function Landing() {
           {/* ✅ Buy */}
           <Link href="/buy">
             <div className="relative group h-72 md:h-96 cursor-pointer">
-              <Image src={buy} alt="Buy" fill className="object-cover" />
+              <Image
+                src={buy}
+                alt="Buy"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                fill
+                className="object-cover"
+              />
               {/* Overlay */}
               <div className="absolute inset-0 bg-[#0a2342]/80 group-hover:bg-[#0a2342]/70 transition" />
               {/* Text */}
@@ -88,7 +94,13 @@ function Landing() {
           {/* ✅ Rent */}
           <Link href="/rent">
             <div className="relative group h-72 md:h-96 cursor-pointer">
-              <Image src={rent} alt="Rent" fill className="object-cover" />
+              <Image
+                src={rent}
+                alt="Rent"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                fill
+                className="object-cover"
+              />
               {/* Overlay */}
               <div className="absolute inset-0 bg-red-500/70 group-hover:bg-red-500/60 transition" />
               {/* Text */}

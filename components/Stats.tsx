@@ -29,7 +29,7 @@ const Stats: React.FC = () => {
           setHasAnimated(true);
         }
       },
-      { threshold: 0.4 }
+      { threshold: 0.4 },
     );
 
     if (sectionRef.current) observer.observe(sectionRef.current);
@@ -42,7 +42,7 @@ const Stats: React.FC = () => {
   const animateValue = (
     setter: (value: number) => void,
     target: number,
-    duration: number
+    duration: number,
   ) => {
     const start = 0;
     const stepTime = 20;
@@ -73,6 +73,7 @@ const Stats: React.FC = () => {
             width={600}
             height={400}
             className="w-full h-[300px] md:h-[400px] object-cover rounded-2xl"
+            style={{ width: "100%", height: "100%" }}
             priority
           />
         </div>

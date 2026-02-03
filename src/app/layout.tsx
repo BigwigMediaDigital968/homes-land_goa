@@ -20,30 +20,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <meta
-        name="google-site-verification"
-        content="yoASm41IVFHOXhRAFs956RnT4fR_WYzHiZBbvhR6ILU"
-      />
-      <Script
-        strategy="afterInteractive"
-        src="https://www.googletagmanager.com/gtag/js?id=G-6LCRCK2W3C"
-      />
+      <head>
+        {/* Google Site Verification */}
+        <meta
+          name="google-site-verification"
+          content="yoASm41IVFHOXhRAFs956RnT4fR_WYzHiZBbvhR6ILU"
+        />
 
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-6LCRCK2W3C');
-  `}
-      </Script>
-
-      <style>{`
+        {/* Google Translate hide styles */}
+        <style>{`
           body > .skiptranslate {
             display: none;
           }
@@ -59,6 +49,23 @@ export default function RootLayout({
             }
           }
         `}</style>
+      </head>
+
+      {/* Google Analytics */}
+      <Script
+        strategy="afterInteractive"
+        src="https://www.googletagmanager.com/gtag/js?id=G-6LCRCK2W3C"
+      />
+
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-6LCRCK2W3C');
+        `}
+      </Script>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
