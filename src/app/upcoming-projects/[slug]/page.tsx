@@ -210,7 +210,7 @@ export default function UpcomingDetails() {
                 {property.highlights.map((h, idx) => (
                   <span
                     key={idx}
-                    className="px-4 py-2 bg-[var(--bg-color)] rounded-full shadow text-sm"
+                    className="px-4 py-2 bg-[var(--bg-color)] rounded-full shadow text-sm text-black"
                   >
                     {h}
                   </span>
@@ -257,7 +257,7 @@ export default function UpcomingDetails() {
             {property.featuresAmenities.map((f, idx) => (
               <div
                 key={idx}
-                className="p-4 bg-[var(--bg-color)] rounded-lg shadow text-center"
+                className="p-4 bg-[var(--bg-color)] rounded-lg shadow text-center text-black"
               >
                 ⭐ {f}
               </div>
@@ -267,23 +267,42 @@ export default function UpcomingDetails() {
       )}
 
       {/* Nearby */}
-      {property.nearby.length > 0 && (
-        <section className="w-11/12 md:w-5/6 mx-auto py-12">
-          <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
-            Nearby Places
-          </h2>
-          <div className="flex flex-wrap gap-3">
-            {property.nearby.map((n, idx) => (
-              <span
-                key={idx}
-                className="px-5 py-2 bg-[var(--bg-color)] rounded-full"
-              >
-                {n}
-              </span>
-            ))}
-          </div>
-        </section>
-      )}
+          {property.nearby.length > 0 && (
+            <section className="w-11/12 md:w-5/6 mx-auto py-12">
+              <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
+                Nearby Places
+              </h2>
+              <div className="flex flex-wrap gap-3">
+                {property.nearby.map((n, idx) => (
+                  <span
+                    key={idx}
+                    className="px-5 py-2 bg-[var(--bg-color)] rounded-full text-black"
+                  >
+                    {n}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Extra Highlights */}
+          {property.extraHighlights && property.extraHighlights.length > 0 && (
+            <section className="w-11/12 md:w-5/6 mx-auto py-12">
+              <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
+                Extra Highlights
+              </h2>
+              <div className="flex flex-wrap gap-3">
+                {property.extraHighlights.map((eh, idx) => (
+                  <span
+                    key={idx}
+                    className="px-5 py-2 bg-[var(--bg-color)] rounded-full text-black"
+                  >
+                    {eh}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
 
       {/* Map */}
       {property.googleMapUrl && (

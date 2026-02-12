@@ -211,7 +211,7 @@ export default function BuyDetails() {
                 {property.highlights.map((h, idx) => (
                   <span
                     key={idx}
-                    className="px-4 py-2 bg-[var(--bg-color)] rounded-full shadow text-sm"
+                    className="px-4 py-2 bg-[var(--bg-color)] rounded-full shadow text-sm text-black"
                   >
                     {h}
                   </span>
@@ -260,7 +260,7 @@ export default function BuyDetails() {
                 {property.featuresAmenities.map((f, idx) => (
                   <div
                     key={idx}
-                    className="px-4 py-2 bg-[var(--bg-color)] rounded-full shadow text-sm"
+                    className="px-4 py-2 bg-[var(--bg-color)] rounded-full shadow text-sm text-black"
                   >
                     {f}
                   </div>
@@ -279,9 +279,28 @@ export default function BuyDetails() {
                 {property.nearby.map((n, idx) => (
                   <span
                     key={idx}
-                    className="px-5 py-2 bg-[var(--bg-color)] rounded-full"
+                    className="px-5 py-2 bg-[var(--bg-color)] rounded-full text-black"
                   >
                     {n}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Extra Highlights */}
+          {property.extraHighlights && property.extraHighlights.length > 0 && (
+            <section className=" py-12">
+              <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
+                Extra Highlights
+              </h2>
+              <div className="flex flex-wrap gap-3">
+                {property.extraHighlights.map((eh, idx) => (
+                  <span
+                    key={idx}
+                    className="px-5 py-2 bg-[var(--bg-color)] rounded-full text-black"
+                  >
+                    {eh}
                   </span>
                 ))}
               </div>
