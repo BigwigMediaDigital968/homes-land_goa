@@ -1,5 +1,81 @@
 @import "tailwindcss";
 
+
+
+@theme {
+  --color-gold-50: #fdf9f0;
+  --color-gold-100: #f7edcc;
+  --color-gold-200: #eed99a;
+  --color-gold-300: #e0be65;
+  --color-gold-400: #c9a84c;
+  --color-gold-500: #b8943a;
+  --color-gold-600: #9a7a2e;
+  --color-gold-700: #7a6024;
+  --color-gold-800: #5c471a;
+  --color-gold-900: #3e300f;
+
+  --color-ivory-50: #fdfcf8;
+  --color-ivory-100: #f9f6ed;
+  --color-ivory-200: #f2edd8;
+  --color-ivory-300: #e8e0c4;
+  --color-ivory-400: #d4c99e;
+
+  --color-charcoal-50: #f5f4f2;
+  --color-charcoal-100: #e8e6e2;
+  --color-charcoal-200: #cdc9c2;
+  --color-charcoal-300: #a8a29a;
+  --color-charcoal-400: #7d7870;
+  --color-charcoal-500: #5c5750;
+  --color-charcoal-600: #3e3a34;
+  --color-charcoal-700: #2a2722;
+  --color-charcoal-800: #1a1814;
+  --color-charcoal-900: #0d0c09;
+
+  --color-navy: #0B2545;
+
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Montserrat", "Helvetica Neue", sans-serif;
+}
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    /* background-color: #0d0c09;
+    color: #f9f6ed; */
+    font-family: "Cormorant Garamond", Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(185, 148, 58, 0.3);
+    color: #fdfcf8;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0d0c09;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #9a7a2e;
+    border-radius: 2px;
+  }
+}
+
 #google_translate_element span {
   display: none;
 }

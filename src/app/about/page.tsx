@@ -10,6 +10,7 @@ import { MapPin, User, ClipboardList, Handshake } from "lucide-react";
 import Aos from "aos";
 import HelpSection from "../../../components/HelpSection";
 import ContactInfo from "../../../components/ContactInfo";
+import PageHero from "../../../components/ui/PageHero";
 
 const features = [
   {
@@ -50,48 +51,16 @@ export default function OurJourney() {
     }
   };
 
-  useEffect(() => {
-    Aos.init({
-      duration: 900,
-      once: true,
-      easing: "ease-in-out",
-    });
-  }, []);
 
   return (
     <div>
-      <Navbar />
-      <section className="relative w-full h-[70vh] md:h-[100vh] flex items-center justify-center pt-32">
-        {/* Background Image */}
-        <Image
-          src={aboutImage}
-          alt="Our Journey"
-          fill
-          priority
-          className="object-cover"
-        />
-
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/60"></div>
-
-        {/* Content */}
-        <div className="relative z-10 text-center text-white px-4 ">
-          <h1 className="text-4xl md:text-5xl font-semibold mb-4 tracking-widest">
-            About Us
-          </h1>
-          <p className="text-lg md:text-2xl max-w-2xl mx-auto tracking-widest">
-            From vision to reality - building trust, homes, and futures
-          </p>
-
-          {/* Scroll Down Indicator */}
-          <button
-            onClick={scrollToNext}
-            className="mt-10 animate-bounce border rounded-full w-fit px-1 py-2 mx-auto cursor-pointer"
-          >
-            <span className="text-3xl">↓</span>
-          </button>
-        </div>
-      </section>
+      <PageHero
+        title={
+          <>
+            About <span className="text-gold-400">US</span>
+          </>
+        }
+      />
 
       <section ref={ourStory} className="py-16">
         <div className="w-11/12 md:w-5/6 mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
@@ -175,7 +144,6 @@ export default function OurJourney() {
       <ContactInfo />
       <HelpSection />
 
-      <Footer />
     </div>
   );
 }
