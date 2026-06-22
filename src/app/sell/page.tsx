@@ -35,7 +35,6 @@ function Sell() {
 
   return (
     <div>
-      <Navbar />
 
       {/* Hero Section */}
       <div className="relative h-[70vh] md:h-[100vh] bg-black flex flex-col justify-center items-center text-center px-6 tracking-widest">
@@ -196,7 +195,6 @@ function Sell() {
       <ContactInfo />
       <HelpSection />
 
-      <Footer />
     </div>
   );
 }

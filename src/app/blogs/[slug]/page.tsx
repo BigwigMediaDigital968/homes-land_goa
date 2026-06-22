@@ -48,7 +48,6 @@ export default function BlogDetails() {
 
   return (
     <div>
-      <Navbar />
 
       <section className="w-11/12 md:w-5/6 mx-auto py-24 mt-16">
         {/* Title */}
@@ -80,7 +79,6 @@ export default function BlogDetails() {
       <ContactInfo />
       <HelpSection />
 
-      <Footer />
     </div>
   );
 }

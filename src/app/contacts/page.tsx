@@ -101,7 +101,6 @@ export default function ContactPage() {
 
   return (
     <div className="text-black transition-colors">
-      <Navbar />
 
       {/* Banner */}
       <section className="relative w-full h-[70vh] md:h-[100vh] flex items-center justify-center pt-32">
@@ -261,8 +260,6 @@ export default function ContactPage() {
           )}
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

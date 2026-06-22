@@ -93,7 +93,6 @@ export default function RentPage() {
 
   return (
     <div className="w-full min-h-screen flex flex-col">
-      <Navbar />
 
       {/* Hero Section */}
       <div className="relative h-[70vh] md:h-[100vh] bg-black text-white flex items-center justify-center">
@@ -296,7 +295,6 @@ export default function RentPage() {
 
       <ContactInfo />
       <HelpSection />
-      <Footer />
     </div>
   );
 }
