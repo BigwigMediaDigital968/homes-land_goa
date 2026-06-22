@@ -4,6 +4,7 @@ import "./globals.css";
 import Script from "next/script";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import LayoutWrapper from "./LayoutWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +26,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  
   return (
     <html lang="en">
       <head>
@@ -71,9 +73,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar/>
-        {children}
-        <Footer/>
+
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   );

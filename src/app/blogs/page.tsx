@@ -72,7 +72,6 @@ function Blogs() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navbar */}
-      <Navbar />
 
       {/* Blogs container */}
       <main className="flex-1 w-11/12 md:w-5/6 mx-auto py-36 ">
@@ -165,7 +164,6 @@ function Blogs() {
       <HelpSection />
 
       {/* Footer */}
-      <Footer />
     </div>
   );
 }

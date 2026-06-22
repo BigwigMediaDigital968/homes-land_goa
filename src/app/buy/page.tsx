@@ -121,7 +121,6 @@ export default function BuyPage() {
 
   return (
     <div className="w-full min-h-screen flex flex-col">
-      <Navbar />
 
       {/* HERO */}
       <div className="relative h-[70vh] md:h-[100vh] bg-black text-white flex items-center justify-center">
@@ -351,7 +350,6 @@ export default function BuyPage() {
       </div>
 
       <ContactInfo />
-      <Footer />
     </div>
   );
 }
