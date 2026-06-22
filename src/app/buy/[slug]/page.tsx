@@ -96,7 +96,6 @@ export default function BuyDetails() {
 
   return (
     <div className="bg-white dark:bg-black text-black dark:text-white transition-colors duration-300">
-      <Navbar />
 
       {/* Hero with overlay */}
       <section className="relative h-[100vh]">
@@ -343,7 +342,6 @@ export default function BuyDetails() {
 
       <ContactInfo />
       {/* <HelpSection /> */}
-      <Footer />
 
       {/* Lightbox */}
       {isOpen && (
