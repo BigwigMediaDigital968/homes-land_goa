@@ -9,7 +9,7 @@ const testimonials = [
   {
     id: 1,
     quote:
-      "Fortune Goa Realty didn't just find us a villa — they found us a way of life. The process was seamless, the team was impeccable, and the property exceeded every expectation. An extraordinary experience from start to finish.",
+      "Homes & Land Goa didn't just find us a villa - they found us a way of life. The process was seamless, the team was impeccable, and the property exceeded every expectation. An extraordinary experience from start to finish.",
     name: "Arjun & Priya Mehta",
     role: "Mumbai · Acquired a beachfront villa in Vagator",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=90",
@@ -18,7 +18,7 @@ const testimonials = [
   {
     id: 2,
     quote:
-      "When we decided to sell our heritage property in Panjim, we were skeptical. But the team at Fortune Goa Realty handled everything with discretion and professionalism. We received an offer 22% above our asking price within three weeks.",
+      "When we decided to sell our heritage property in Panjim, we were skeptical. But the team at Homes & Land Goa handled everything with discretion and professionalism. We received an offer 22% above our asking price within three weeks.",
     name: "Sunita Rodrigues",
     role: "Panjim · Sold a Portuguese heritage bungalow",
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=90",
@@ -27,7 +27,7 @@ const testimonials = [
   {
     id: 3,
     quote:
-      "As an NRI investor, finding a trustworthy partner in Indian real estate is rare. Fortune Goa Realty managed every aspect of my investment with absolute transparency. I can sleep soundly knowing my assets are in expert hands.",
+      "As an NRI investor, finding a trustworthy partner in Indian real estate is rare. Homes & Land Goa managed every aspect of my investment with absolute transparency. I can sleep soundly knowing my assets are in expert hands.",
     name: "Ravi Nair",
     role: "Dubai · Investment portfolio of 3 properties",
     avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=90",
