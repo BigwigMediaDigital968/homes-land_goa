@@ -252,7 +252,7 @@ export function Hero2() {
               className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2"
             >
               {/* Primary Button: Starts as crisp white, transitions to gold */}
-              <a href="#properties" className="w-full sm:w-auto">
+              <a href="buy" className="w-full sm:w-auto">
                 <button className="w-full sm:w-auto relative px-9 py-4.5 bg-white hover:bg-gold-400 text-[#091d35] hover:text-white font-sans text-[10px] uppercase tracking-[0.2em] font-bold rounded-none transition-all duration-500 shadow-md flex items-center justify-center gap-3 group cursor-pointer border border-transparent">
                   <span className="relative z-10">Explore Properties</span>
                   <ArrowUpRight className="w-3.5 h-3.5 text-[#091d35] group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
