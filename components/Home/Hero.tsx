@@ -260,7 +260,7 @@ export function Hero2() {
               </a>
 
               {/* Secondary Button: Transparent Outline */}
-              <a href="#contacts" className="w-full sm:w-auto">
+              <a href="contacts" className="w-full sm:w-auto">
                 <button className="w-full sm:w-auto relative px-9 py-4.5 bg-transparent hover:bg-white/10 text-white border-2 border-white font-sans text-[10px] uppercase tracking-[0.2em] font-bold rounded-none transition-all duration-500 cursor-pointer">
                   Talk to Our Team
                 </button>
