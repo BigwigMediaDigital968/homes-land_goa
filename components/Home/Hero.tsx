@@ -232,7 +232,7 @@ export function Hero2() {
               variants={fadeUpVariants}
               className="text-4xl sm:text-5xl md:text-7xl font-light text-white leading-[1.05] tracking-tight font-serif"
             >
-               Find the Right Property in Goa, <br className="hidden md:inline" />
+               Find the Property in Goa, <br className="hidden md:inline" />
               <span className="italic font-normal text-gold-400 font-serif relative">
                 With People Who Know the Market
               </span>
@@ -262,7 +262,7 @@ export function Hero2() {
               {/* Secondary Button: Transparent Outline */}
               <a href="#contacts" className="w-full sm:w-auto">
                 <button className="w-full sm:w-auto relative px-9 py-4.5 bg-transparent hover:bg-white/10 text-white border-2 border-white font-sans text-[10px] uppercase tracking-[0.2em] font-bold rounded-none transition-all duration-500 cursor-pointer">
-                  Inquire Now
+                  Talk to Our Team
                 </button>
               </a>
             </motion.div>
