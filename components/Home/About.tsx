@@ -95,14 +95,14 @@ export default function About() {
               className="absolute -bottom-6 -right-4 md:-right-8 p-6 bg-[#fdfcf8] border border-[#d4c99e] shadow-xl z-20 w-[180px] text-center"
             >
               <h3
-                className="text-4xl font-light text-[#9a7a2e] mb-1 font-display"
+                className="text-4xl font-light text-[#faff00] mb-1 font-display"
               >
                 12+
               </h3>
               <p
-                className="font-sans text-[9px] uppercase tracking-[0.18em] text-[#5c5750] leading-snug font-bold"
+                className="font-sans text-[9px] uppercase tracking-[0.18em] text-[#faff00] leading-snug font-bold"
               >
-                Years of Curated Coastal Legacy
+                Years in Goa's Real Estate Market
               </p>
             </motion.div>
 
@@ -119,7 +119,8 @@ export default function About() {
             <motion.div variants={fadeUpVariants} className="inline-flex items-center gap-2">
               <SectionEyebrow className="text-gold-500"
               >
-                The Heritage & Future
+                Our Background
+
               </SectionEyebrow>
             </motion.div>
 
@@ -128,8 +129,8 @@ export default function About() {
               className="font-display text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-navy"
               variants={fadeUpVariants}
             >
-              Curating Goa's <span className="italic text-[#9a7a2e] font-medium font-display">Finest</span> <br />
-              Architectural Sanctuaries.
+              Real Estate Agents <span className="italic text-[#9a7a2e] font-medium font-display">Working</span> <br />
+              Across Goa for Over a Decades.
             </motion.h2>
 
             {/* Horizontal gold accent break */}
@@ -143,7 +144,7 @@ export default function About() {
               className="font-display text-base md:text-lg font-light text-[#5c5750] leading-relaxed max-w-2xl"
               variants={fadeUpVariants}
             >
-              For over a decade, Vana Goa has operated as the trusted custodian for exceptional real estate. We don't simply broker spaces—we partner with discerning global minds to secure sanctuaries that stand in perfect dialogue with local topography.
+              For over 12 years, Homes & Land Goa has worked as real estate agents and property dealers in Goa, helping buyers find the right property and helping owners sell theirs. We work directly with clients rather than through layers of middlemen, so communication stays clear from the first enquiry to the final paperwork.
             </motion.p>
 
             {/* Luxury Micro-Pillars Grid */}
@@ -152,10 +153,11 @@ export default function About() {
               variants={fadeUpVariants}
             >
               {[
-                { icon: Compass, title: "Exclusive Registries", desc: "Access unlisted, off-market generational holdings." },
-                { icon: Award, title: "White-Glove Advisory", desc: "Absolute administrative and transactional discretion." },
-                { icon: ShieldCheck, title: "Legal Assurance", desc: "Rigorous vetting ensures clean, unencumbered titles." },
-                { icon: Map, title: "Territorial Domain", desc: "Unmatched expertise across Goa's elite sub-markets." },
+                { icon: Compass, title: "Verified Listings", desc: "We check basic property details before a listing reaches you." },
+                { icon: Award, title: "Direct Communication", desc: "One point of contact through your buying or selling process." },
+                { icon: ShieldCheck, title: "Documentation Support", desc: "Guidance through the paperwork involved in a transaction." },
+                { icon: Map, title: "Local Market Knowledge", desc: "Familiarity with North and South Goa's different micro markets.
+" },
               ].map((item, idx) => {
                 const Icon = item.icon;
                 return (
