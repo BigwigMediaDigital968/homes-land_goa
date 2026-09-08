@@ -223,7 +223,7 @@ export function Hero2() {
             <motion.div variants={fadeUpVariants} className="flex items-center gap-3">
               <span className="w-8 h-px bg-[#d4af37]" />
               <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-gold-400 font-bold">
-                CRAFTING SANCTUARIES • CREATING LEGACIES
+                REAL ESTATE AGENTS IN GOA
               </span>
             </motion.div>
 
@@ -232,9 +232,9 @@ export function Hero2() {
               variants={fadeUpVariants}
               className="text-4xl sm:text-5xl md:text-7xl font-light text-white leading-[1.05] tracking-tight font-serif"
             >
-              Unlock Your <br className="hidden md:inline" />
+               Find the Right Property in Goa, <br className="hidden md:inline" />
               <span className="italic font-normal text-gold-400 font-serif relative">
-                Ideal Living Space
+                With People Who Know the Market
               </span>
             </motion.h1>
 
@@ -243,7 +243,7 @@ export function Hero2() {
               variants={fadeUpVariants}
               className="text-slate-200 text-base sm:text-lg max-w-xl leading-relaxed font-serif"
             >
-              Uncover elegant properties thoughtfully curated to reflect your highest architectural aspirations. Harmonizing timeless coastal beauty with absolute structural serenity.
+             Homes & Land Goa, Property Buying and Selling Support Across Goa
             </motion.p>
 
             {/* Action Suite (Sharp, Non-Circular Elements) */}
@@ -262,7 +262,7 @@ export function Hero2() {
               {/* Secondary Button: Transparent Outline */}
               <a href="#contacts" className="w-full sm:w-auto">
                 <button className="w-full sm:w-auto relative px-9 py-4.5 bg-transparent hover:bg-white/10 text-white border-2 border-white font-sans text-[10px] uppercase tracking-[0.2em] font-bold rounded-none transition-all duration-500 cursor-pointer">
-                  Inquire Directly
+                  Inquire Now
                 </button>
               </a>
             </motion.div>
