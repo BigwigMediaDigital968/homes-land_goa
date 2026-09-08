@@ -245,10 +245,17 @@ export function Hero2() {
             >
              Homes & Land Goa, Property Buying and Selling Support Across Goa
             </motion.p>
-           
+
+            <motion.p
+              variants={fadeUpVariants}
+              className="text-slate-200 text-base sm:text-lg max-w-xl leading-relaxed font-serif"
+            >
+              
             <p> Homes & Land Goa helps you buy, sell, or rent property across Goa. As real estate agents and property dealers based here, 
               we shortlist properties that actually match your budget and location, arrange viewings, and support you through the paperwork. 
               Whether you're looking at a villa, an apartment, or a plot, we help you move forward with clarity.</p>
+
+               </motion.p>
           
             {/* Action Suite (Sharp, Non-Circular Elements) */}
             <motion.div
