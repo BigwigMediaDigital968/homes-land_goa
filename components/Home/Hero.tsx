@@ -220,12 +220,12 @@ export function Hero2() {
             animate="visible"
           >
             {/* Elegant Subtitle with Gold Accent */}
-            <motion.div variants={fadeUpVariants} className="flex items-center gap-3">
-              <span className="w-8 h-px bg-[#d4af37]" />
-              <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-gold-400 font-bold">
-                REAL ESTATE AGENTS IN GOA
-              </span>
-            </motion.div>
+           <motion.div variants={fadeUpVariants} className="flex items-center gap-3">
+  <span className="w-8 h-px bg-[#d4af37]" />
+  <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-[#faff00] font-bold">
+    REAL ESTATE AGENTS IN GOA
+  </span>
+</motion.div>
 
             {/* Architectural Sans-Serif / Serif Heading Combo */}
             <motion.h1
