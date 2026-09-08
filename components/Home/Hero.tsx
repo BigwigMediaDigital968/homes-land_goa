@@ -233,9 +233,9 @@ export function Hero2() {
               className="text-4xl sm:text-5xl md:text-7xl font-light text-white leading-[1.05] tracking-tight font-serif"
             >
                Find the Property in Goa, <br className="hidden md:inline" />
-              <span className="italic font-normal #faff00 font-serif relative">
-                With People Who Know the Market
-              </span>
+              <span className="italic font-normal text-[#faff00] font-serif relative">
+  With People Who Know the Market
+</span>
             </motion.h1>
 
             {/* Paragraph Body text */}
