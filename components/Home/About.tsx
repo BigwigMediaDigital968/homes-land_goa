@@ -152,17 +152,27 @@ export default function About() {
               className="grid grid-cols-2 gap-x-8 gap-y-6 pt-2 border-t border-[#e8e0c4] max-w-xl"
               variants={fadeUpVariants}
             >
-              <section>
-                {[ 
-              { icon: Compass, title: "Verified Listings", desc: "We check basic property details before a listing reaches you." }, 
-              { icon: Award, title: "Direct Communication", desc: "One point of contact through your buying or selling process." }, 
-              { icon: ShieldCheck, title: "Documentation Support", desc: "Guidance through the paperwork involved in a transaction." }, 
-              { icon: Map, title: "Local Market Knowledge", desc: "Familiarity with North and South Goa's different micro markets." }, 
-               ]}.map((item, idx) => { const Icon = item.icon; 
-                                  return ( <div key={idx} className="space-y-1 group"> <div className="flex items-center gap-2"> 
-                                    <Icon className="w-4 h-4 text-[#b8943a] stroke-[1.5]" /> <h4 className="font-sans text-[10px] uppercase tracking-[0.15em] text-navy font-bold" >
-                                      {item.title} </h4> </div> <p className="font-display text-xs text-[#7d7870] leading-normal font-light" > 
-                                        {item.desc} </p> </div> ); })}
+              {[
+                { icon: Compass, title: "Verified Listings", desc: "We check basic property details before a listing reaches you." },
+                { icon: Award, title: "Direct Communication", desc: "One point of contact through your buying or selling process." },
+                { icon: ShieldCheck, title: "Documentation Support", desc: "Guidance through the paperwork involved in a transaction." },
+                { icon: Map, title: "Local Market Knowledge", desc: "Familiarity with North and South Goa's different micro markets." },
+              ].map((item, idx) => {
+                const Icon = item.icon;
+                return (
+                  <div key={idx} className="space-y-1 group">
+                    <div className="flex items-center gap-2">
+                      <Icon className="w-4 h-4 text-[#b8943a] stroke-[1.5]" />
+                      <h4 className="font-sans text-[10px] uppercase tracking-[0.15em] text-navy font-bold">
+                        {item.title}
+                      </h4>
+                    </div>
+                    <p className="font-display text-xs text-[#7d7870] leading-normal font-light">
+                      {item.desc}
+                    </p>
+                  </div>
+                );
+              })}
               </motion.div>
             </motion.div> 
           </div> 
