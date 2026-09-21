@@ -5,7 +5,24 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { SectionEyebrow } from "../ui/SectionEyebrow";
 
-const testimonials = [
+export interface Testimonial {
+  id: number;
+  quote: string;
+  name: string;
+  role: string;
+  /** Optional; the portrait block is skipped when missing. */
+  avatar?: string;
+  rating: number;
+}
+
+interface TestimonialsProps {
+  /** Defaults to the Home page set. An empty list renders nothing. */
+  testimonials?: Testimonial[];
+  eyebrow?: string;
+  title?: React.ReactNode;
+}
+
+const defaultTestimonials: Testimonial[] = [
   {
     id: 1,
     quote:
@@ -35,48 +52,52 @@ const testimonials = [
   },
 ];
 
-export default function Testimonials() {
+export default function Testimonials({
+  testimonials = defaultTestimonials,
+  eyebrow = "Client Voices",
+  title = (
+    <>
+      What Our <span className="italic text-rosegold-500">Clients</span> Say
+    </>
+  ),
+}: TestimonialsProps) {
   const [active, setActive] = useState(0);
+
+  if (testimonials.length === 0) return null;
 
   return (
     <section
       id="testimonials"
-      className="relative w-full py-12 lg:py-24 overflow-hidden bg-[#f9f6ed]"
-      style={{ 
+      className="relative w-full py-12 lg:py-24 overflow-hidden bg-black-900"
+      style={{
         fontFamily: '"Cormorant Garamond", Georgia, serif',
-        borderTop: "1px solid rgba(212, 201, 158, 0.4)",
-        borderBottom: "1px solid rgba(212, 201, 158, 0.4)"
+        borderTop: "1px solid rgba(206, 156, 129, 0.2)",
+        borderBottom: "1px solid rgba(206, 156, 129, 0.2)"
       }}
     >
-      {/* Decorative Structural Grid Lines */}
-      <div className="absolute top-0 left-1/4 w-[1px] h-full bg-[#d4c99e]/15 pointer-events-none z-0" />
-      <div className="absolute top-0 right-1/4 w-[1px] h-full bg-[#d4c99e]/15 pointer-events-none z-0" />
 
       {/* Large Decorative Faded Quote Mark */}
       <div
-        className="absolute top-10 left-8 lg:left-24 select-none pointer-events-none font-serif text-[18rem] lg:text-[24rem] text-[#b8943a]/8 leading-none z-0 italic"
+        className="absolute top-10 left-8 lg:left-24 select-none pointer-events-none font-serif text-[14rem] lg:text-[20rem] text-primary/10 leading-none z-0 italic"
       >
         “
       </div>
 
       <div className="max-w-5xl mx-auto px-6 lg:px-12 relative z-10">
-        
+
         {/* Editorial Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center mb-16 lg:mb-24"
+          className="text-center mb-6 lg:mb-16"
         >
-          <SectionEyebrow
-                      >
-                        Client Voices
-                      </SectionEyebrow>
-          <h2 className="font-serif text-4xl sm:text-5xl font-light text-navy tracking-tight mt-4">
-            What Our <span className="italic text-[#9a7a2e]">Clients</span> Say
+          <SectionEyebrow>{eyebrow}</SectionEyebrow>
+          <h2 className="font-serif text-4xl sm:text-5xl font-light text-fg tracking-tight mt-4">
+            {title}
           </h2>
-          <div className="w-12 h-[1px] bg-[#b8943a]/60 mx-auto mt-6" />
+          <div className="w-12 h-[1px] bg-primary/60 mx-auto mt-6" />
         </motion.div>
 
         {/* Testimonial Active Slider Area */}
@@ -93,35 +114,37 @@ export default function Testimonials() {
               {/* Stars Representation */}
               <div className="flex justify-center gap-1.5 mb-8">
                 {Array.from({ length: testimonials[active].rating }).map((_, i) => (
-                  <Star 
-                    key={i} 
-                    className="w-3.5 h-3.5 fill-[#b8943a] text-[#b8943a]" 
+                  <Star
+                    key={i}
+                    className="w-3.5 h-3.5 fill-primary text-primary"
                   />
                 ))}
               </div>
 
               {/* Cinematic Quote text */}
               <blockquote
-                className="text-xl sm:text-2xl lg:text-3xl font-light leading-relaxed mb-10 mx-auto text-[#1a1814] max-w-4xl italic"
+                className="text-lg sm:text-xl lg:text-2xl font-light leading-relaxed mb-10 mx-auto text-fg max-w-4xl italic"
                 style={{ lineHeight: "1.65" }}
               >
                 "{testimonials[active].quote}"
               </blockquote>
 
               {/* Client Portrait & Signature Block */}
-              <div className="flex flex-col items-center gap-4 pt-4">
-                <div className="relative p-1 bg-[#fdfcf8] border border-[#d4c99e]/40 shadow-sm">
-                  <img
-                    src={testimonials[active].avatar}
-                    alt={testimonials[active].name}
-                    className="w-14 h-14 object-cover transition-all duration-700"
-                  />
-                </div>
+              <div className="flex flex-col items-center gap-4 pt-2">
+                {testimonials[active].avatar && (
+                  <div className="relative p-1 bg-black-950 border border-rosegold-700/40 shadow-sm">
+                    <img
+                      src={testimonials[active].avatar}
+                      alt={testimonials[active].name}
+                      className="w-14 h-14 object-cover transition-all duration-700"
+                    />
+                  </div>
+                )}
                 <div>
-                  <p className="font-serif text-lg text-navy font-medium tracking-wide">
+                  <p className="font-serif text-lg text-fg font-medium tracking-wide">
                     {testimonials[active].name}
                   </p>
-                  <p className="font-sans text-[9px] uppercase tracking-[0.25em] text-[#9a7a2e] font-bold mt-1.5">
+                  <p className="font-sans text-[9px] uppercase tracking-[0.25em] text-rosegold-500 font-bold mt-1.5">
                     {testimonials[active].role}
                   </p>
                 </div>
@@ -135,7 +158,7 @@ export default function Testimonials() {
           {/* Left Arrow Button */}
           <button
             onClick={() => setActive((a) => (a - 1 + testimonials.length) % testimonials.length)}
-            className="w-12 h-12 flex items-center justify-center border border-[#d4c99e] bg-[#fdfcf8] text-navy hover:bg-navy hover:text-[#fdfcf8] hover:border-[#0d0c09] transition-all duration-500 rounded-none cursor-pointer"
+            className="w-12 h-12 flex items-center justify-center border border-border bg-black-800 text-fg hover:bg-primary hover:text-on-primary hover:border-primary transition-all duration-500 rounded-none cursor-pointer"
             aria-label="Previous testimonial"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -151,7 +174,7 @@ export default function Testimonials() {
                 style={{
                   width: i === active ? "32px" : "6px",
                   height: "2px",
-                  background: i === active ? "#b8943a" : "rgba(184, 148, 58, 0.2)",
+                  background: i === active ? "#ce9c81" : "rgba(206, 156, 129, 0.25)",
                 }}
               />
             ))}
@@ -160,13 +183,13 @@ export default function Testimonials() {
           {/* Right Arrow Button */}
           <button
             onClick={() => setActive((a) => (a + 1) % testimonials.length)}
-            className="w-12 h-12 flex items-center justify-center border border-[#d4c99e] bg-[#fdfcf8] text-[#0d0c09] hover:bg-[#0d0c09] hover:text-[#fdfcf8] hover:border-[#0d0c09] transition-all duration-500 rounded-none cursor-pointer"
+            className="w-12 h-12 flex items-center justify-center border border-border bg-black-800 text-fg hover:bg-primary hover:text-on-primary hover:border-primary transition-all duration-500 rounded-none cursor-pointer"
             aria-label="Next testimonial"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
-        
+
       </div>
     </section>
   );

@@ -44,12 +44,12 @@ export default function Blogs() {
 
   return (
     <section
-      className="relative w-full py-12 sm:py-24 bg-[#fdfcf8] border-t border-[#d4c99e]/20 overflow-hidden"
+      className="relative w-full py-12 sm:py-24 bg-black-950 border-t border-rosegold-700/20 overflow-hidden"
       style={{ fontFamily: '"Cormorant Garamond", Georgia, serif' }}
     >
       {/* Editorial Decorative Background Details */}
-      <div className="absolute top-0 left-10 w-[1px] h-full bg-[#d4c99e]/15 pointer-events-none" />
-      <div className="absolute top-0 right-10 w-[1px] h-full bg-[#d4c99e]/15 pointer-events-none" />
+      <div className="absolute top-0 left-10 w-[1px] h-full bg-rosegold-700/15 pointer-events-none" />
+      <div className="absolute top-0 right-10 w-[1px] h-full bg-rosegold-700/15 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
 
@@ -64,8 +64,8 @@ export default function Blogs() {
             >
               Insights & Trends
             </SectionEyebrow>
-            <h2 className="font-serif text-4xl mt-4 sm:text-5xl font-light text-navy tracking-tight capitalize">
-              Latest <span className="text-gold-500">Blogs</span>
+            <h2 className="font-serif text-4xl mt-4 sm:text-5xl font-light text-fg tracking-tight capitalize">
+              Latest <span className="text-primary">Blogs</span>
             </h2>
           </motion.div>
 
@@ -73,12 +73,9 @@ export default function Blogs() {
             initial={{ opacity: 0, y: 20 }}
             animate={headerInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-sm sm:text-base text-[#5c5750] leading-relaxed"
+            className="text-sm sm:text-base text-fg-muted leading-relaxed"
           >
-            Explore our real estate blogs to discover the industry's best practices, evolving trends in architectural design,
-            the financial benefits of investing in high-end homes and the exclusive lifestyle of living in one of India's most
-            sought-after destinations. This section is your ultimate guide to understanding the real estate market in Goa
-            and experiencing redefined lifestyle and living.
+            Read our latest articles on the Goa property market, local area guides, and what to know before buying or selling here.
           </motion.p>
         </div>
 
@@ -92,9 +89,9 @@ export default function Blogs() {
         {/* Clean, minimalist centered bottom action block (Replicated from screenshot) */}
         <div className="mt-16 flex justify-center">
           <Link href="#all-blogs">
-            <button className="relative px-8 py-4 bg-transparent hover:bg-navy text-navy hover:text-[#fdfcf8] border border-[#d4c99e] hover:border-navy font-sans text-[10px] uppercase tracking-[0.25em] font-bold transition-all duration-500 flex items-center justify-center gap-3 rounded-none cursor-pointer group">
+            <button className="relative px-8 py-4 bg-transparent hover:bg-primary text-fg hover:text-on-primary border border-rosegold-700 hover:border-primary font-sans text-[10px] uppercase tracking-[0.25em] font-bold transition-all duration-500 flex items-center justify-center gap-3 rounded-none cursor-pointer group">
               <span>View All</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-[#9a7a2e] group-hover:text-[#fdfcf8] transition-colors duration-500" />
+              <ArrowUpRight className="w-3.5 h-3.5 text-rosegold-500 group-hover:text-on-primary transition-colors duration-500" />
             </button>
           </Link>
         </div>
@@ -114,7 +111,7 @@ function BlogCard({ blog, index }: any) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-15%" }}
       transition={{ duration: 1.2, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative aspect-[2/3] w-full overflow-hidden bg-[#0d0c09] cursor-pointer"
+      className="group relative aspect-[2/3] w-full overflow-hidden bg-black-950 cursor-pointer"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -127,7 +124,7 @@ function BlogCard({ blog, index }: any) {
       />
 
       {/* Bottom heavy vignette overlay to isolate text perfectly */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0d0c09]/95 via-[#0d0c09]/50 to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black-950/95 via-black-950/50 to-transparent z-10 pointer-events-none" />
 
       {/* Clean overlay outline border */}
       <div className="absolute inset-2 border border-white/40 z-20 pointer-events-none transition-all duration-700" />
@@ -136,13 +133,13 @@ function BlogCard({ blog, index }: any) {
       <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 z-20 flex flex-col justify-end">
 
         {/* Date Container */}
-        <span className="font-sans text-[9px] uppercase tracking-[0.25em] text-[#e0be65] font-bold mb-2">
+        <span className="font-sans text-[9px] uppercase tracking-[0.25em] text-rosegold-300 font-bold mb-2">
           {blog.date}
         </span>
 
         {/* Slidable Content Frame */}
         <div className="space-y-3">
-          <h3 className="text-base sm:text-lg font-light text-[#fdfcf8] leading-[1.3] tracking-normal capitalize">
+          <h3 className="text-base sm:text-lg font-light text-fg leading-[1.3] tracking-normal capitalize">
             {blog.title}
           </h3>
 
@@ -154,12 +151,12 @@ function BlogCard({ blog, index }: any) {
               opacity: hovered ? 1 : 0
             }}
           >
-            <p className="text-[13px] text-[#cdc9c2] leading-relaxed pt-2">
+            <p className="text-[13px] text-fg-muted leading-relaxed pt-2">
               {blog.description}
             </p>
 
             {/* Premium "Read More" trigger button */}
-            <div className="inline-flex items-center gap-2 mt-4 text-[#e0be65] hover:text-[#fdfcf8] transition-colors duration-300">
+            <div className="inline-flex items-center gap-2 mt-4 text-rosegold-300 hover:text-fg transition-colors duration-300">
               <span className="font-sans text-[9px] tracking-[0.25em] font-bold uppercase">
                 Read Article
               </span>

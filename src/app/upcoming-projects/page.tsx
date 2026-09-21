@@ -4,8 +4,6 @@ import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { MapPin, Home } from "lucide-react";
 import banner from "../../../assets/upcoming-banner.webp";
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
 import HelpSection from "../../../components/HelpSection";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -93,8 +91,6 @@ export default function UpcomingPage() {
 
   return (
     <div className="w-full min-h-screen flex flex-col">
-      <Navbar />
-
       {/* Hero Section */}
       <div className="relative h-[70vh] md:h-[100vh] bg-black text-white flex items-center justify-center">
         <Image
@@ -299,7 +295,6 @@ export default function UpcomingPage() {
 
       <ContactInfo />
       <HelpSection />
-      <Footer />
     </div>
   );
 }

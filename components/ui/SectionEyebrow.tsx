@@ -11,7 +11,7 @@ export function SectionEyebrow({
 }: SectionEyebrowProps) {
   return (
     <span
-      className={`font-sans text-xs uppercase tracking-[0.3em] text-[#9a7a2e] font-bold block ${className}`}
+      className={`font-sans text-xs uppercase tracking-[0.3em] text-rosegold-500 font-bold block ${className}`}
     >
       {children}
     </span>

@@ -1,355 +1,171 @@
-"use client";
-
-import { useRef, useState, useEffect } from "react";
-import Image from "next/image";
-import { MapPin, Home } from "lucide-react";
+import type { Metadata } from "next";
 import banner from "../../../assets/buy-banner.jpg";
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
 import ContactInfo from "../../../components/ContactInfo";
-import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import { LeadForm } from "../../../components/LeadForm";
-import Link from "next/link";
+import PageHero from "../../../components/ui/PageHero";
+import PropertyListings from "../../../components/listings/PropertyListings";
+import JsonLd from "../../../components/ui/JsonLd";
+import BuyExploreIntro from "../../../components/buy/BuyExploreIntro";
+import PropertyTypes from "../../../components/buy/PropertyTypes";
+import BuyLocations from "../../../components/buy/BuyLocations";
+import BuyerGuidance from "../../../components/buy/BuyerGuidance";
+import DueDiligence from "../../../components/buy/DueDiligence";
+import BuyWhyChooseUs from "../../../components/buy/BuyWhyChooseUs";
+import BuyProcess from "../../../components/buy/BuyProcess";
+import BuyCta from "../../../components/buy/BuyCta";
+import { buyFaqs } from "../../../components/buy/buyFaqs";
+import FAQ from "../../../components/ui/FAQ";
+import { getProperties } from "@/lib/properties";
+import {
+  faqSchema,
+  listingPageSchema,
+  realEstateAgentSchema,
+} from "@/lib/schema";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 
-interface Property {
-  _id: string;
-  title: string;
-  slug: string;
-  type?: string;
-  location?: string;
-  price?: number | null;
-  images: string[];
-  purpose?: string;
-}
+const TITLE =
+  "Property for Sale in Goa | Buy Villas, Apartments & Plots | Homes & Land Goa";
+const DESCRIPTION =
+  "Explore property for sale in Goa with Homes & Land Goa. Browse villas, apartments and plots to buy property in Goa, shortlist your options and connect with our team to schedule a viewing.";
+const HERO_ALT = "Villa for sale in North Goa listed by Homes & Land Goa";
 
-export default function BuyPage() {
-  const [selectedType, setSelectedType] = useState("All Locations");
-  const [selectedLocation, setSelectedLocation] = useState("All Locations");
+export const metadata: Metadata = {
+  title: TITLE,
+  description: DESCRIPTION,
+  // ?type=villa etc. show the same page, so they all point back to /buy
+  alternates: { canonical: `${SITE_URL}/buy` },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    siteName: SITE_NAME,
+    url: `${SITE_URL}/buy`,
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [
+      {
+        url: `${SITE_URL}${banner.src}`,
+        width: banner.width,
+        height: banner.height,
+        alt: HERO_ALT,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [`${SITE_URL}${banner.src}`],
+  },
+};
 
-  const [properties, setProperties] = useState<Property[]>([]);
-  const [loading, setLoading] = useState(true);
+const TYPE_FILTERS = ["All", "Apartment", "Villa", "Plot"];
 
-  const [locations, setLocations] = useState<string[]>([]);
+const GOA_LOCATIONS = [
+  "All Locations",
+  "Panaji",
+  "Mapusa",
+  "Calangute",
+  "Tiswadi Taluka",
+  "Candolim",
+  "Baga",
+];
 
-  const buyRef = useRef<HTMLDivElement | null>(null);
-  const router = useRouter();
+// Listings are fetched on the server and refreshed every 5 minutes
+export const revalidate = 300;
 
-  // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const propertiesPerPage = 9;
-
-  const GOA_LOCATIONS = [
-    "All Locations",
-    "Panaji",
-    "Mapusa",
-    "Calangute",
-    "Tiswadi Taluka",
-    "Candolim",
-    "Baga",
-  ];
-
-  // Fetch properties
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE}/property`)
-      .then((res) => res.json())
-      .then((data: Property[]) => {
-        const buyProps = data.filter(
-          (p: Property) => p.purpose?.toLowerCase() === "buy"
-        );
-
-        setProperties(buyProps);
-        setLoading(false);
-
-        // Generate unique locations
-        setLocations(GOA_LOCATIONS);
-      })
-      .catch(() => setLoading(false));
-  }, []);
-
-  // Apply filters
-  const filtered = properties.filter((p) => {
-    const typeMatch =
-      selectedType === "All Locations" ||
-      p.type?.toLowerCase().trim() === selectedType.toLowerCase().trim();
-
-    const locationMatch =
-      selectedLocation === "All Locations" ||
-      p.location
-        ?.toLowerCase()
-        .trim()
-        .includes(selectedLocation.toLowerCase().trim());
-
-    return typeMatch && locationMatch;
-  });
-
-  // Pagination logic
-  const totalPages = Math.ceil(filtered.length / propertiesPerPage);
-  const startIdx = (currentPage - 1) * propertiesPerPage;
-  const paginatedProperties = filtered.slice(
-    startIdx,
-    startIdx + propertiesPerPage
-  );
-
-  const scrollToNext = () => {
-    if (buyRef.current) {
-      const yOffset = -50;
-      const y =
-        buyRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  };
-
-  // Page numbers
-  const getPageNumbers = () => {
-    const pages: (number | string)[] = [];
-    const maxVisible = 3;
-
-    if (totalPages <= 7) {
-      for (let i = 1; i <= totalPages; i++) pages.push(i);
-    } else {
-      pages.push(1);
-      if (currentPage > maxVisible + 1) pages.push("...");
-      const start = Math.max(2, currentPage - 1);
-      const end = Math.min(totalPages - 1, currentPage + 1);
-      for (let i = start; i <= end; i++) pages.push(i);
-      if (currentPage < totalPages - maxVisible) pages.push("...");
-      pages.push(totalPages);
-    }
-    return pages;
-  };
+export default async function BuyPage() {
+  const properties = await getProperties("buy");
 
   return (
-    <div className="w-full min-h-screen flex flex-col">
+    <main className="flex min-h-screen w-full flex-col bg-bg">
+      {/* The breadcrumb schema is emitted by PageHero */}
+      <JsonLd
+        data={[
+          listingPageSchema({
+            properties: properties ?? [],
+            path: "/buy",
+            title: TITLE,
+            description: DESCRIPTION,
+            listName: "Available Properties in Goa",
+          }),
+          faqSchema(buyFaqs),
+          realEstateAgentSchema(`${SITE_URL}/buy`),
+        ]}
+      />
 
-      {/* HERO */}
-      <div className="relative h-[70vh] md:h-[100vh] bg-black text-white flex items-center justify-center">
-        <Image
-          src={banner}
-          alt="Goa Homes"
-          fill
-          className="object-cover opacity-70"
-        />
-        <motion.div
-          className="relative z-10 text-center"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <h1 className="text-4xl md:text-5xl font-semibold tracking-widest">
-            Find Your Dream Home in Goa
-          </h1>
-          <p className="mt-4 text-lg tracking-widest">
-            Apartments • Villas • Plots
-          </p>
-          <button
-            onClick={scrollToNext}
-            className="mt-10 animate-bounce border rounded-full w-fit px-1 py-2 mx-auto cursor-pointer"
-          >
-            <span className="text-3xl">↓</span>
-          </button>
-        </motion.div>
-      </div>
+      {/* 1. HERO */}
+      <PageHero
+        eyebrow="Buy Property in Goa"
+        title="Property for Sale in Goa"
+        subtitle="Villas, Apartments and Plots to Buy Across Goa"
+        description="Whether you are looking for a beachside villa, a city apartment or a plot to build on, explore property for sale in Goa and find a home that fits how you want to live. Filter by property type below, review listing details, and get in touch with our team whenever you want to arrange a viewing."
+        breadcrumbs={[{ label: "Buy" }]}
+        path="/buy"
+        image={{ src: banner, alt: HERO_ALT }}
+      />
 
-      {/* FILTERS */}
-      <motion.div
-        className="px-4 md:px-10 sticky top-0 bg-white shadow-md z-20 flex flex-wrap gap-4 p-4 justify-between tracking-widest"
-        initial="hidden"
-        animate="visible"
-      >
-        <div></div>
+      {/* 2 + 3. FILTERS AND LISTINGS (interactive) */}
+      <PropertyListings
+        initialProperties={properties ?? []}
+        fetchFailed={properties === null}
+        purpose="buy"
+        basePath="/buy"
+        listingLabel="for sale"
+        typeFilters={TYPE_FILTERS}
+        locations={GOA_LOCATIONS}
+        discovery={{
+          eyebrow: "Browse by Type",
+          heading: "Browse Property for Sale in Goa",
+          paragraph:
+            "Use the filters below to browse property for sale in Goa by type. Choose Villa to see villas for sale in Goa, Apartment for apartments for sale in Goa, or Plot if you are looking for land to build your own home.",
+        }}
+        listings={{
+          eyebrow: "Current Listings",
+          heading: "Available Properties in Goa",
+          paragraph:
+            "Browse property for sale in Goa below. Each listing includes the details you need to shortlist and compare, and you can view full information or enquire directly from any card.",
+        }}
+      />
 
-        {/* TYPE FILTER */}
-        <div className="flex gap-3">
-          {["All", "Apartment", "Villa", "Plot"].map((type) => (
-            <motion.button
-              key={type}
-              onClick={() => {
-                setSelectedType(type);
-                setCurrentPage(1);
-              }}
-              className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
-                selectedType === type
-                  ? "bg-[#E50E0B] text-white"
-                  : "bg-gray-100 text-black hover:bg-gray-200"
-              }`}
-            >
-              {type}
-            </motion.button>
-          ))}
-        </div>
+      {/* 4. SEO INTRODUCTION */}
+      <BuyExploreIntro />
 
-        {/* LOCATION FILTER */}
-        <motion.select
-          value={selectedLocation}
-          onChange={(e) => {
-            setSelectedLocation(e.target.value);
-            setCurrentPage(1);
-          }}
-          className="px-4 py-2 rounded-full text-sm font-semibold bg-gray-100 !text-black hover:bg-gray-200 outline-none cursor-pointer"
-        >
-          {locations.map((loc) => (
-            <option key={loc} value={loc} className="!text-black bg-white">
-              {loc}
-            </option>
-          ))}
-        </motion.select>
-      </motion.div>
+      {/* 5. PROPERTY TYPES */}
+      <PropertyTypes />
 
-      {/* PROPERTY LIST */}
-      <div ref={buyRef} className="py-12">
-        {loading ? (
-          <p className="text-center py-12 text-gray-500">Loading...</p>
-        ) : paginatedProperties.length === 0 ? (
-          <div className="text-center py-20 text-gray-600 tracking-widest">
-            <h2 className="text-3xl font-semibold mb-3">
-              No Properties Match Your Search
-            </h2>
+      {/* 6. LOCATION */}
+      <BuyLocations />
 
-            <p className="text-lg opacity-90">
-              Tell us what you&#39;re looking for, and our team will share the
-              best options curated for you.
-            </p>
+      {/* 7. BUYER GUIDANCE */}
+      <BuyerGuidance />
 
-            <div className="w-full md:max-w-3xl mx-auto py-10">
-              <LeadForm />
-            </div>
-          </div>
-        ) : (
+      {/* 8. DUE DILIGENCE */}
+      <DueDiligence />
+
+      {/* 9. WHY HOMES & LAND GOA */}
+      <BuyWhyChooseUs />
+
+      {/* 10. BUYING PROCESS */}
+      <BuyProcess />
+
+      {/* 11. CTA, with the existing contact block directly below */}
+      <BuyCta />
+      {/* <ContactInfo showHeading={false} /> */}
+
+      {/* 12. FAQ */}
+      <FAQ
+        faqs={buyFaqs}
+        subtitle="Buyer Questions"
+        title={
           <>
-            <motion.div
-              className="w-11/12 md:w-5/6 mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-6 tracking-widest"
-              initial="hidden"
-              animate="visible"
-              variants={{
-                hidden: {},
-                visible: {
-                  transition: { staggerChildren: 0.2 },
-                },
-              }}
-            >
-              {paginatedProperties.map((p) => (
-                <motion.div
-                  key={p._id}
-                  className="overflow-hidden shadow-md hover:shadow-xl transition bg-white"
-                  variants={{
-                    hidden: { opacity: 0, scale: 0.9, y: 30 },
-                    visible: { opacity: 1, scale: 1, y: 0 },
-                  }}
-                >
-                  <div className="relative h-64 w-full">
-                    {p.images?.[0] ? (
-                      <Image
-                        src={p.images[0]}
-                        alt={p.title}
-                        fill
-                        className="object-cover"
-                        unoptimized
-                      />
-                    ) : (
-                      <div className="h-64 flex items-center justify-center bg-gray-100 text-gray-400">
-                        No Image
-                      </div>
-                    )}
-                  </div>
-
-                  {/* INFO */}
-                  <div className="p-4 bg-[var(--bg-color)]">
-                    <h3 className="font-semibold text-[var(--title)] text-lg line-clamp-1">
-                      {p.title}
-                    </h3>
-
-                    {p.location && (
-                      <a
-                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                          p.location
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center text-[var(--primary-color)]"
-                      >
-                        <MapPin className="w-5 h-5 mr-2" />
-                        <span className="font-semibold text-base line-clamp-1">
-                          {p.location}
-                        </span>
-                      </a>
-                    )}
-
-                    {p.price !== null && (
-                      <p className="mt-1 font-semibold text-gray-800">
-                        ₹ {p.price?.toLocaleString()}
-                      </p>
-                    )}
-
-                    {p.type && (
-                      <p className="mt-1 text-sm text-gray-600 flex items-center">
-                        <Home size={16} className="mr-1" /> {p.type}
-                      </p>
-                    )}
-                    <Link href={`/buy/${p.slug}`}>
-                      <button
-                        className="px-6 py-3 bg-[#E50E0B] text-white font-semibold 
-                      w-full mt-4 rounded relative overflow-hidden group cursor-pointer"
-                      >
-                        <span className="relative z-10 tracking-widest">
-                          View Details
-                        </span>
-                        <span
-                          className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent translate-x-[-100%] 
-                        group-hover:translate-x-[100%] transition-transform duration-700"
-                        />
-                      </button>
-                    </Link>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* PAGINATION */}
-            {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-2 mt-10">
-                <button
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage((p) => p - 1)}
-                  className="px-3 py-2 rounded border bg-white hover:bg-gray-100 disabled:opacity-50"
-                >
-                  Prev
-                </button>
-
-                {getPageNumbers().map((num, idx) =>
-                  num === "..." ? (
-                    <span key={idx} className="px-3 py-2">
-                      ...
-                    </span>
-                  ) : (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentPage(num as number)}
-                      className={`px-3 py-2 rounded border ${
-                        currentPage === num
-                          ? "bg-[#E50E0B] text-white"
-                          : "bg-white hover:bg-gray-100"
-                      }`}
-                    >
-                      {num}
-                    </button>
-                  )
-                )}
-
-                <button
-                  disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage((p) => p + 1)}
-                  className="px-3 py-2 rounded border bg-white hover:bg-gray-100 disabled:opacity-50"
-                >
-                  Next
-                </button>
-              </div>
-            )}
+            Frequently Asked Questions About{" "}
+            <span className="italic text-rosegold-500 font-normal">
+              Buying Property in Goa
+            </span>
           </>
-        )}
-      </div>
-
-      <ContactInfo />
-    </div>
+        }
+        ctaLabel="Enquire Now"
+        ctaHref="/contacts"
+      />
+    </main>
   );
 }

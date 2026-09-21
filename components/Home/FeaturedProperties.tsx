@@ -81,19 +81,16 @@ export default function FeaturedProperties() {
     <section
       id="properties"
       ref={sectionRef}
-      className="relative w-full py-24 sm:py-32 bg-[#fdfcf8] overflow-hidden"
+      className="relative w-full py-24 sm:py-32 bg-black-950 overflow-hidden"
       style={{ fontFamily: '"Cormorant Garamond", Georgia, serif' }}
     >
-      {/* Editorial Decorative Background Details */}
-      <div className="absolute top-0 left-10 w-[1px] h-full bg-[#d4c99e]/15 pointer-events-none" />
-      <div className="absolute top-0 right-10 w-[1px] h-full bg-[#d4c99e]/15 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
 
         {/* 1. SECTION HEADER (Clean layout as seen in Screenshot 1) */}
         <div
           ref={headerRef}
-          className="flex flex-col md:flex-row md:items-end justify-center gap-6 mb-16 pb-6 border-b border-[#d4c99e]/30"
+          className="flex flex-col md:flex-row md:items-end justify-center gap-6 mb-16 pb-6 border-b border-rosegold-700/30"
         >
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -104,11 +101,11 @@ export default function FeaturedProperties() {
             <div className="flex justify-center">
               <SectionEyebrow
             >
-              Curated Estates
+              Current Listings
             </SectionEyebrow>
             </div>
-            <h2 className="font-serif text-4xl sm:text-5xl font-light text-navy leading-tight tracking-tight">
-              Featured <span className="italic text-[#9a7a2e]">Properties</span>
+            <h2 className="font-serif text-4xl sm:text-5xl font-light text-fg leading-tight tracking-tight">
+              Featured <span className="italic text-rosegold-500">Properties</span>
             </h2>
           </motion.div>
 
@@ -134,7 +131,7 @@ export default function FeaturedProperties() {
         {/* 3. SECTION FOOTER CALL TO ACTION */}
         <div className="mt-16 flex justify-center">
           <a href="#properties-catalog">
-            <button className="relative px-10 py-5 bg-[#fdfcf8] hover:bg-navy text-navy hover:text-[#fdfcf8] border-2 border-navy font-sans text-[10px] uppercase tracking-[0.25em] font-bold transition-all duration-500 flex items-center justify-center gap-3 rounded-none cursor-pointer group">
+            <button className="relative px-10 py-5 bg-transparent hover:bg-primary text-fg hover:text-on-primary border-2 border-primary font-sans text-[10px] uppercase tracking-[0.25em] font-bold transition-all duration-500 flex items-center justify-center gap-3 rounded-none cursor-pointer group">
               <span>View All Properties</span>
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </button>
@@ -153,21 +150,21 @@ function PropertyCard({ item, variants }: any) {
   return (
     <motion.div
       variants={variants}
-      className="group cursor-pointer flex flex-col justify-between bg-[#fdfcf8] border border-[#d4c99e]/20 p-3 shadow-sm hover:shadow-xl transition-all duration-700 h-full"
+      className="group cursor-pointer flex flex-col justify-between bg-black-950 border border-rosegold-700/20 p-3 shadow-sm hover:shadow-xl transition-all duration-700 h-full"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <div className="space-y-5">
 
         {/* Visual Anchor Box */}
-        <div className="relative aspect-[4/5] overflow-hidden bg-[#e8e0c4]">
+        <div className="relative aspect-[4/5] overflow-hidden bg-black-800">
 
           {/* Internal Elegant Border Framing */}
           <div className="absolute inset-3 border border-white/40 z-20 pointer-events-none transition-all duration-700 group-hover:inset-4" />
 
           {/* Premium tag overlay */}
-          <div className="absolute top-6 left-6 z-20 bg-[#fdfcf8] px-3.5 py-1.5 border border-[#d4c99e]/40 shadow-sm">
-            <span className="font-sans text-[8px] uppercase tracking-[0.2em] text-[#9a7a2e] font-extrabold block">
+          <div className="absolute top-6 left-6 z-20 bg-black-950 px-3.5 py-1.5 border border-rosegold-700/40 shadow-sm">
+            <span className="font-sans text-[8px] uppercase tracking-[0.2em] text-rosegold-500 font-extrabold block">
               {item.tag}
             </span>
           </div>
@@ -180,44 +177,44 @@ function PropertyCard({ item, variants }: any) {
           />
 
           {/* Gentle satin wash */}
-          <div className="absolute inset-0 bg-gradient-to-t from-navy/15 via-transparent to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black-950/40 via-transparent to-transparent z-10 pointer-events-none" />
         </div>
 
         {/* Textual Narrative Blocks */}
         <div className="px-2 pb-2 space-y-4">
           <div className="space-y-1.5">
             {/* Location */}
-            <span className="font-sans text-[9px] uppercase tracking-[0.25em] text-[#9a7a2e] font-bold block">
+            <span className="font-sans text-[9px] uppercase tracking-[0.25em] text-rosegold-500 font-bold block">
               {item.location}
             </span>
 
             {/* Project Name */}
-            <h3 className="font-serif text-2xl font-light text-navy tracking-tight group-hover:text-[#9a7a2e] transition-colors duration-500 flex items-center justify-between">
+            <h3 className="font-serif text-2xl font-light text-fg tracking-tight group-hover:text-rosegold-500 transition-colors duration-500 flex items-center justify-between">
               <span>{item.name}</span>
-              <ChevronRight className="w-4 h-4 text-[#b8943a] opacity-0 translate-x-[-10px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500" />
+              <ChevronRight className="w-4 h-4 text-primary opacity-0 translate-x-[-10px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500" />
             </h3>
           </div>
 
           {/* Technical Specs Line */}
-          <div className="flex items-center gap-3.5 border-t border-b border-[#d4c99e]/25 py-3">
+          <div className="flex items-center gap-3.5 border-t border-b border-rosegold-700/25 py-3">
             <div className="flex items-center gap-2">
-              <span className="w-[1.5px] h-3 bg-[#b8943a]" />
-              <span className="font-sans text-[10px] uppercase text-[#5c5750] tracking-wider font-semibold">{item.details.beds}</span>
+              <span className="w-[1.5px] h-3 bg-primary" />
+              <span className="font-sans text-[10px] uppercase text-fg-muted tracking-wider font-semibold">{item.details.beds}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-[1.5px] h-3 bg-[#b8943a]" />
-              <span className="font-sans text-[10px] uppercase text-[#5c5750] tracking-wider font-semibold">{item.details.baths}</span>
+              <span className="w-[1.5px] h-3 bg-primary" />
+              <span className="font-sans text-[10px] uppercase text-fg-muted tracking-wider font-semibold">{item.details.baths}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-[1.5px] h-3 bg-[#b8943a]" />
-              <span className="font-sans text-[10px] uppercase text-[#5c5750] tracking-wider font-semibold">{item.details.area}</span>
+              <span className="w-[1.5px] h-3 bg-primary" />
+              <span className="font-sans text-[10px] uppercase text-fg-muted tracking-wider font-semibold">{item.details.area}</span>
             </div>
           </div>
 
           {/* Pricing Block */}
           <div className="flex items-baseline justify-between pt-1">
-            <span className="font-sans text-[9px] uppercase tracking-[0.15em] text-[#0d0c09]/50">Estimated Value</span>
-            <span className="font-serif text-xl font-normal text-navy">{item.price}</span>
+            <span className="font-sans text-[9px] uppercase tracking-[0.15em] text-fg-muted">Estimated Value</span>
+            <span className="font-serif text-xl font-normal text-fg">{item.price}</span>
           </div>
 
         </div>

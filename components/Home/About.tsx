@@ -46,7 +46,7 @@ export default function About() {
     <section
       id="about"
       ref={containerRef}
-      className="relative w-full lg:h-screen flex items-center justify-center bg-[#fdfcf8] py-20 lg:py-0 overflow-hidden border-b border-[#e8e0c4]"
+      className="relative w-full lg:h-screen flex items-center justify-center bg-black-950 py-20 lg:py-0 overflow-hidden border-b border-rosegold-700/30"
     >
 
       {/* 2. Main content container */}
@@ -61,7 +61,7 @@ export default function About() {
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
               variants={scaleRevealVariants}
-              className="relative w-full max-w-[340px] md:max-w-[380px] aspect-[4/5] overflow-hidden bg-[#f9f6ed] p-2 shadow-xl border border-[#d4c99e]/40 z-10"
+              className="relative w-full max-w-[340px] md:max-w-[380px] aspect-[4/5] overflow-hidden bg-black-900 p-2 shadow-xl border border-rosegold-700/40 z-10"
             >
               <div className="relative w-full h-full overflow-hidden">
                 <img
@@ -69,7 +69,7 @@ export default function About() {
                   alt="Luxury Modern Goa Villa Facade"
                   className="w-full h-full object-cover transition-transform duration-1000 ease-out hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1a1814]/30 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black-950/40 via-transparent to-transparent pointer-events-none" />
               </div>
             </motion.div>
 
@@ -78,7 +78,7 @@ export default function About() {
               initial={{ opacity: 0, x: -30, y: -20 }}
               animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
               transition={{ delay: 0.4, ...transitionConfig }}
-              className="absolute -top-6 -left-4 md:-left-8 w-28 h-36 overflow-hidden shadow-lg border border-[#d4c99e]/50 bg-[#fdfcf8] p-1.5 z-20 hidden sm:block"
+              className="absolute -top-6 -left-4 md:-left-8 w-28 h-36 overflow-hidden shadow-lg border border-rosegold-700/50 bg-black-950 p-1.5 z-20 hidden sm:block"
             >
               <img
                 src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=300&q=90"
@@ -92,15 +92,15 @@ export default function About() {
               initial={{ opacity: 0, x: 30, y: 30 }}
               animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
               transition={{ delay: 0.5, ...transitionConfig }}
-              className="absolute -bottom-6 -right-4 md:-right-8 p-6 bg-[#fdfcf8] border border-[#d4c99e] shadow-xl z-20 w-[180px] text-center"
+              className="absolute -bottom-6 -right-4 md:-right-8 p-6 bg-black-950 border border-rosegold-700 shadow-xl z-20 w-[180px] text-center"
             >
               <h3
-                className="text-4xl font-light text-[#faff00] mb-1 font-display"
+                className="text-4xl font-light text-primary mb-1 font-display"
               >
                 12+
               </h3>
               <p
-                className="font-sans text-[9px] uppercase tracking-[0.18em] text-[#faff00] leading-snug font-bold"
+                className="font-sans text-[9px] uppercase tracking-[0.18em] text-primary leading-snug font-bold"
               >
                 Years in Goa's Real Estate Market
               </p>
@@ -117,7 +117,7 @@ export default function About() {
           >
             {/* Premium Category Tag */}
             <motion.div variants={fadeUpVariants} className="inline-flex items-center gap-2">
-              <SectionEyebrow className="text-gold-500"
+              <SectionEyebrow className="text-primary"
               >
                 Our Background
 
@@ -126,22 +126,22 @@ export default function About() {
 
             {/* Main Section Header */}
             <motion.h2
-              className="font-display text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-navy"
+              className="font-display text-3xl md:text-4xl lg:text-5xl font-light leading-tight text-fg"
               variants={fadeUpVariants}
             >
-              Real Estate Agents <span className="italic text-[#9a7a2e] font-medium font-display">Working</span> <br />
+              Real Estate Agents <span className="italic text-rosegold-500 font-medium font-display">Working</span> <br />
               Across Goa for Over a Decades.
             </motion.h2>
 
             {/* Horizontal gold accent break */}
             <motion.div
               variants={fadeUpVariants}
-              className="w-16 h-px bg-gradient-to-r from-[#b8943a] to-transparent"
+              className="w-16 h-px bg-gradient-to-r from-primary to-transparent"
             />
 
             {/* Polished, highly readable narrative */}
             <motion.p
-              className="font-display text-base md:text-lg font-light text-[#5c5750] leading-relaxed max-w-2xl"
+              className="font-sans text-fg-muted text-sm md:text-base font-light leading-relaxed max-w-2xl"
               variants={fadeUpVariants}
             >
               For over 12 years, Homes & Land Goa has worked as real estate agents and property dealers in Goa, helping buyers find the right property and helping owners sell theirs. We work directly with clients rather than through layers of middlemen, so communication stays clear from the first enquiry to the final paperwork.
@@ -149,7 +149,7 @@ export default function About() {
 
             {/* Luxury Micro-Pillars Grid */}
             <motion.div
-              className="grid grid-cols-2 gap-x-8 gap-y-6 pt-2 border-t border-[#e8e0c4] max-w-xl"
+              className="grid grid-cols-2 gap-x-8 gap-y-6 pt-2 border-t border-rosegold-700/30 max-w-xl"
               variants={fadeUpVariants}
             >
               {[
@@ -162,12 +162,12 @@ export default function About() {
                 return (
                   <div key={idx} className="space-y-1 group">
                     <div className="flex items-center gap-2">
-                      <Icon className="w-4 h-4 text-[#b8943a] stroke-[1.5]" />
-                      <h4 className="font-sans text-[10px] uppercase tracking-[0.15em] text-navy font-bold">
+                      <Icon className="w-4 h-4 text-primary stroke-[1.5]" />
+                      <h4 className="font-sans text-[10px] uppercase tracking-[0.15em] text-fg font-bold">
                         {item.title}
                       </h4>
                     </div>
-                    <p className="font-display text-xs text-[#7d7870] leading-normal font-light">
+                    <p className="font-sans text-xs text-fg-muted leading-normal font-light">
                       {item.desc}
                     </p>
                   </div>

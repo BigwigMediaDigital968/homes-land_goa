@@ -1,174 +1,201 @@
-"use client";
-
-import React, { useRef } from "react";
+import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { motion, useInView, Variants } from "framer-motion";
-import { ChevronRight } from "lucide-react";
+import { ArrowUpRight, ChevronRight } from "lucide-react";
+import { SITE_URL } from "@/lib/site";
 
-interface PageHeroProps {
-  title?: React.ReactNode;
-  description?: string;
-  bgImage?: string;
-  showBreadcrumbs?: boolean;
+export interface PageHeroBreadcrumb {
+  label: string;
+  /** Omit on the last item (the current page). */
+  href?: string;
 }
 
-interface BreadcrumbItem {
+export interface PageHeroCta {
   label: string;
   href: string;
 }
 
-export default function PageHero({
-  title = <>About Us</>,
-  description = "A legacy built on trust, architectural distinction, and absolute structural serenity.",
-  bgImage = "https://images.unsplash.com/photo-1652820330085-82a0c2b88d78?q=80&w=1174&auto=format&fit=crop",
-  showBreadcrumbs = true,
-}: PageHeroProps) {
-  const containerRef = useRef<HTMLElement | null>(null);
-  const pathname = usePathname();
-
-  const inView = useInView(containerRef, {
-    once: true,
-    margin: "-10%",
-  });
-
+interface PageHeroProps {
+  /** Small label above the H1, e.g. "Buy Property in Goa". */
+  eyebrow?: string;
+  /** Rendered as the page's single <h1>. */
+  title: React.ReactNode;
+  /** Rendered as an <h2> directly under the title. */
+  subtitle?: string;
+  description?: string;
+  /** Home is prepended automatically. Last item = current page (no href). */
+  breadcrumbs: PageHeroBreadcrumb[];
+  /** Current page path (e.g. "/buy"), used as the last breadcrumb's URL in schema. */
+  path?: string;
+  image: { src: string | StaticImageData; alt: string };
+  primaryCta?: PageHeroCta;
+  secondaryCta?: PageHeroCta;
   /**
-   * Generate breadcrumbs automatically from URL
-   * Example:
-   * /about/team -> Home / About / Team
+   * Replaces the built-in CTA links. Lets a server-rendered hero carry
+   * interactive buttons (e.g. a modal trigger) without going client-side.
    */
-  const breadcrumbs: BreadcrumbItem[] = pathname
-    .split("/")
-    .filter(Boolean)
-    .map((segment, index, array) => {
-      const href = "/" + array.slice(0, index + 1).join("/");
+  actions?: React.ReactNode;
+}
+
+export default function PageHero({
+  eyebrow,
+  title,
+  subtitle,
+  description,
+  breadcrumbs,
+  path,
+  image,
+  primaryCta,
+  secondaryCta,
+  actions,
+}: PageHeroProps) {
+  const trail: PageHeroBreadcrumb[] = [
+    { label: "Home", href: "/" },
+    ...breadcrumbs,
+  ];
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: trail.map((crumb, index) => {
+      const href = crumb.href ?? (index === trail.length - 1 ? path : undefined);
 
       return {
-        label: segment
-          .replace(/-/g, " ")
-          .replace(/\b\w/g, (char) => char.toUpperCase()),
-        href,
+        "@type": "ListItem",
+        position: index + 1,
+        name: crumb.label,
+        ...(href ? { item: `${SITE_URL}${href}` } : {}),
       };
-    });
-
-  breadcrumbs.unshift({
-    label: "Home",
-    href: "/",
-  });
-
-  // Luxury editorial stagger configurations
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const fadeUpVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 1.2,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    },
+    }),
   };
 
   return (
-    <section
-      ref={containerRef}
-      className="relative h-[45vh] min-h-[380px] md:h-[50vh] flex items-center justify-center text-center overflow-hidden bg-navy"
-      style={{
-        fontFamily: '"Cormorant Garamond", Georgia, serif',
-      }}
-    >
-      {/* 1. Fixed Parallax Background Image */}
-      <div
-        className="absolute inset-0 w-full h-full z-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${bgImage})`,
-          backgroundAttachment: "fixed",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}
+    <section className="relative w-full overflow-hidden bg-black-950 text-fg">
+      {/* Background image — priority: it is the LCP element on inner pages */}
+      <Image
+        src={image.src}
+        alt={image.alt}
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center"
       />
 
-      {/* 2. Overlays */}
-      <div className="absolute inset-0 bg-navy/50 z-10 pointer-events-none" />
+      {/* Contrast layers: left-to-right for text legibility, bottom fade into page */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-r from-black-950 via-black-950/80 to-black-950/30"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black-950 to-transparent"
+      />
 
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(184,148,58,0.12)_0%,transparent_70%)] z-10 pointer-events-none" />
-
-      {/* 3. Decorative Frame */}
-      <div className="absolute inset-0 border border-[#d4c99e]/40 pointer-events-none z-20 m-4 sm:m-6 lg:m-10" />
-
-      {/* 4. Content */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        className="relative z-20 max-w-3xl mx-auto px-6 flex flex-col items-center gap-5 sm:gap-6"
-      >
-        {/* Breadcrumbs */}
-        {showBreadcrumbs && (
-          <motion.nav
-            variants={fadeUpVariants}
-            aria-label="Breadcrumb"
-            className="flex items-center justify-center flex-wrap gap-1.5 sm:gap-2 mb-2"
-          >
-            {breadcrumbs.map((crumb, idx) => {
-              const isLast = idx === breadcrumbs.length - 1;
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pt-28 pb-12 md:pt-36 md:pb-16">
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" className="hero-reveal mb-8 md:mb-10">
+          <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 font-sans text-[11px] uppercase tracking-[0.2em]">
+            {trail.map((crumb, index) => {
+              const isLast = index === trail.length - 1;
 
               return (
-                <div
-                  key={crumb.href}
-                  className="flex items-center gap-1.5 sm:gap-2"
-                >
-                  {idx > 0 && (
-                    <ChevronRight className="w-3 h-3 text-gold-500 opacity-70" />
+                <li key={crumb.label} className="flex items-center gap-2">
+                  {index > 0 && (
+                    <ChevronRight
+                      aria-hidden
+                      className="h-3 w-3 text-primary/70"
+                    />
                   )}
-
-                  {isLast ? (
-                    <span className="font-sans text-[9px] uppercase tracking-[0.25em] text-gold-500 font-extrabold">
+                  {isLast || !crumb.href ? (
+                    <span aria-current="page" className="font-bold text-primary">
                       {crumb.label}
                     </span>
                   ) : (
                     <Link
                       href={crumb.href}
-                      className="font-sans text-[9px] uppercase tracking-[0.25em] text-white/70 hover:text-white font-bold transition-colors duration-300"
+                      className="font-semibold text-white/70 transition-colors duration-300 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
                     >
                       {crumb.label}
                     </Link>
                   )}
-                </div>
+                </li>
               );
             })}
-          </motion.nav>
-        )}
+          </ol>
+        </nav>
 
-        {/* Title */}
-        <motion.h1
-          variants={fadeUpVariants}
-          className="text-4xl sm:text-5xl md:text-6xl text-white font-light tracking-tight leading-tight uppercase font-serif"
-        >
-          {title}
-        </motion.h1>
+        <div className="max-w-3xl">
+          {eyebrow && (
+            <div
+              className="hero-reveal mb-4 flex items-center gap-3"
+              style={{ "--reveal-delay": "80ms" } as React.CSSProperties}
+            >
+              <span aria-hidden className="h-px w-8 bg-primary" />
+              <p className="font-sans text-[11px] font-bold uppercase tracking-[0.3em] text-primary">
+                {eyebrow}
+              </p>
+            </div>
+          )}
 
-        {/* Description */}
-        {description && (
-          <motion.p
-            variants={fadeUpVariants}
-            className="text-white text-sm sm:text-base md:text-lg max-w-xl mx-auto leading-relaxed font-serif font-medium"
+          <h1
+            className="hero-reveal font-serif text-3xl font-light leading-[1.05] tracking-tight text-fg sm:text-4xl md:text-5xl"
+            style={{ "--reveal-delay": "160ms" } as React.CSSProperties}
           >
-            {description}
-          </motion.p>
-        )}
-      </motion.div>
+            {title}
+          </h1>
+
+          {subtitle && (
+            <h2
+              className="hero-reveal mt-4 font-serif text-xl font-normal italic leading-snug text-primary sm:text-2xl md:text-3xl"
+              style={{ "--reveal-delay": "240ms" } as React.CSSProperties}
+            >
+              {subtitle}
+            </h2>
+          )}
+
+          {description && (
+            <p
+              className="hero-reveal mt-6 max-w-2xl font-sans text-base leading-relaxed text-white/80 sm:text-lg"
+              style={{ "--reveal-delay": "320ms" } as React.CSSProperties}
+            >
+              {description}
+            </p>
+          )}
+
+          {(actions || primaryCta || secondaryCta) && (
+            <div
+              className="hero-reveal mt-8 flex flex-col gap-4 sm:flex-row sm:items-center"
+              style={{ "--reveal-delay": "400ms" } as React.CSSProperties}
+            >
+              {actions}
+              {!actions && primaryCta && (
+                <Link
+                  href={primaryCta.href}
+                  className="group inline-flex min-h-12 items-center justify-center gap-3 border border-transparent bg-primary px-9 py-4 font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-on-primary transition-colors duration-300 hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                >
+                  {primaryCta.label}
+                  <ArrowUpRight
+                    aria-hidden
+                    className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  />
+                </Link>
+              )}
+              {!actions && secondaryCta && (
+                <Link
+                  href={secondaryCta.href}
+                  className="inline-flex min-h-12 items-center justify-center border-2 border-fg bg-transparent px-9 py-4 font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-fg transition-colors duration-300 hover:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                >
+                  {secondaryCta.label}
+                </Link>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
     </section>
   );
 }
