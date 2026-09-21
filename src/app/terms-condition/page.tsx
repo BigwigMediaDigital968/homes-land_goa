@@ -6,7 +6,6 @@ import Navbar from "../../../components/Navbar";
 export default function TermsPage() {
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
 
       <main className="max-w-4xl mx-auto p-6 prose prose-lg pt-36">
         <h1 className="text-4xl pb-5">Terms and Conditions</h1>
@@ -205,8 +204,6 @@ export default function TermsPage() {
           .
         </p>
       </main>
-
-      <Footer />
     </div>
   );
 }

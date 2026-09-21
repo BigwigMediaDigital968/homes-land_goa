@@ -279,7 +279,7 @@ export default function PropertyListings({
       {discovery && (
         <section
           aria-labelledby="browse-heading"
-          className="border-b border-border bg-bg py-14 md:py-16"
+          className="border-border bg-bg py-8 md:py-12"
         >
           <div className="mx-auto w-full max-w-7xl px-4">
             <div className="max-w-3xl">
@@ -305,7 +305,7 @@ export default function PropertyListings({
         ref={listingsRef}
         id="listings"
         aria-labelledby="listings-heading"
-        className="scroll-mt-20 border-t border-border bg-bg py-14 md:py-20"
+        className="scroll-mt-20 bg-bg pt-8 pb-14 md:pb-20"
       >
         <div className="mx-auto w-full max-w-7xl px-4">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">

@@ -47,8 +47,6 @@ const FAQPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Navbar */}
-      <Navbar />
 
       {/* FAQ Section */}
       <section className="w-11/12 md:w-5/6 mx-auto py-28 px-6 font-raleway flex-grow">
@@ -99,8 +97,6 @@ const FAQPage = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };

@@ -6,8 +6,6 @@ import Navbar from "../../../components/Navbar";
 export default function PrivacyPolicy() {
   return (
     <div className="flex flex-col min-h-screen bg-white text-gray-800">
-      <Navbar />
-
       <main className="max-w-4xl mx-auto pt-32 pb-10">
         <h1 className="text-3xl font-semibold mb-6">Privacy Policy</h1>
 
@@ -171,8 +169,6 @@ export default function PrivacyPolicy() {
           </a>
         </p>
       </main>
-
-      <Footer />
     </div>
   );
 }

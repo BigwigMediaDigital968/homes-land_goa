@@ -137,14 +137,14 @@ const Navbar = () => {
           : "bg-black-950/5 border-transparent backdrop-blur-sm"
           }`}
       >
-      <div className="w-full mx-auto px-4 sm:px-4 py-2 max-w-7xl">
+      <div className={`w-full mx-auto px-4 sm:px-4  max-w-7xl transition-all ease-in-out ${scrolled?"py-2":"py-4"}`}>
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
               src="/logo.png"
               alt="Homes and land goa Logo"
-              className="h-[50px] w-auto"
+              className={`w-auto h-[55px] transition-all ease-in-out `}
               width={322}
               height={73}
               priority
