@@ -17,31 +17,16 @@ import { SectionEyebrow } from "../ui/SectionEyebrow";
 import PropertyCard, { type ListingProperty } from "./PropertyCard";
 import Pagination from "./Pagination";
 import TypeParamSync from "./TypeParamSync";
-import { normalizeProperties, type ListingPurpose } from "@/lib/properties";
+import {
+  normalizeProperties,
+  toRoomCount,
+  type ListingPurpose,
+} from "@/lib/properties";
 
 const PROPERTIES_PER_PAGE = 9;
 
 /** Sentinel for "no bedroom filter applied". */
 const ANY_BEDROOMS = "";
-
-/**
- * Pull the bedroom count out of whatever the field happens to hold.
- *
- * `bedrooms` is a Number in the schema but reaches us as free text often
- * enough ("2 BHK", "2 bhk", " 3 ") that comparing the whole value never
- * matches. Reading the first number out instead ignores the surrounding text,
- * while still keeping 2 and 12 apart — which a plain substring check would
- * not, since "12 BHK" contains "2".
- */
-const toBedroomCount = (value: number | string | null | undefined) => {
-  if (value === null || value === undefined) return null;
-
-  const digits = String(value).match(/\d+/);
-  if (!digits) return null;
-
-  const count = Number(digits[0]);
-  return Number.isFinite(count) && count > 0 ? count : null;
-};
 
 interface SectionCopy {
   eyebrow: string;
@@ -144,7 +129,7 @@ export default function PropertyListings({
     const counts = new Set<number>();
 
     properties.forEach((p) => {
-      const count = toBedroomCount(p.bedrooms);
+      const count = toRoomCount(p.bedrooms);
       if (count !== null) counts.add(count);
     });
 
@@ -171,7 +156,7 @@ export default function PropertyListings({
 
     const bedroomMatch =
       selectedBedrooms === ANY_BEDROOMS ||
-      toBedroomCount(p.bedrooms) === Number(selectedBedrooms);
+      toRoomCount(p.bedrooms) === Number(selectedBedrooms);
 
     return typeMatch && locationMatch && bedroomMatch;
   });

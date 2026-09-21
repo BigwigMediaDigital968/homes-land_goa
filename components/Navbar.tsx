@@ -12,6 +12,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import LanguageSelector from "./LanguageSelector";
+import { BUSINESS } from "@/lib/site";
 
 declare global {
   interface Window {
@@ -362,16 +363,16 @@ const Navbar = () => {
 
         {/* Social Icons */}
         <div className="mt-auto flex gap-6 justify-center pt-8 text-xl text-fg-muted">
-          <a href="#" aria-label="Facebook">
+          <a href={BUSINESS.facebook} aria-label="Facebook">
             <FaFacebook />
           </a>
-          <a href="https://www.instagram.com/homes.land.goa" aria-label="Instagram">
+          <a href={BUSINESS.instagram} aria-label="Instagram">
             <FaInstagram />
           </a>
 
-          <a href="#" aria-label="Twitter">
+          {/* <a href="#" aria-label="Twitter">
             <FaTwitter />
-          </a>
+          </a> */}
         </div>
       </div>
 

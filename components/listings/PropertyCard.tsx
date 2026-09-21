@@ -25,11 +25,7 @@ interface PropertyCardProps {
   listingLabel?: string;
 }
 
-/** Positive number, or null when the field is empty / not confirmed. */
-const toPositive = (value: number | string | null | undefined) => {
-  const n = Number(value);
-  return Number.isFinite(n) && n > 0 ? n : null;
-};
+import { toPositiveNumber as toPositive } from "@/lib/properties";
 
 export default function PropertyCard({
   property: p,

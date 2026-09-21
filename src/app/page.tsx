@@ -13,9 +13,11 @@ import UpcomingProjectsPreview from "../../components/Home/UpcomingProjectsPrevi
 import AreasWeCover from "../../components/Home/AreasWeCover";
 import HowItWorks from "../../components/Home/HowItWorks";
 import FAQ from "../../components/ui/FAQ";
+import { getProperties } from "@/lib/properties";
 
 export const metadata: Metadata = {
-  title: "Real Estate Agents in Goa | Buy, Sell & Rent Property | Homes & Land Goa",
+  title:
+    "Real Estate Agents in Goa | Buy, Sell & Rent Property | Homes & Land Goa",
   description:
     "Homes & Land Goa, trusted real estate agents in Goa helping you buy, sell or rent property across North and South Goa. Explore listings or talk to our team today.",
 };
@@ -181,7 +183,13 @@ const realEstateAgentSchema = {
   ],
 };
 
-function Landing() {
+// Featured listings are fetched on the server and refreshed every 5 minutes
+export const revalidate = 300;
+
+const FEATURED_COUNT = 3;
+
+async function Landing() {
+  const properties = await getProperties("buy");
 
   return (
     <div>
@@ -195,14 +203,18 @@ function Landing() {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(realEstateAgentSchema) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(realEstateAgentSchema),
+        }}
       />
       <Hero />
       {/* <HeroSection/> */}
       <About />
       <Services />
       <WhyChooseUs />
-      <FeaturedProperties />
+      <FeaturedProperties
+        properties={(properties ?? []).slice(0, FEATURED_COUNT)}
+      />
       <AreasWeCover />
       <UpcomingProjectsPreview />
       <CallToAction />

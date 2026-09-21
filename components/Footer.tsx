@@ -4,6 +4,7 @@ import { Instagram, Facebook, Mail, Phone, MapPin } from "lucide-react";
 import Image from "next/image";
 import { SiX } from "react-icons/si";
 import Link from "next/link";
+import { BUSINESS } from "@/lib/site";
 
 const Footer = () => {
   return (
@@ -70,7 +71,7 @@ const Footer = () => {
           <ul className="space-y-3 text-base font-sans">
             <li>
               <Link
-                href="https://www.instagram.com/homes.land.goa?igsh=MWNvZXlwdW53YmJwZw%3D%3D&utm_source=qr"
+                href={BUSINESS.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 cursor-pointer text-current hover:text-primary-hover transition-colors"
@@ -80,7 +81,7 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                href="https://facebook.com/yourprofile"
+                href={BUSINESS.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 cursor-pointer text-current hover:text-primary-hover transition-colors"

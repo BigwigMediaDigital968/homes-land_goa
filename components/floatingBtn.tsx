@@ -6,7 +6,9 @@ export default function WhatsAppButton() {
       href="https://wa.me/+919623858108"
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed md:bottom-10 right-6 md:mb-11 md:w-12 md:h-12 w-12 h-12 bottom-0 mb-5 bg-green-500 rounded-full flex items-center justify-center shadow-lg z-50"
+      aria-label="Chat with us on WhatsApp"
+      /* Hidden on mobile — MobileContactBar already offers WhatsApp there. */
+      className="fixed bottom-10 right-6 mb-11 w-12 h-12 bg-green-500 rounded-full hidden md:flex items-center justify-center shadow-lg z-50"
     >
       <FaWhatsapp className="text-white" size={28} />
     </a>
