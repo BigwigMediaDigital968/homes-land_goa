@@ -82,9 +82,13 @@ async function getPropertyEntries(): Promise<MetadataRoute.Sitemap> {
 
     if (!res.ok) return [];
 
-    const properties: { slug: string; updatedAt?: string }[] = await res.json();
+    const properties: { slug: string; purpose?: string; updatedAt?: string }[] =
+      await res.json();
 
-    return properties.map((property) => ({
+    // /property returns every listing; only the ones for sale live under /buy
+    return properties
+      .filter((property) => property.purpose?.toLowerCase() === "buy")
+      .map((property) => ({
       url: `${BASE_URL}/buy/${property.slug}`,
       lastModified: property.updatedAt
         ? new Date(property.updatedAt)
@@ -100,15 +104,19 @@ async function getPropertyEntries(): Promise<MetadataRoute.Sitemap> {
 // ─── Dynamic: Rent Properties ────────────────────────────────────────────────
 async function getRentPropertyEntries(): Promise<MetadataRoute.Sitemap> {
   try {
-    const res = await fetch(`${API_BASE}/property?category=rent`, {
+    const res = await fetch(`${API_BASE}/property`, {
       next: { revalidate: 3600 },
     });
 
     if (!res.ok) return [];
 
-    const properties: { slug: string; updatedAt?: string }[] = await res.json();
+    const properties: { slug: string; purpose?: string; updatedAt?: string }[] =
+      await res.json();
 
-    return properties.map((property) => ({
+    // /property returns every listing; only the rentals live under /rent
+    return properties
+      .filter((property) => property.purpose?.toLowerCase() === "rent")
+      .map((property) => ({
       url: `${BASE_URL}/rent/${property.slug}`,
       lastModified: property.updatedAt
         ? new Date(property.updatedAt)

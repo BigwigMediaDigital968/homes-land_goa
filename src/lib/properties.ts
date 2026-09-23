@@ -2,6 +2,29 @@ import type { ListingProperty } from "../../components/listings/PropertyCard";
 
 export type ListingPurpose = "buy" | "rent";
 
+/** Full property record as the detail pages (/buy/[slug], /rent/[slug]) use it. */
+export interface Property {
+  _id: string;
+  title: string;
+  slug: string;
+  type?: string;
+  videoLink?: string;
+  location?: string;
+  price?: number | string | null;
+  bedrooms?: number | string | null;
+  bathrooms?: number | string | null;
+  areaSqft?: number | string | null;
+  images?: string[];
+  highlights?: string[];
+  nearby?: string[];
+  featuresAmenities?: string[];
+  extraHighlights?: string[];
+  description?: string;
+  googleMapUrl?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 const DESCRIPTION_MAX_CHARS = 200;
 
 /**

@@ -1,358 +1,226 @@
-"use client";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { cache } from "react";
 
-import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import "swiper/css";
-import "swiper/css/navigation";
-import "yet-another-react-lightbox/styles.css";
+import BuyPropertyDetails from "../../../../components/buy/BuyPropertyDetails";
+import JsonLd from "../../../../components/ui/JsonLd";
+import {
+  toPositiveNumber,
+  toRoomCount,
+  type Property,
+} from "@/lib/properties";
+import { BUSINESS, SITE_NAME, SITE_URL } from "@/lib/site";
 
-import Lightbox from "yet-another-react-lightbox";
-import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
-import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
+type Params = Promise<{ slug: string }>;
 
-import { MapPin, BedDouble, Home, Phone } from "lucide-react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
+const DESCRIPTION_MAX = 155;
 
-import Navbar from "../../../../components/Navbar";
-import Footer from "../../../../components/Footer";
-import HelpSection from "../../../../components/HelpSection";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import ContactInfo from "../../../../components/ContactInfo";
-import { LeadForm } from "../../../../components/LeadForm";
+/**
+ * cache() shares one request between generateMetadata and the page, and the
+ * fetch itself is cached for 5 minutes across requests.
+ */
+const getProperty = cache(async (slug: string): Promise<Property | null> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE}/property/${slug}`,
+      { next: { revalidate: 300 } },
+    );
+    if (!res.ok) return null;
 
-interface Property {
-  _id: string;
-  title: string;
-  slug: string;
-  type?: string;
-  videoLink?: string;
-  location?: string;
-  price?: number | null;
-  bedrooms?: number | null;
-  bathrooms?: number | null;
-  areaSqft?: number | null;
-  images: string[];
-  highlights: string[];
-  nearby: string[];
-  featuresAmenities: string[];
-  extraHighlights: string[];
-  description: string;
-  googleMapUrl?: string;
+    const data = await res.json();
+    return data?.slug ? data : null;
+  } catch {
+    return null;
+  }
+});
+
+function buildTitle(p: Property) {
+  const where = p.location ? ` in ${p.location}` : " in Goa";
+  return `${p.title} for Sale${where} | ${SITE_NAME}`;
 }
 
-export default function BuyDetails() {
-  const { slug } = useParams();
-  const [property, setProperty] = useState<Property | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    AOS.init({ duration: 1000, once: true, offset: 100 });
-  }, []);
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [photoIndex, setPhotoIndex] = useState(0);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    if (!slug) return;
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE}/property/${slug}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProperty(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, [slug]);
-
-  if (loading)
-    return <p className="text-center mt-20 text-xl">Loading property...</p>;
-  if (!property)
-    return <p className="text-center mt-20 text-xl">Property not found</p>;
-
-  const displayedImages = property.images.slice(0, 7);
-  const extraCount = property.images.length - displayedImages.length;
-
-  function getYouTubeEmbedUrl(url: string) {
-    try {
-      const parsedUrl = new URL(url);
-      if (parsedUrl.hostname.includes("youtu.be")) {
-        return `https://www.youtube.com/embed/${parsedUrl.pathname.slice(1)}`;
-      } else if (parsedUrl.hostname.includes("youtube.com")) {
-        return `https://www.youtube.com/embed/${parsedUrl.searchParams.get(
-          "v"
-        )}`;
-      }
-      return null;
-    } catch {
-      return null;
-    }
+function buildDescription(p: Property) {
+  const text = p.description?.replace(/\s+/g, " ").trim();
+  if (text) {
+    return text.length > DESCRIPTION_MAX
+      ? `${text.slice(0, DESCRIPTION_MAX - 1).trimEnd()}…`
+      : text;
   }
 
+  // No description in the CMS: fall back to the key facts
+  const beds = toRoomCount(p.bedrooms);
+  const area = toPositiveNumber(p.areaSqft);
+  const facts = [
+    beds && `${beds} bedroom`,
+    p.type?.toLowerCase() ?? "property",
+    "for sale",
+    p.location ? `in ${p.location}, Goa` : "in Goa",
+    area && `(${area.toLocaleString("en-IN")} sq ft)`,
+  ].filter(Boolean);
+  return `${facts.join(" ")}. View photos, price and details with ${SITE_NAME}.`;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const property = await getProperty(slug);
+
+  if (!property) {
+    return {
+      title: `Property Not Found | ${SITE_NAME}`,
+      robots: { index: false, follow: true },
+    };
+  }
+
+  const url = `${SITE_URL}/buy/${property.slug}`;
+  const title = buildTitle(property);
+  const description = buildDescription(property);
+  const images = (property.images ?? []).slice(0, 4).map((src) => ({
+    url: src,
+    alt: `${property.title} for sale in ${property.location ?? "Goa"}`,
+  }));
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website",
+      locale: "en_IN",
+      siteName: SITE_NAME,
+      url,
+      title,
+      description,
+      images,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: images.map((img) => img.url),
+    },
+  };
+}
+
+export default async function BuyDetailsPage({ params }: { params: Params }) {
+  const { slug } = await params;
+  const property = await getProperty(slug);
+
+  if (!property) notFound();
+
+  const url = `${SITE_URL}/buy/${property.slug}`;
+  const images = property.images ?? [];
+  const featuresAmenities = property.featuresAmenities ?? [];
+  const price = toPositiveNumber(property.price);
+  const bedrooms = toRoomCount(property.bedrooms);
+  const bathrooms = toRoomCount(property.bathrooms);
+  const area = toPositiveNumber(property.areaSqft);
+  const agentId = `${SITE_URL}/#agent`;
+
+  // One @graph: page, breadcrumb, listing, the home itself and the agent
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ItemPage",
+        "@id": `${url}#webpage`,
+        url,
+        name: buildTitle(property),
+        description: buildDescription(property),
+        inLanguage: "en-IN",
+        isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
+        breadcrumb: { "@id": `${url}#breadcrumb` },
+        mainEntity: { "@id": `${url}#listing` },
+        ...(images[0] && { primaryImageOfPage: images[0] }),
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${url}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Buy",
+            item: `${SITE_URL}/buy`,
+          },
+          { "@type": "ListItem", position: 3, name: property.title, item: url },
+        ],
+      },
+      // {
+      //   "@type": "RealEstateListing",
+      //   "@id": `${url}#listing`,
+      //   url,
+      //   name: property.title,
+      //   description: property.description || buildDescription(property),
+      //   ...(images.length && { image: images }),
+      //   ...(property.createdAt && { datePosted: property.createdAt }),
+      //   ...(property.updatedAt && { dateModified: property.updatedAt }),
+      //   about: { "@id": `${url}#residence` },
+      //   provider: { "@id": agentId },
+      //   ...(price && {
+      //     offers: {
+      //       "@type": "Offer",
+      //       price,
+      //       priceCurrency: "INR",
+      //       availability: "https://schema.org/InStock",
+      //       businessFunction: "http://purl.org/goodrelations/v1#Sell",
+      //       url,
+      //       seller: { "@id": agentId },
+      //     },
+      //   }),
+      // },
+      // {
+      //   "@type": "Residence",
+      //   "@id": `${url}#residence`,
+      //   name: property.title,
+      //   ...(property.type && { additionalType: property.type }),
+      //   address: {
+      //     "@type": "PostalAddress",
+      //     ...(property.location && { addressLocality: property.location }),
+      //     addressRegion: "Goa",
+      //     addressCountry: "IN",
+      //   },
+      //   ...(bedrooms && { numberOfBedrooms: bedrooms }),
+      //   ...(bathrooms && { numberOfBathroomsTotal: bathrooms }),
+      //   ...(area && {
+      //     floorSize: {
+      //       "@type": "QuantitativeValue",
+      //       value: area,
+      //       unitCode: "FTK",
+      //     },
+      //   }),
+      //   ...(featuresAmenities.length && {
+      //     amenityFeature: featuresAmenities.map((name) => ({
+      //       "@type": "LocationFeatureSpecification",
+      //       name,
+      //       value: true,
+      //     })),
+      //   }),
+      //   ...(property.googleMapUrl && { hasMap: property.googleMapUrl }),
+      // },
+      {
+        "@type": "RealEstateAgent",
+        "@id": agentId,
+        name: SITE_NAME,
+        url: SITE_URL,
+        logo: `${SITE_URL}/logo.png`,
+        telephone: BUSINESS.telephone,
+        email: BUSINESS.email,
+        address: { "@type": "PostalAddress", ...BUSINESS.address },
+        areaServed: { "@type": "State", name: "Goa" },
+        sameAs: BUSINESS.sameAs,
+      },
+    ],
+  };
+
   return (
-    <div className="bg-white dark:bg-black text-black dark:text-white transition-colors duration-300">
-
-      {/* Hero with overlay */}
-      <section className="relative h-[100vh]">
-        <Swiper
-          modules={[Navigation, Autoplay]}
-          navigation
-          autoplay={{ delay: 4000 }}
-          loop
-          className="h-full"
-        >
-          {property.images.map((img, idx) => (
-            <SwiperSlide key={idx}>
-              <div className="relative w-full h-full">
-                <Image
-                  src={img}
-                  alt={`Property Image ${idx + 1}`}
-                  fill
-                  priority={idx === 0} // optimize first image
-                  className="object-cover"
-                />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </section>
-
-      {/* Split Layout */}
-      <section className="grid md:grid-cols-2 gap-10 w-11/12 md:w-5/6 mx-auto py-16">
-        {/* Gallery - Left Side */}
-        <div className="columns-2 gap-4 space-y-4">
-          {displayedImages.map((img, idx) => (
-            <div
-              key={idx}
-              onClick={() => {
-                setPhotoIndex(idx);
-                setIsOpen(true);
-              }}
-              className="relative overflow-hidden  shadow cursor-pointer"
-            >
-              <Image
-                src={img}
-                alt={`Gallery ${idx}`}
-                width={600}
-                height={400}
-                className=" hover:scale-105 transition"
-              />
-            </div>
-          ))}
-          {extraCount > 0 && (
-            <div
-              className="relative h-40 flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-xl text-2xl font-bold cursor-pointer"
-              onClick={() => {
-                setPhotoIndex(10);
-                setIsOpen(true);
-              }}
-            >
-              +{extraCount} more
-            </div>
-          )}
-        </div>
-
-        {/* Info + Description - Right Side */}
-        <div className="sticky top-24 self-start space-y-6">
-          {/* Title + Location + Price */}
-          <h1 className="text-3xl font-bold">{property.title}</h1>
-          {property.location && (
-            <p className="flex items-center gap-2 text-lg text-gray-600 dark:text-gray-300">
-              <MapPin size={18} /> {property.location}
-            </p>
-          )}
-          {property.price && (
-            <p className="text-2xl font-semibold text-[var(--title)]">
-              ₹ {property.price.toLocaleString()}
-            </p>
-          )}
-
-          {/* Badges */}
-          <div className="flex flex-wrap gap-3">
-            {property.type && (
-              <span className="px-4 py-2 bg-gray-100 dark:bg-gray-900 rounded-lg shadow flex items-center gap-2">
-                <Home size={18} /> {property.type}
-              </span>
-            )}
-            {property.bedrooms && (
-              <span className="px-4 py-2 bg-gray-100 dark:bg-gray-900 rounded-lg shadow flex items-center gap-2">
-                <BedDouble size={18} /> {property.bedrooms} Beds
-              </span>
-            )}
-            {property.bathrooms && (
-              <span className="px-4 py-2 bg-gray-100 dark:bg-gray-900 rounded-lg shadow flex items-center gap-2">
-                🛁 {property.bathrooms} Baths
-              </span>
-            )}
-            {property.areaSqft && (
-              <span className="px-4 py-2 bg-gray-100 dark:bg-gray-900 rounded-lg shadow flex items-center gap-2">
-                📐 {property.areaSqft} Sqft
-              </span>
-            )}
-          </div>
-
-          {/* Description */}
-          <h2 className="text-xl font-semibold mt-6">About this Property</h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-            {property.description}
-          </p>
-
-          {/* Highlights */}
-          {property.highlights.length > 0 && (
-            <>
-              <h3 className="text-lg font-semibold mt-6">Highlights</h3>
-              <div className="flex flex-wrap gap-3">
-                {property.highlights.map((h, idx) => (
-                  <span
-                    key={idx}
-                    className="px-4 py-2 bg-[var(--bg-color)] rounded-full shadow text-sm text-black"
-                  >
-                    {h}
-                  </span>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-      </section>
-
-      <div className="w-11/12 md:w-5/6 mx-auto grid grid-cols-1 lg:grid-cols-3 gap-3">
-        <div className="col-span-2">
-          {/* Video Tour */}
-          {property.videoLink && (
-            <section className=" py-12">
-              <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
-                Virtual Tour
-              </h2>
-              <div className="w-full h-[500px] overflow-hidden rounded-xl shadow">
-                {property.videoLink.includes("youtube") ||
-                property.videoLink.includes("youtu.be") ? (
-                  <iframe
-                    src={getYouTubeEmbedUrl(property.videoLink)!}
-                    width="100%"
-                    height="100%"
-                    allowFullScreen
-                  />
-                ) : (
-                  <video
-                    src={property.videoLink}
-                    controls
-                    className="w-full h-full object-cover"
-                  />
-                )}
-              </div>
-            </section>
-          )}
-
-          {/* Features */}
-          {property.featuresAmenities.length > 0 && (
-            <section className=" py-12">
-              <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
-                Features & Amenities
-              </h2>
-              <div className="flex flex-wrap gap-6">
-                {property.featuresAmenities.map((f, idx) => (
-                  <div
-                    key={idx}
-                    className="px-4 py-2 bg-[var(--bg-color)] rounded-full shadow text-sm text-black"
-                  >
-                    {f}
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Nearby */}
-          {property.nearby.length > 0 && (
-            <section className=" py-12">
-              <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
-                Nearby Places
-              </h2>
-              <div className="flex flex-wrap gap-3">
-                {property.nearby.map((n, idx) => (
-                  <span
-                    key={idx}
-                    className="px-5 py-2 bg-[var(--bg-color)] rounded-full text-black"
-                  >
-                    {n}
-                  </span>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Extra Highlights */}
-          {property.extraHighlights && property.extraHighlights.length > 0 && (
-            <section className=" py-12">
-              <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
-                Extra Highlights
-              </h2>
-              <div className="flex flex-wrap gap-3">
-                {property.extraHighlights.map((eh, idx) => (
-                  <span
-                    key={idx}
-                    className="px-5 py-2 bg-[var(--bg-color)] rounded-full text-black"
-                  >
-                    {eh}
-                  </span>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Map */}
-          {property.googleMapUrl && (
-            <section className=" py-12">
-              <h2 className="text-2xl font-semibold mb-6 text-[var(--primary-color)]">
-                Location
-              </h2>
-              <iframe
-                src={property.googleMapUrl}
-                width="100%"
-                height="450"
-                loading="lazy"
-                className="rounded-xl shadow border-0"
-              />
-            </section>
-          )}
-        </div>
-        <div className="col-span-1 mb-10">
-          <div className="sticky top-28">
-            <LeadForm />
-          </div>
-        </div>
-      </div>
-
-      {/* Floating Contact Widget */}
-      <div className="fixed bottom-6 right-6 bg-[var(--primary-color)] text-white p-4 rounded-full shadow-xl cursor-pointer hover:scale-105 transition">
-        <a
-          href="tel:+919623858108"
-          className="flex items-center gap-2 text-white"
-        >
-          <Phone />
-          <span>Enquire</span>
-        </a>
-      </div>
-
-      <ContactInfo />
-      {/* <HelpSection /> */}
-
-      {/* Lightbox */}
-      {isOpen && (
-        <Lightbox
-          open={isOpen}
-          close={() => setIsOpen(false)}
-          slides={property.images.map((img) => ({ src: img }))}
-          index={photoIndex}
-          plugins={[Fullscreen, Slideshow]}
-        />
-      )}
-    </div>
+    <>
+      <JsonLd data={schema} />
+      <BuyPropertyDetails property={property} />
+    </>
   );
 }

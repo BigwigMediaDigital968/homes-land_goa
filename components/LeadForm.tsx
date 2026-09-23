@@ -52,81 +52,91 @@ export function LeadForm() {
     }
   };
 
+  const inputClass =
+    "w-full pl-10 p-3 border rounded-lg border-border bg-black-950 font-sans text-fg placeholder:text-fg-muted transition-colors focus:border-primary focus:outline-none";
+  const iconClass = "absolute left-3 top-4 text-primary/80";
+
   return (
-    <div className="p-6 bg-white dark:bg-[#1e1e1e] rounded-xl shadow-xl border border-gray-200 dark:border-white/10">
-      <h3 className="text-xl font-semibold mb-4 text-[var(--primary-color)]">
+    <div className="p-6 bg-surface rounded-xl shadow-xl border border-border">
+      <h3 className="font-serif text-2xl font-light mb-4 text-primary">
         Enquire About This Property
       </h3>
-      <p className="text-gray-600 dark:text-gray-300 text-sm mb-6 leading-relaxed">
+      <p className="font-sans text-white/70 text-sm mb-6 leading-relaxed">
         Send us your details and our team will get in touch within minutes.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name */}
         <div className="relative">
-          <FaUser className="absolute left-3 top-3 text-gray-500" />
+          <FaUser aria-hidden className={iconClass} />
           <input
             type="text"
             name="name"
             placeholder="Your Name"
+            aria-label="Your Name"
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full pl-10 p-3 border rounded-lg bg-white dark:bg-[#2c2c2c] border-gray-300 dark:border-gray-700"
+            className={inputClass}
           />
         </div>
 
         {/* Email */}
         <div className="relative">
-          <FaEnvelope className="absolute left-3 top-3 text-gray-500" />
+          <FaEnvelope aria-hidden className={iconClass} />
           <input
             type="email"
             name="email"
             placeholder="Your Email"
+            aria-label="Your Email"
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full pl-10 p-3 border rounded-lg bg-white dark:bg-[#2c2c2c] border-gray-300 dark:border-gray-700"
+            className={inputClass}
           />
         </div>
 
         {/* Subject */}
         <div className="relative">
-          <FaBook className="absolute left-3 top-3 text-gray-500" />
+          <FaBook aria-hidden className={iconClass} />
           <input
             type="text"
             name="subject"
             placeholder="Subject"
+            aria-label="Subject"
             value={formData.subject}
             onChange={handleChange}
-            className="w-full pl-10 p-3 border rounded-lg bg-white dark:bg-[#2c2c2c] border-gray-300 dark:border-gray-700"
+            className={inputClass}
           />
         </div>
 
         {/* Message */}
         <div className="relative">
-          <FaCommentDots className="absolute left-3 top-3 text-gray-500" />
+          <FaCommentDots aria-hidden className={iconClass} />
           <textarea
             name="message"
             placeholder="Your Message"
+            aria-label="Your Message"
             rows={4}
             required
             value={formData.message}
             onChange={handleChange}
-            className="w-full pl-10 p-3 border rounded-lg bg-white dark:bg-[#2c2c2c] border-gray-300 dark:border-gray-700"
+            className={`${inputClass} resize-none`}
           ></textarea>
         </div>
 
         {/* Status Messages */}
         {success && (
-          <p className="text-green-600 text-sm">Message sent successfully!</p>
+          <p className="font-sans text-sm text-primary">
+            Message sent successfully!
+          </p>
         )}
-        {error && <p className="text-red-600 text-sm">{error}</p>}
+        {error && <p className="font-sans text-sm text-red-400">{error}</p>}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 bg-[var(--primary-color)] hover:bg-red-700 transition text-white rounded-lg font-semibold"
+          className="w-full py-3 bg-primary hover:bg-primary-hover transition text-on-primary rounded-lg font-sans font-semibold disabled:opacity-60"
         >
           {loading ? "Sending..." : "Submit Enquiry"}
         </button>

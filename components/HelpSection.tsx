@@ -1,48 +1,49 @@
 "use client";
 
-import { Mail, MessageCircle, HelpCircle } from "lucide-react";
+import Link from "next/link";
+import { Mail, HelpCircle } from "lucide-react";
+import { SectionEyebrow } from "./ui/SectionEyebrow";
 
 const HelpSection = () => {
   return (
-    <section className="bg-white py-16 px-6 text-center">
+    <section className="border-t border-border bg-bg py-14 md:py-20 px-4 text-center">
+      <SectionEyebrow>Need Help?</SectionEyebrow>
+
       {/* Heading */}
-      <h2 className="text-3xl md:text-4xl font-semibold text-[var(--title)] mb-4 tracking-widest">
+      <h2 className="mt-3 font-serif text-3xl md:text-4xl font-light leading-tight text-fg mb-4">
         Do You Have Any Questions?
         <br />
-        Get Help From Us
+        <span className="italic text-primary">Get Help From Us</span>
       </h2>
 
       {/* Support Options */}
-      <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-6 mb-10 text-[var(--primary-color)] font-medium">
-        <div className="flex items-center gap-2">
-          <HelpCircle className="w-5 h-5" />
-          <span>
-            <a href="/faq">Browse our FAQ</a>
-          </span>
-        </div>
+      <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-6 mb-10">
+        <Link
+          href="/faq"
+          className="inline-flex items-center gap-2 font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-fg-muted transition-colors duration-300 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+        >
+          <HelpCircle aria-hidden className="h-4 w-4 text-primary" />
+          Browse our FAQ
+        </Link>
       </div>
 
       {/* Newsletter / Email Form */}
-      <form className="flex flex-col md:flex-row items-center justify-center gap-4 max-w-2xl mx-auto">
-        <div className="flex items-center bg-[var(--bg-color)] text-[var(--primary-color)] px-4 py-3 flex-grow shadow-sm w-full">
-          <Mail className="w-5 h-5 mr-2" />
+      <form className="flex flex-col md:flex-row items-stretch justify-center gap-4 max-w-2xl mx-auto">
+        <label className="flex items-center gap-3 border border-border bg-surface px-4 py-3 flex-grow w-full transition-colors duration-300 focus-within:border-primary">
+          <Mail aria-hidden className="h-4 w-4 shrink-0 text-primary" />
+          <span className="sr-only">Email address</span>
           <input
             type="email"
             placeholder="Enter your email address..."
-            className="bg-transparent outline-none flex-grow placeholder-[var(--title)] text-base"
+            className="bg-transparent outline-none flex-grow font-sans text-sm text-fg placeholder:text-fg-muted"
             required
           />
-        </div>
+        </label>
         <button
           type="submit"
-          className="relative px-6 py-3  bg-[#E50E0B] text-white font-semibold 
-                overflow-hidden group cursor-pointer transition-all duration-300 rounded"
+          className="inline-flex min-h-12 items-center justify-center bg-primary px-9 py-3 font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-on-primary transition-colors duration-300 hover:bg-primary-hover cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
         >
-          <span className="relative z-10 tracking-widest">Submit</span>
-          <span
-            className="absolute inset-0 w-full h-full bg-gradient-to-r from-black/20 to-transparent 
-                  translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out"
-          ></span>
+          Submit
         </button>
       </form>
     </section>

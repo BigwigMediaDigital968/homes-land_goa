@@ -2,7 +2,6 @@
 
 import { Instagram, Facebook, Mail, Phone, MapPin } from "lucide-react";
 import Image from "next/image";
-import { SiX } from "react-icons/si";
 import Link from "next/link";
 import { BUSINESS } from "@/lib/site";
 

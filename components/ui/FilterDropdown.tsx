@@ -131,13 +131,10 @@ export default function FilterDropdown({
   };
 
   return (
-    <div
-      ref={rootRef}
-      className="group relative flex-1 px-5 py-4 transition-colors duration-300 hover:bg-black-900/60 focus-within:bg-black-900/60"
-    >
+    <div ref={rootRef} className="group relative w-full sm:w-52">
       <span
         id={`${id}-label`}
-        className="block font-sans text-[10px] font-bold uppercase tracking-[0.25em] text-fg-muted"
+        className="mb-1.5 block font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-fg-muted"
       >
         {label}
       </span>
@@ -153,11 +150,13 @@ export default function FilterDropdown({
         aria-activedescendant={open ? `${id}-option-${activeIndex}` : undefined}
         onClick={() => (open ? setOpen(false) : openMenu())}
         onKeyDown={handleKeyDown}
-        className="mt-1.5 flex w-full cursor-pointer items-center justify-between gap-3 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+        className={`flex min-h-11 w-full cursor-pointer items-center justify-between gap-3 border bg-black-950 px-4 py-2.5 text-left transition-colors duration-300 hover:border-primary/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+          open || !isDefault ? "border-primary/60" : "border-border"
+        }`}
       >
         <span
           id={`${id}-value`}
-          className={`truncate font-serif text-lg font-light transition-colors duration-300 ${
+          className={`truncate font-sans text-sm transition-colors duration-300 ${
             isDefault ? "text-fg" : "text-primary"
           }`}
         >
@@ -183,7 +182,7 @@ export default function FilterDropdown({
           id={`${id}-listbox`}
           role="listbox"
           aria-labelledby={`${id}-label`}
-          className="absolute left-0 right-0 top-full z-40 mt-px max-h-72 overflow-y-auto border border-primary/40 bg-black-950 py-1 shadow-2xl shadow-black/60"
+          className="absolute left-0 right-0 top-full z-40 mt-1 max-h-72 overflow-y-auto border border-primary/40 bg-black-950 py-1 shadow-2xl shadow-black/60"
         >
           {options.map((option, index) => {
             const isSelected = option.value === value;

@@ -97,16 +97,7 @@ export default async function RentPage() {
         image={{ src: banner, alt: HERO_ALT }}
       />
 
-      {/* 2. TRUST BAR / EXPERIENCE */}
-      <RentTrust />
-
-      {/* 3. RENTAL PROPERTY TYPES */}
-      <RentPropertyTypes />
-
-      {/* 4. WHY CHOOSE US */}
-      <RentWhyChooseUs />
-
-      {/* 5. FEATURED RENTALS (live listings + type filter) */}
+{/* 5. FEATURED RENTALS (live listings + type filter) */}
       <PropertyListings
         initialProperties={properties ?? []}
         fetchFailed={properties === null}
@@ -123,6 +114,17 @@ export default async function RentPage() {
           text: "Tell us what you're looking for, and our team will share suitable rental options.",
         }}
       />
+      
+      {/* 2. TRUST BAR / EXPERIENCE */}
+      <RentTrust />
+
+      {/* 3. RENTAL PROPERTY TYPES */}
+      <RentPropertyTypes />
+
+      {/* 4. WHY CHOOSE US */}
+      <RentWhyChooseUs />
+
+      
 
       {/* 8. FINAL CTA BANNER (shared with Home) */}
       <CallToAction

@@ -10,7 +10,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import { motion, MotionConfig } from "framer-motion";
-import { X } from "lucide-react";
+import { SlidersHorizontal, X } from "lucide-react";
 import FilterDropdown from "../ui/FilterDropdown";
 import { LeadForm } from "../LeadForm";
 import { SectionEyebrow } from "../ui/SectionEyebrow";
@@ -236,23 +236,26 @@ export default function PropertyListings({
   };
 
   const filterBar = (
-    <div className="border border-border bg-surface">
-      <div className="flex flex-col divide-y divide-border md:flex-row md:divide-x md:divide-y-0">
+    <div className="flex flex-col gap-4 border border-border bg-surface px-5 py-4 md:flex-row md:items-end md:justify-between">
+
+
+      {/* Right Side: Clear Button & Filter Dropdowns */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end sm:justify-end">
+
         {dropdowns.map((dropdown) => (
           <FilterDropdown key={dropdown.id} {...dropdown} />
         ))}
-
+      </div>
+      <div>
         {activeCount > 0 && (
-          <div className="flex items-center justify-center px-5 py-4 md:py-0">
-            <button
-              type="button"
-              onClick={clearFilters}
-              className="inline-flex min-h-11 cursor-pointer items-center gap-2 whitespace-nowrap font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-fg-muted transition-colors duration-300 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-            >
-              <X aria-hidden className="h-3.5 w-3.5" />
-              Clear {activeCount === 1 ? "filter" : "filters"}
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={clearFilters}
+            className="inline-flex h-11 cursor-pointer items-center gap-1.5 whitespace-nowrap font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-fg-muted transition-colors duration-200 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            <X aria-hidden className="h-3.5 w-3.5" />
+            Clear {activeCount === 1 ? "filter" : "filters"}
+          </button>
         )}
       </div>
     </div>
