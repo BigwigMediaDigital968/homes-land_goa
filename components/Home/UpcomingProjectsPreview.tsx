@@ -30,7 +30,7 @@ export default function UpcomingProjectsPreview() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full py-12 sm:py-16 bg-black-950 border-t border-rosegold-700/20 border-b border-rosegold-700/20 overflow-hidden text-center"
+      className="relative w-full py-12 sm:py-16 bg-black-950 border-t border-b border-rosegold-700/20 overflow-hidden text-center"
       style={{ fontFamily: '"Cormorant Garamond", Georgia, serif' }}
     >
       {/* Editorial Decorative Background Details */}
