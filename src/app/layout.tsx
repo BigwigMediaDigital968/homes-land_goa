@@ -31,10 +31,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* Google Site Verification */}
-        <meta
-          name="google-site-verification"
-          content="yoASm41IVFHOXhRAFs956RnT4fR_WYzHiZBbvhR6ILU"
-        />
+        <meta name="google-site-verification" content="aqkEfQg72x2Vs7VWgeJn5olVWbQ--mjjFBnkijjoTCg" />
+
 
         {/* Google Translate hide styles */}
         <style>{`
