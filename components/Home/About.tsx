@@ -65,7 +65,7 @@ export default function About() {
             >
               <div className="relative w-full h-full overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&q=90"
+                  src="/buy-img-2.png"
                   alt="Luxury Modern Goa Villa Facade"
                   className="w-full h-full object-cover transition-transform duration-1000 ease-out hover:scale-105"
                 />
@@ -81,7 +81,7 @@ export default function About() {
               className="absolute -top-6 -left-4 md:-left-8 w-28 h-36 overflow-hidden shadow-lg border border-rosegold-700/50 bg-black-950 p-1.5 z-20 hidden sm:block"
             >
               <img
-                src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=300&q=90"
+                src="/buy-img.webp"
                 alt="Goan Coastal Vista"
                 className="w-full h-full object-cover"
               />
