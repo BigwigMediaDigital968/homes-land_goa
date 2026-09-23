@@ -46,7 +46,7 @@ export default function About() {
     <section
       id="about"
       ref={containerRef}
-      className="relative w-full lg:h-screen flex items-center justify-center bg-black-950 py-20 lg:py-0 overflow-hidden border-b border-rosegold-700/30"
+      className="relative w-full flex items-center justify-center bg-black-950 py-20 lg:py-20 overflow-hidden border-b border-rosegold-700/30"
     >
 
       {/* 2. Main content container */}

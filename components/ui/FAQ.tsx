@@ -101,7 +101,7 @@ export default function FAQ({
   return (
     <section
       ref={containerRef}
-      className="relative w-full py-6 sm:py-12 md:py-24 bg-black-950 overflow-hidden text-fg"
+      className="relative w-full py-6 sm:py-12 md:py-20 bg-black-950 overflow-hidden text-fg"
     >
       <div className="max-w-4xl mx-auto px-6 lg:px-8 relative z-10">
         {/* Section Header */}

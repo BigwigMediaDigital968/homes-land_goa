@@ -79,7 +79,7 @@ export default function Services() {
       {/* 1. Elegant Editorial Section Header */}
       <div
         ref={headerRef}
-        className="relative py-20 text-center border-t border-rosegold-700/30 bg-black-950"
+        className="relative pt-20 text-center border-t border-rosegold-700/30 bg-black-950"
       >
         {/* Decorative Grid Line Accents */}
 
@@ -127,7 +127,7 @@ function ServicePanel({ service, index }: any) {
   return (
     <div
       ref={panelRef}
-      className={`relative w-full lg:h-screen flex items-center justify-center py-16 lg:py-0 border-b border-rosegold-700/20 overflow-hidden ${isEven ? "bg-black-950" : "bg-black-900"
+      className={`relative w-full flex items-center justify-center py-16 lg:py-20 border-b border-rosegold-700/20 overflow-hidden ${isEven ? "bg-black-950" : "bg-black-900"
         }`}
     >
       {/* Decorative Ambient Light Wash */}

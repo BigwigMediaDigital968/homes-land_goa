@@ -69,7 +69,7 @@ export default function AreasWeCover({
   return (
     <section
       ref={containerRef}
-      className="relative w-full py-20 sm:py-28 bg-black-950 border-t border-rosegold-700/20 overflow-hidden"
+      className="relative w-full py-16 sm:py-20 bg-black-950 border-t border-rosegold-700/20 overflow-hidden"
       style={{ fontFamily: '"Cormorant Garamond", Georgia, serif' }}
     >
 

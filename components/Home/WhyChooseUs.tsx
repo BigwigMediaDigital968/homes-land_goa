@@ -57,7 +57,7 @@ export default function WhyChooseUs() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full py-20 sm:py-28 bg-black-900 border-t border-rosegold-700/20 overflow-hidden"
+      className="relative w-full py-16 sm:py-20 bg-black-900 border-t border-rosegold-700/20 overflow-hidden"
       style={{ fontFamily: '"Cormorant Garamond", Georgia, serif' }}
     >
       <motion.div

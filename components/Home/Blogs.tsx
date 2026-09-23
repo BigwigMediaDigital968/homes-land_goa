@@ -44,12 +44,9 @@ export default function Blogs() {
 
   return (
     <section
-      className="relative w-full py-12 sm:py-24 bg-black-950 border-t border-rosegold-700/20 overflow-hidden"
+      className="relative w-full py-12 sm:py-20 bg-black-950 border-t border-rosegold-700/20 overflow-hidden"
       style={{ fontFamily: '"Cormorant Garamond", Georgia, serif' }}
     >
-      {/* Editorial Decorative Background Details */}
-      <div className="absolute top-0 left-10 w-[1px] h-full bg-rosegold-700/15 pointer-events-none" />
-      <div className="absolute top-0 right-10 w-[1px] h-full bg-rosegold-700/15 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
 

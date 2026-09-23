@@ -39,7 +39,7 @@ export default function FeaturedProperties({
     <section
       id="properties"
       ref={sectionRef}
-      className="relative w-full py-24 sm:py-32 bg-black-950 overflow-hidden"
+      className="relative w-full py-16 sm:py-20 bg-black-950 overflow-hidden"
       style={{ fontFamily: '"Cormorant Garamond", Georgia, serif' }}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
