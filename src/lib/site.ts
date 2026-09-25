@@ -3,9 +3,9 @@ export const SITE_NAME = "Homes & Land Goa";
 
 export const BUSINESS = {
   /** Hyphenated form for structured data. */
-  telephone: "+91-96238-58108",
+  telephone: "+919623858108",
   /** How the number is written on the page. */
-  telephoneDisplay: "+91 96238 58108",
+  telephoneDisplay: "+91 9623858108",
   /** Safe for a tel: href (no spaces or punctuation). */
   telephoneHref: "tel:+919623858108",
   /** wa.me wants the number bare — no "+", spaces or dashes. */

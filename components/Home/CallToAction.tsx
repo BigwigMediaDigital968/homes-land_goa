@@ -6,6 +6,7 @@ import React, { useRef } from "react";
 import { motion, useInView, Variants } from "framer-motion";
 import { ArrowUpRight, Phone } from "lucide-react";
 import Link from "next/link";
+import { BUSINESS } from "@/lib/site";
 
 interface CtaLink {
   label: string;
@@ -30,8 +31,8 @@ export default function CallToAction({
     </>
   ),
   description = "Tell us what you're looking for, and we'll help you take the next step, whether that's buying, selling, or renting a property in Goa.",
-  primaryCta = { label: "Explore Properties", href: "#contacts" },
-  secondaryCta = { label: "Contact Advisory", href: "tel:+91", showPhoneIcon: true },
+  primaryCta = { label: "Explore Properties", href: "/buy" },
+  secondaryCta = { label: "Contact Advisory", href: `tel:${BUSINESS.telephone}`, showPhoneIcon: true },
 }: CallToActionProps) {
   const containerRef = useRef(null);
   const inView = useInView(containerRef, { once: true, margin: "-15%" });

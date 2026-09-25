@@ -70,7 +70,7 @@ export default function FAQ({
   subtitle = "Advisory & Compliance",
   ctaText = "Our team is available to answer questions and set up a viewing.",
   ctaLabel = "Explore Properties",
-  ctaHref = "/contact",
+  ctaHref = "/contacts",
 }: FAQProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
