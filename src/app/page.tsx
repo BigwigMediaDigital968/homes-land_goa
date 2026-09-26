@@ -14,12 +14,42 @@ import AreasWeCover from "../../components/Home/AreasWeCover";
 import HowItWorks from "../../components/Home/HowItWorks";
 import FAQ from "../../components/ui/FAQ";
 import { getProperties } from "@/lib/properties";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
+
+const TITLE =
+  "Real Estate Agents in Goa | Buy, Sell & Rent Property | Homes & Land Goa";
+const DESCRIPTION =
+  "Homes & Land Goa, trusted real estate agents in Goa helping you buy, sell or rent property across North and South Goa. Explore listings or talk to our team today.";
+const OG_ALT = "Luxury villa in Goa listed by Homes & Land Goa";
+// Stable file in /public, not a hashed _next/static asset
+const OG_IMAGE = `${SITE_URL}/sell-img.jpg`;
 
 export const metadata: Metadata = {
-  title:
-    "Real Estate Agents in Goa | Buy, Sell & Rent Property | Homes & Land Goa",
-  description:
-    "Homes & Land Goa, trusted real estate agents in Goa helping you buy, sell or rent property across North and South Goa. Explore listings or talk to our team today.",
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: { canonical: SITE_URL },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    siteName: SITE_NAME,
+    url: SITE_URL,
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [
+      {
+        url: OG_IMAGE,
+        width: 1280,
+        height: 854,
+        alt: OG_ALT,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [OG_IMAGE],
+  },
 };
 
 const faqSchema = {

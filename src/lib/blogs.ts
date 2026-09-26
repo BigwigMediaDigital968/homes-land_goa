@@ -1,3 +1,5 @@
+import { cache } from "react";
+
 export interface BlogListItem {
   _id: string;
   title: string;
@@ -42,6 +44,56 @@ export async function getBlogs(): Promise<BlogListItem[] | null> {
   } catch {
     return null;
   }
+}
+
+/** Full post as /blogs/[slug] uses it. */
+export interface BlogPost extends BlogListItem {
+  content: string;
+  lastUpdated?: string;
+}
+
+/**
+ * cache() shares one request between generateMetadata and the page, and the
+ * fetch itself is cached for 5 minutes across requests.
+ */
+export const getBlog = cache(async (slug: string): Promise<BlogPost | null> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE}/blog/${slug}`,
+      { next: { revalidate: 300 } },
+    );
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    return data?.slug ? { ...data, tags: data.tags ?? [] } : null;
+  } catch {
+    return null;
+  }
+});
+
+/**
+ * Related posts for a blog, cached for 5 minutes. Expects an array of posts
+ * (same shape as /blog/viewblog). Returns [] on failure so the sidebar just
+ * hides the section.
+ */
+export async function getRelatedBlogs(slug: string): Promise<BlogListItem[]> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE}/blog/related/${slug}`,
+      { next: { revalidate: 300 } },
+    );
+    if (!res.ok) return [];
+
+    return normalizeBlogs(await res.json());
+  } catch {
+    return [];
+  }
+}
+
+/** Rough reading time at ~200 words a minute. */
+export function readingMinutes(html: string) {
+  const words = html.replace(/<[^>]*>/g, " ").split(/\s+/).filter(Boolean);
+  return Math.max(1, Math.round(words.length / 200));
 }
 
 export function normalizeBlogs(data: unknown): BlogListItem[] {

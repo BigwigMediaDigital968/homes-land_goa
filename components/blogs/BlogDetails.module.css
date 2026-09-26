@@ -1,0 +1,120 @@
+/* Styles for the CMS-authored HTML body of a blog post */
+.content {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: color-mix(in srgb, var(--color-fg) 85%, transparent);
+}
+
+.content > :first-child {
+  margin-top: 0;
+}
+
+.content p {
+  margin-bottom: 1.5rem;
+}
+
+.content h1,
+.content h2,
+.content h3,
+.content h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--color-fg);
+  margin-top: 2.75rem;
+  margin-bottom: 1rem;
+  text-wrap: balance;
+}
+
+.content h1,
+.content h2 {
+  font-size: 2rem;
+}
+
+.content h3 {
+  font-size: 1.5rem;
+}
+
+.content h4 {
+  font-size: 1.25rem;
+}
+
+.content strong {
+  color: var(--color-fg);
+  font-weight: 600;
+}
+
+.content ul,
+.content ol {
+  margin: 0 0 1.5rem 1.5rem;
+}
+
+.content ul {
+  list-style-type: disc;
+}
+
+.content ol {
+  list-style-type: decimal;
+}
+
+.content li {
+  margin-bottom: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+.content li::marker {
+  color: var(--color-primary);
+}
+
+.content a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.content a:hover {
+  color: var(--color-primary-hover);
+}
+
+.content blockquote {
+  margin: 2.5rem 0;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--color-primary);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--color-fg);
+}
+
+.content img {
+  max-width: 100%;
+  height: auto;
+  margin: 2rem 0;
+}
+
+.content hr {
+  margin: 3rem 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.content table {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.content th,
+.content td {
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  text-align: left;
+}
+
+.content th {
+  color: var(--color-fg);
+  background: var(--color-surface);
+}
