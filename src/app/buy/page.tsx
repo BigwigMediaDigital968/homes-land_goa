@@ -85,7 +85,7 @@ export default async function BuyPage() {
             path: "/buy",
             title: TITLE,
             description: DESCRIPTION,
-            listName: "Available Properties in Goa",
+            listName: `Property for Sale in Goa - ${SITE_NAME}`,
           }),
           faqSchema(buyFaqs),
           realEstateAgentSchema(`${SITE_URL}/buy`),

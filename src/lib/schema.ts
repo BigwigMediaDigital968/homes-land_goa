@@ -1,5 +1,58 @@
 import type { ListingProperty } from "../../components/listings/PropertyCard";
+import { toPositiveNumber, toRoomCount } from "./properties";
 import { BUSINESS, SITE_NAME, SITE_URL } from "./site";
+
+/** schema.org type of the property itself; plots/land get none. */
+function aboutType(type?: string) {
+  const t = type?.toLowerCase() ?? "";
+  if (/plot|land/.test(t)) return null;
+  if (/apartment|flat/.test(t)) return "Apartment";
+  if (/villa|house|bungalow/.test(t)) return "House";
+  return "Accommodation";
+}
+
+/** RealEstateListing for one card on a listing page. */
+function realEstateListing(p: ListingProperty, url: string) {
+  const type = aboutType(p.type);
+  const bedrooms = toRoomCount(p.bedrooms);
+  const area = toPositiveNumber(p.areaSqft);
+  const price = toPositiveNumber(p.price);
+  const description = p.description?.replace(/\s+/g, " ").trim();
+
+  return {
+    "@type": "RealEstateListing",
+    name: p.title,
+    url,
+    ...(description && { description }),
+    ...(p.images[0] && { image: p.images[0] }),
+    ...(type && {
+      about: {
+        "@type": type,
+        name: p.title,
+        address: {
+          "@type": "PostalAddress",
+          ...(p.location && { addressLocality: p.location }),
+          addressRegion: "Goa",
+          addressCountry: "IN",
+        },
+        ...(bedrooms && { numberOfBedrooms: bedrooms }),
+        ...(area && {
+          floorSize: { "@type": "QuantitativeValue", value: area, unitCode: "FTK" },
+        }),
+      },
+    }),
+    offers: {
+      "@type": "Offer",
+      ...(price && { price }),
+      priceCurrency: "INR",
+      availability: "https://schema.org/InStock",
+      ...(p.purpose?.toLowerCase() === "rent" && {
+        businessFunction: "http://purl.org/goodrelations/v1#LeaseOut",
+      }),
+      url,
+    },
+  };
+}
 
 interface ListingPageSchemaInput {
   properties: ListingProperty[];
@@ -10,7 +63,10 @@ interface ListingPageSchemaInput {
   listName: string;
 }
 
-/** CollectionPage + ItemList (the ItemList only when there are listings). */
+/**
+ * CollectionPage + ItemList + one RealEstateListing per property (the list
+ * and listings only when there are listings).
+ */
 export function listingPageSchema({
   properties,
   path,
@@ -39,6 +95,8 @@ export function listingPageSchema({
       "@type": "ItemList",
       "@id": `${pageUrl}#listings`,
       name: listName,
+      description,
+      url: pageUrl,
       numberOfItems: properties.length,
       itemListElement: properties.map((p, index) => ({
         "@type": "ListItem",
@@ -47,6 +105,9 @@ export function listingPageSchema({
         name: p.title,
       })),
     });
+    graph.push(
+      ...properties.map((p) => realEstateListing(p, `${pageUrl}/${p.slug}`)),
+    );
   }
 
   return { "@context": "https://schema.org", "@graph": graph };

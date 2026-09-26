@@ -72,7 +72,7 @@ export default async function RentPage() {
             path: "/rent",
             title: TITLE,
             description: DESCRIPTION,
-            listName: "Featured Rentals in Goa",
+            listName: `Property for Rent in Goa - ${SITE_NAME}`,
           }),
           faqSchema(rentFaqs),
           realEstateAgentSchema(`${SITE_URL}/rent`),
