@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { SectionEyebrow } from "../ui/SectionEyebrow";
@@ -133,9 +134,11 @@ export default function Testimonials({
               <div className="flex flex-col items-center gap-4 pt-2">
                 {testimonials[active].avatar && (
                   <div className="relative p-1 bg-black-950 border border-rosegold-700/40 shadow-sm">
-                    <img
+                    <Image
                       src={testimonials[active].avatar}
                       alt={testimonials[active].name}
+                      width={56}
+                      height={56}
                       className="w-14 h-14 object-cover transition-all duration-700"
                     />
                   </div>

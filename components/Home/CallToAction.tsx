@@ -6,6 +6,7 @@ import React, { useRef } from "react";
 import { motion, useInView, Variants } from "framer-motion";
 import { ArrowUpRight, Phone } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { BUSINESS } from "@/lib/site";
 
 interface CtaLink {
@@ -69,14 +70,12 @@ export default function CallToAction({
       }}
     >
       {/* 1. Cinematic Parallax Background Image */}
-      <div 
-        className="absolute inset-0 w-full h-full z-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url("https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1800&q=90")`,
-          backgroundAttachment: "fixed",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}
+      <Image
+        src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1800&q=90"
+        alt=""
+        fill
+        sizes="100vw"
+        className="z-0 object-cover object-center"
       />
 
       {/* 2. Premium Overlays (Dual satin wash tailored to our light theme) */}

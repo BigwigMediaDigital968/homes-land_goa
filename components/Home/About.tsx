@@ -2,6 +2,7 @@
 
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 import { ShieldCheck, Award, Map, Compass } from "lucide-react";
 import { SectionEyebrow } from "../ui/SectionEyebrow";
 
@@ -64,10 +65,12 @@ export default function About() {
               className="relative w-full max-w-[340px] md:max-w-[380px] aspect-[4/5] overflow-hidden bg-black-900 p-2 shadow-xl border border-rosegold-700/40 z-10"
             >
               <div className="relative w-full h-full overflow-hidden">
-                <img
+                <Image
                   src="/buy-img-2.png"
                   alt="Luxury Modern Goa Villa Facade"
-                  className="w-full h-full object-cover transition-transform duration-1000 ease-out hover:scale-105"
+                  fill
+                  sizes="(min-width: 768px) 380px, 340px"
+                  className="object-cover transition-transform duration-1000 ease-out hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black-950/40 via-transparent to-transparent pointer-events-none" />
               </div>
@@ -80,11 +83,15 @@ export default function About() {
               transition={{ delay: 0.4, ...transitionConfig }}
               className="absolute -top-6 -left-4 md:-left-8 w-28 h-36 overflow-hidden shadow-lg border border-rosegold-700/50 bg-black-950 p-1.5 z-20 hidden sm:block"
             >
-              <img
-                src="/buy-img.webp"
-                alt="Goan Coastal Vista"
-                className="w-full h-full object-cover"
-              />
+              <div className="relative w-full h-full">
+                <Image
+                  src="/buy-img.webp"
+                  alt="Goan Coastal Vista"
+                  fill
+                  sizes="112px"
+                  className="object-cover"
+                />
+              </div>
             </motion.div>
 
             {/* Floating Luxury Metadata Card */}

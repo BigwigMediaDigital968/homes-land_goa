@@ -4,6 +4,7 @@ import { motion, useInView, Variants } from "framer-motion";
 import { useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { SectionEyebrow } from "../ui/SectionEyebrow";
 
 interface Region {
@@ -136,10 +137,12 @@ function RegionPanel({ region, index }: { region: Region; index: number }) {
       onMouseLeave={() => setHovered(false)}
     >
       {/* Background image with slow premium zoom on hover */}
-      <img
+      <Image
         src={region.image}
         alt={`Properties in ${region.label}`}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.4s] ease-[0.16,1,0.3,1] group-hover:scale-110"
+        fill
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        className="object-cover transition-transform duration-[1.4s] ease-[0.16,1,0.3,1] group-hover:scale-110"
       />
 
       {/* Gradient wash — deepens on hover so the area tags stay perfectly legible */}

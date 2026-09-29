@@ -1,14 +1,11 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
+import Image from "next/image";
 import { motion, Variants } from "framer-motion";
 import { ArrowUpRight, ChevronDown, MessageSquare } from "lucide-react";
 
 export default function Hero() {
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  // const videoSource = "/download-video.mp4";
   const videoSource = "/18705145-hd_1920_1080_30fps.mp4";
 
   // Framer Motion Animation Variants
@@ -42,14 +39,23 @@ export default function Hero() {
     >
       {/* 1. Cinematic Fullscreen Background Video */}
       <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
+        {/* First frame of the video: paints immediately (LCP) and sits
+            behind the video until it has frames to show */}
+        <Image
+          src="/hero-frame.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          quality={70}
+          className="object-cover"
+        />
         <video
-          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
-          className={`absolute w-full h-full object-cover transition-all duration-[3000ms] ease-out scale-100"
-          }`}
+          className="absolute w-full h-full object-cover"
         >
           <source src={videoSource} type="video/mp4" />
         </video>

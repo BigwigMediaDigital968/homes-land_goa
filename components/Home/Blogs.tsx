@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { SectionEyebrow } from "../ui/SectionEyebrow";
 
 // Mock data for the Premium editorial Blogs Section (Sourced from your Screenshots)
@@ -113,10 +114,12 @@ function BlogCard({ blog, index }: any) {
       onMouseLeave={() => setHovered(false)}
     >
       {/* Background image zoom effect */}
-      <img
+      <Image
         src={blog.image}
         alt={blog.title}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-[2.5s] ease-[0.16,1,0.3,1] filter brightness-[0.7] contrast-[1.05]"
+        fill
+        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+        className="object-cover transition-transform duration-[2.5s] ease-[0.16,1,0.3,1] filter brightness-[0.7] contrast-[1.05]"
         style={{ transform: hovered ? "scale(1.06)" : "scale(1)" }}
       />
 
