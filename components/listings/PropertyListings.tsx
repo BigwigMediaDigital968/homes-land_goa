@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { motion, MotionConfig } from "framer-motion";
 import { SlidersHorizontal, X } from "lucide-react";
 import FilterDropdown from "../ui/FilterDropdown";
-import { LeadForm } from "../LeadForm";
+import ContactLeadForm from "../contact/ContactLeadForm";
 import { SectionEyebrow } from "../ui/SectionEyebrow";
 import PropertyCard, { type ListingProperty } from "./PropertyCard";
 import Pagination from "./Pagination";
@@ -364,7 +364,13 @@ export default function PropertyListings({
                 </p>
 
                 <div className="mx-auto mt-10 text-left">
-                  <LeadForm />
+                  <ContactLeadForm
+                    origin={{ kind: "page", name: basePath.slice(1) }}
+                    title="Tell Us What You're Looking For"
+                    purpose={
+                      basePath === "/rent" ? "Rent Property" : "Buy Property"
+                    }
+                  />
                 </div>
               </div>
             ) : (

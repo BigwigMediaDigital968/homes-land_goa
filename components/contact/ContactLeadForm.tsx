@@ -9,13 +9,14 @@ import {
   submitClass,
 } from "../ui/formStyles";
 import { BUSINESS } from "@/lib/site";
+import { BHK_SIZES, BUDGET_RANGES, PROPERTY_TYPES } from "@/lib/properties";
 
 /**
- * Lead capture with email OTP verification.
+ * The site's one enquiry form (contact page, property details, listings).
  *
- * Unchanged from the previous page: POSTs to /api/lead/send-otp, then
- * /api/lead/verify-otp (Homes-Land_Backend, routes/lead.route.js). Only the
- * markup and styling were rebuilt for the dark theme.
+ * POSTs to /api/lead/create-lead (Homes-Land_Backend, routes/lead.route.js).
+ * `source` and `origin` are filled in behind the scenes so admin can see
+ * which page or property each lead came from.
  */
 const PURPOSES = [
   "Buy Property",
@@ -29,13 +30,125 @@ const initialFields = {
   email: "",
   phone: "",
   purpose: "",
+  propertyType: "",
+  size: "",
+  budget: "",
   message: "",
 };
 
-export default function ContactLeadForm() {
-  const [fields, setFields] = useState(initialFields);
-  const [otp, setOtp] = useState("");
-  const [step, setStep] = useState<"form" | "otp" | "success">("form");
+/** Types where a BHK count doesn't apply, so the size field is hidden. */
+const NO_BHK_TYPES = ["Plot / Land", "Commercial"];
+
+const budgetsFor = (purpose: string) =>
+  purpose === "Rent Property" ? BUDGET_RANGES.rent : BUDGET_RANGES.sale;
+
+function SelectField({
+  id,
+  name,
+  label,
+  value,
+  options,
+  placeholder,
+  required,
+  className,
+  onChange,
+}: {
+  id: string;
+  name: string;
+  label: string;
+  value: string;
+  options: string[];
+  placeholder: string;
+  required?: boolean;
+  className?: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+}) {
+  return (
+    <div className={className}>
+      <label htmlFor={id} className={labelClass}>
+        {label}
+        {required && " *"}
+      </label>
+      <select
+        id={id}
+        name={name}
+        required={required}
+        value={value}
+        onChange={onChange}
+        className={`${fieldClass} form-select-dark appearance-none`}
+      >
+        <option value="" disabled={required}>
+          {placeholder}
+        </option>
+        {options.map((o) => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+export interface LeadOrigin {
+  kind: "property" | "page";
+  name: string;
+}
+
+interface ContactLeadFormProps {
+  origin?: LeadOrigin;
+  eyebrow?: string;
+  title?: string;
+  /**
+   * Set when the page already implies the purpose (e.g. "Buy Property" on a
+   * sale listing): the field is hidden and this value is sent instead.
+   */
+  purpose?: string;
+  /** Same idea as `purpose`, e.g. the property's own type on its detail page. */
+  propertyType?: string;
+  /** Same idea again, e.g. "3 BHK" from the property's bedrooms. */
+  size?: string;
+  /** False on a single property's page, where the price is already known. */
+  showBudget?: boolean;
+}
+
+export default function ContactLeadForm({
+  origin = { kind: "page", name: "contact" },
+  eyebrow = "Get in touch",
+  title = "Send Us a Message",
+  purpose,
+  propertyType,
+  size,
+  showBudget = true,
+}: ContactLeadFormProps) {
+  const freshFields = {
+    ...initialFields,
+    purpose: purpose ?? "",
+    propertyType: propertyType ?? "",
+    size: size ?? "",
+  };
+  const [fields, setFields] = useState(freshFields);
+
+  const showPurpose = !purpose;
+  const showType = !propertyType;
+  const showSize = !size && !NO_BHK_TYPES.includes(fields.propertyType);
+  const budgets = budgetsFor(fields.purpose);
+
+  // Half-width fields after name/email. With an odd count, the last one spans
+  // the row so none sits alone.
+  const halfFields = [
+    "phone",
+    showPurpose && "purpose",
+    showType && "propertyType",
+    showSize && "size",
+    showBudget && "budget",
+  ].filter(Boolean);
+  const spanIf = (field: string) =>
+    halfFields.length % 2 === 1 && halfFields.at(-1) === field
+      ? "@lg:col-span-2"
+      : undefined;
+
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -44,30 +157,52 @@ export default function ContactLeadForm() {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >,
   ) => {
-    setFields((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setFields((prev) => {
+      const next = { ...prev, [name]: value };
+      // Drop answers the new choice makes invalid (rent vs sale budgets,
+      // BHK on a plot) so they aren't submitted while hidden.
+      if (name === "purpose" && !budgetsFor(value).includes(prev.budget))
+        next.budget = "";
+      if (name === "propertyType" && NO_BHK_TYPES.includes(value) && !size)
+        next.size = "";
+      return next;
+    });
   };
 
-  const handleSendOtp = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE}/api/lead/send-otp`,
+        `${process.env.NEXT_PUBLIC_API_BASE}/api/lead/create-lead`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(fields),
+          body: JSON.stringify({
+            name: fields.name.trim(),
+            email: fields.email.trim(),
+            phone: fields.phone.trim(),
+            message: fields.message.trim(),
+            purpose: fields.purpose,
+            propertyType: fields.propertyType,
+            size: fields.size,
+            budget: fields.budget,
+            source: "website",
+            origin,
+          }),
         },
       );
 
       const data = await res.json();
 
       if (res.ok) {
-        setStep("otp");
+        setSuccess(true);
+        setFields(freshFields);
       } else {
-        setError(data.message || "Failed to send OTP.");
+        setError(data.message || "Something went wrong. Try again.");
       }
     } catch (err) {
       console.error(err);
@@ -77,54 +212,7 @@ export default function ContactLeadForm() {
     }
   };
 
-  const handleVerifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!otp) {
-      setError("Enter the code we emailed you.");
-      return;
-    }
-
-    setError("");
-    setLoading(true);
-
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE}/api/lead/verify-otp`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: fields.email, otp }),
-        },
-      );
-
-      const data = await res.json();
-
-      if (res.ok) {
-        setStep("success");
-        setFields(initialFields);
-        setOtp("");
-      } else {
-        setError(data.message || "Invalid OTP.");
-      }
-    } catch (err) {
-      console.error(err);
-      setError("Network error. Try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const errorBlock = error ? (
-    <p
-      role="alert"
-      className="border border-red-500/40 bg-red-500/10 px-4 py-3 font-sans text-sm text-red-200"
-    >
-      {error}
-    </p>
-  ) : null;
-
-  if (step === "success") {
+  if (success) {
     return (
       <div
         aria-live="polite"
@@ -151,7 +239,7 @@ export default function ContactLeadForm() {
         </p>
         <button
           type="button"
-          onClick={() => setStep("form")}
+          onClick={() => setSuccess(false)}
           className="mt-8 inline-flex min-h-11 cursor-pointer items-center gap-2 border-2 border-fg px-6 py-3 font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-fg transition-colors duration-300 hover:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
         >
           Send another message
@@ -160,79 +248,19 @@ export default function ContactLeadForm() {
     );
   }
 
-  if (step === "otp") {
-    return (
-      <form
-        onSubmit={handleVerifyOtp}
-        className="space-y-6 border border-border bg-surface p-6 sm:p-8"
-      >
-        <div>
-          <p className={legendClass}>Step 2 of 2</p>
-          <h3 className="font-serif text-2xl font-light text-fg">
-            Verify your email
-          </h3>
-          <p className="mt-3 font-sans text-sm leading-relaxed text-white/80">
-            We sent a 6-digit code to{" "}
-            <span className="text-fg">{fields.email || "your email"}</span>.
-            Enter it below to send your message.
-          </p>
-        </div>
-
-        <div>
-          <label htmlFor="contact-otp" className={labelClass}>
-            Verification code
-          </label>
-          <input
-            id="contact-otp"
-            name="otp"
-            inputMode="numeric"
-            autoComplete="one-time-code"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            placeholder="6-digit code"
-            className={`${fieldClass} tracking-[0.3em]`}
-          />
-        </div>
-
-        {errorBlock}
-
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-          <button type="submit" disabled={loading} className={submitClass}>
-            {loading ? "Verifying…" : "Verify and send"}
-            <ArrowUpRight
-              aria-hidden
-              className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-            />
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setError("");
-              setStep("form");
-            }}
-            className="cursor-pointer font-sans text-xs text-fg-muted underline-offset-4 transition-colors duration-300 hover:text-fg hover:underline"
-          >
-            Back to the form
-          </button>
-        </div>
-      </form>
-    );
-  }
-
   return (
     <form
-      onSubmit={handleSendOtp}
-      className="space-y-6 border border-border bg-surface p-6 sm:p-8"
+      onSubmit={handleSubmit}
+      className="@container space-y-6 border border-border bg-surface p-6 sm:p-8"
     >
       <div>
-        <p className={legendClass}>Step 1 of 2</p>
-        <h3 className="font-serif text-2xl font-light text-fg">
-          Send Us a Message
-        </h3>
+        <p className={legendClass}>{eyebrow}</p>
+        <h3 className="font-serif text-2xl font-light text-fg">{title}</h3>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      {/* Container query: two columns only when the form itself is wide,
+          so it stacks in the narrow property-page sidebar. */}
+      <div className="grid gap-5 @lg:grid-cols-2">
         <div>
           <label htmlFor="contact-name" className={labelClass}>
             Name *
@@ -267,7 +295,7 @@ export default function ContactLeadForm() {
           />
         </div>
 
-        <div>
+        <div className={spanIf("phone")}>
           <label htmlFor="contact-phone" className={labelClass}>
             Phone *
           </label>
@@ -284,30 +312,60 @@ export default function ContactLeadForm() {
           />
         </div>
 
-        <div>
-          <label htmlFor="contact-purpose" className={labelClass}>
-            Purpose *
-          </label>
-          <select
+        {showPurpose && (
+          <SelectField
             id="contact-purpose"
             name="purpose"
+            label="Purpose"
             required
             value={fields.purpose}
+            options={PURPOSES}
+            placeholder="Select a purpose"
+            className={spanIf("purpose")}
             onChange={handleChange}
-            className={`${fieldClass} form-select-dark appearance-none`}
-          >
-            <option value="" disabled>
-              Select a purpose
-            </option>
-            {PURPOSES.map((purpose) => (
-              <option key={purpose} value={purpose}>
-                {purpose}
-              </option>
-            ))}
-          </select>
-        </div>
+          />
+        )}
 
-        <div className="sm:col-span-2">
+        {showType && (
+          <SelectField
+            id="contact-property-type"
+            name="propertyType"
+            label="Property type"
+            value={fields.propertyType}
+            options={PROPERTY_TYPES}
+            placeholder="Any / not sure"
+            className={spanIf("propertyType")}
+            onChange={handleChange}
+          />
+        )}
+
+        {showSize && (
+          <SelectField
+            id="contact-size"
+            name="size"
+            label="Size"
+            value={fields.size}
+            options={BHK_SIZES}
+            placeholder="Any / not sure"
+            className={spanIf("size")}
+            onChange={handleChange}
+          />
+        )}
+
+        {showBudget && (
+          <SelectField
+            id="contact-budget"
+            name="budget"
+            label="Budget"
+            value={fields.budget}
+            options={budgets}
+            placeholder="Any / not sure"
+            className={spanIf("budget")}
+            onChange={handleChange}
+          />
+        )}
+
+        <div className="@lg:col-span-2">
           <label htmlFor="contact-message" className={labelClass}>
             Message *
           </label>
@@ -324,21 +382,22 @@ export default function ContactLeadForm() {
         </div>
       </div>
 
-      {errorBlock}
-
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-        <button type="submit" disabled={loading} className={submitClass}>
-          {loading ? "Sending…" : "Send message"}
-          <ArrowUpRight
-            aria-hidden
-            className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-          />
-        </button>
-
-        <p className="font-sans text-xs leading-relaxed text-fg-muted">
-          We&apos;ll email you a code to confirm your address.
+      {error ? (
+        <p
+          role="alert"
+          className="border border-red-500/40 bg-red-500/10 px-4 py-3 font-sans text-sm text-red-200"
+        >
+          {error}
         </p>
-      </div>
+      ) : null}
+
+      <button type="submit" disabled={loading} className={submitClass}>
+        {loading ? "Sending…" : "Send message"}
+        <ArrowUpRight
+          aria-hidden
+          className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+        />
+      </button>
     </form>
   );
 }

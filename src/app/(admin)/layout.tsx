@@ -29,7 +29,7 @@ export default function AdminDashboardLayout({
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Blogs", href: "/adminblogs", icon: FileText },
     { name: "Properties", href: "/properties", icon: Building2 },
-    { name: "Contact Request", href: "/contact-requests", icon: Contact },
+    { name: "Leads", href: "/leads", icon: Contact },
     { name: "Sell Request", href: "/sell-requests", icon: Handshake },
   ];
 

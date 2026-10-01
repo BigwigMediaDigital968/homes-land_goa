@@ -1,9 +1,9 @@
 import { MapPin, BedDouble, Home, Phone } from "lucide-react";
 
 import ContactInfo from "../ContactInfo";
-import { LeadForm } from "../LeadForm";
+import ContactLeadForm from "../contact/ContactLeadForm";
 import { HeroSlider, PhotoGallery } from "../listings/PropertyMedia";
-import { toPositiveNumber, type Property } from "@/lib/properties";
+import { toBhkSize, toPositiveNumber, type Property } from "@/lib/properties";
 import { BUSINESS } from "@/lib/site";
 
 const badgeClass =
@@ -204,7 +204,15 @@ export default function BuyPropertyDetails({ property }: { property: Property })
         </div>
         <div className="col-span-1 mb-10">
           <div className="sticky top-28">
-            <LeadForm />
+            <ContactLeadForm
+              origin={{ kind: "property", name: property.title }}
+              eyebrow="Interested?"
+              title="Enquire About This Property"
+              purpose="Buy Property"
+              propertyType={property.type}
+              size={toBhkSize(property.bedrooms)}
+              showBudget={false}
+            />
           </div>
         </div>
       </div>

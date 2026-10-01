@@ -2,6 +2,43 @@ import type { ListingProperty } from "../../components/listings/PropertyCard";
 
 export type ListingPurpose = "buy" | "rent";
 
+/** Options for the "property type" dropdowns (sell form, lead form). */
+export const PROPERTY_TYPES = [
+  "Villa",
+  "House",
+  "Apartment",
+  "Plot / Land",
+  "Commercial",
+  "Other",
+];
+
+/** Options for the lead form's "size" dropdown. */
+export const BHK_SIZES = ["1 BHK", "2 BHK", "3 BHK", "4 BHK", "5+ BHK"];
+
+/** Lead form budget ranges; rent is monthly, everything else is a sale price. */
+export const BUDGET_RANGES = {
+  sale: [
+    "Under ₹50 Lakh",
+    "₹50 Lakh – ₹1 Cr",
+    "₹1 Cr – ₹2 Cr",
+    "₹2 Cr – ₹5 Cr",
+    "₹5 Cr+",
+  ],
+  rent: [
+    "Under ₹25K / month",
+    "₹25K – ₹50K / month",
+    "₹50K – ₹1 Lakh / month",
+    "₹1 Lakh+ / month",
+  ],
+};
+
+/** "3 BHK" from a property's bedrooms field, matching BHK_SIZES. */
+export const toBhkSize = (bedrooms: number | string | null | undefined) => {
+  const count = toRoomCount(bedrooms);
+  if (!count) return undefined;
+  return count >= 5 ? "5+ BHK" : `${count} BHK`;
+};
+
 /** Full property record as the detail pages (/buy/[slug], /rent/[slug]) use it. */
 export interface Property {
   _id: string;

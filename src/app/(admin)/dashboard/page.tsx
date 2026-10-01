@@ -25,10 +25,10 @@ export default function AdminDashboard() {
         );
         setTotalProperties(propertyRes.data?.length || 0);
 
-        const contactRes = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE}/api/contacts`
+        const leadRes = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE}/api/lead/all`
         );
-        setTotalContacts(contactRes.data?.length || 0);
+        setTotalContacts(leadRes.data?.length || 0);
       } catch (err) {
         console.error("Failed to fetch dashboard data:", err);
 
@@ -67,7 +67,7 @@ export default function AdminDashboard() {
           icon={<Building size={28} />}
         />
         <DashboardCard
-          title="Total Contact Requests"
+          title="Total Leads"
           value={loading ? null : totalContacts}
           icon={<Contact2 size={28} />}
         />

@@ -11,6 +11,7 @@ import {
   legendClass,
   submitClass,
 } from "../ui/formStyles";
+import { PROPERTY_TYPES } from "@/lib/properties";
 
 /**
  * Property listing submission, shown inside ListPropertyButton's modal.
@@ -22,14 +23,6 @@ import {
  *
  * Valuation enquiries do not come through here; those CTAs link to /contacts.
  */
-const PROPERTY_TYPES = [
-  "Villa",
-  "House",
-  "Apartment",
-  "Plot / Land",
-  "Commercial",
-  "Other",
-];
 
 const initialFields = {
   name: "",

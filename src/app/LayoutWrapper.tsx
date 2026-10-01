@@ -16,7 +16,7 @@ export default function LayoutWrapper({
     pathname.startsWith("/dashboard") ||
     pathname.startsWith("/properties") ||
     pathname.startsWith("/adminblogs") ||
-    pathname.startsWith("/contact-requests") ||
+    pathname.startsWith("/leads") ||
     pathname.startsWith("/sell-requests");
 
   return (
