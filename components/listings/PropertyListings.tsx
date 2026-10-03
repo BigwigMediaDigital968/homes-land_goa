@@ -22,6 +22,7 @@ import {
   toRoomCount,
   type ListingPurpose,
 } from "@/lib/properties";
+import { ALL_TYPES, LISTING_TYPES } from "@/constants/propertyTypes";
 
 const PROPERTIES_PER_PAGE = 9;
 
@@ -44,8 +45,6 @@ interface PropertyListingsProps {
   basePath: "/buy" | "/rent";
   /** Alt-text wording, e.g. "for sale" / "for rent". */
   listingLabel: string;
-  /** First entry should be "All". */
-  typeFilters: string[];
   /** Adds a location dropdown when provided (first entry = "All Locations"). */
   locations?: string[];
   /** Optional intro block above the filters (Buy uses one, Rent doesn't). */
@@ -61,7 +60,6 @@ export default function PropertyListings({
   purpose,
   basePath,
   listingLabel,
-  typeFilters,
   locations,
   discovery,
   listings,
@@ -69,7 +67,7 @@ export default function PropertyListings({
 }: PropertyListingsProps) {
   const allLocations = locations?.[0] ?? "";
 
-  const [selectedType, setSelectedType] = useState(typeFilters[0]);
+  const [selectedType, setSelectedType] = useState<string>(ALL_TYPES);
   const [selectedLocation, setSelectedLocation] = useState(allLocations);
   const [selectedBedrooms, setSelectedBedrooms] = useState(ANY_BEDROOMS);
   const [currentPage, setCurrentPage] = useState(1);
@@ -98,13 +96,13 @@ export default function PropertyListings({
   // `?type=villa` (from the property-types section) → apply that filter
   const applyTypeParam = useCallback(
     (param: string | null) => {
-      const match = typeFilters.find(
+      const match = LISTING_TYPES.find(
         (t) => t.toLowerCase() === param?.toLowerCase(),
       );
-      setSelectedType(match ?? typeFilters[0]);
+      setSelectedType(match ?? ALL_TYPES);
       setCurrentPage(1);
     },
-    [typeFilters],
+    [],
   );
 
   // Keep the URL in step with the dropdown so re-clicking an "Explore …" link
@@ -114,7 +112,7 @@ export default function PropertyListings({
     setSelectedType(type);
     setCurrentPage(1);
     router.replace(
-      type === typeFilters[0]
+      type === ALL_TYPES
         ? basePath
         : `${basePath}?type=${type.toLowerCase()}`,
       { scroll: false },
@@ -136,15 +134,21 @@ export default function PropertyListings({
     return [...counts].sort((a, b) => a - b);
   }, [properties]);
 
+  // Same idea for types: only those with listings, plus the selected one so a
+  // `?type=` link to an empty type still shows what was picked.
+  const typeOptions = useMemo(
+    () => [
+      ALL_TYPES,
+      ...LISTING_TYPES.filter(
+        (t) => t === selectedType || properties.some((p) => p.type === t),
+      ),
+    ],
+    [properties, selectedType],
+  );
+
   const filtered = properties.filter((p) => {
-    // Inclusive rather than exact: "Luxury Villa" still matches Villa, and
-    // "Plot / Land" still matches Plot.
-    const typeMatch =
-      selectedType === typeFilters[0] ||
-      (p.type ?? "")
-        .toLowerCase()
-        .trim()
-        .includes(selectedType.toLowerCase().trim());
+    // Exact: the admin form and backend only allow LISTING_TYPES
+    const typeMatch = selectedType === ALL_TYPES || p.type === selectedType;
 
     const locationMatch =
       !locations ||
@@ -181,9 +185,9 @@ export default function PropertyListings({
       id: "type-filter",
       label: "Property Type",
       value: selectedType,
-      isDefault: selectedType === typeFilters[0],
+      isDefault: selectedType === ALL_TYPES,
       onChange: selectType,
-      options: typeFilters.map((type) => ({ value: type, label: type })),
+      options: typeOptions.map((type) => ({ value: type, label: type })),
     },
     ...(bedroomOptions.length > 0
       ? [
@@ -232,7 +236,7 @@ export default function PropertyListings({
     setSelectedBedrooms(ANY_BEDROOMS);
     setSelectedLocation(allLocations);
     // Also resets the page and clears ?type= from the URL
-    selectType(typeFilters[0]);
+    selectType(ALL_TYPES);
   };
 
   const filterBar = (

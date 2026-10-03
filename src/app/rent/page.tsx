@@ -54,8 +54,6 @@ export const metadata: Metadata = {
   },
 };
 
-const TYPE_FILTERS = ["All", "Apartment", "Villa", "House"];
-
 // Listings are fetched on the server and refreshed every 5 minutes
 export const revalidate = 300;
 
@@ -104,7 +102,6 @@ export default async function RentPage() {
         purpose="rent"
         basePath="/rent"
         listingLabel="for rent"
-        typeFilters={TYPE_FILTERS}
         listings={{
           eyebrow: "Current Listings",
           heading: "Featured Rentals in Goa",

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { LISTING_TYPES } from "@/constants/propertyTypes";
 
 interface PropertyFormProps {
   property?: PropertyData;
@@ -199,12 +200,22 @@ export default function PropertyForm({
 
       {/* Basic Info */}
       <div className="grid grid-cols-2 gap-4">
-        <InputField
-          name="type"
-          placeholder="Type"
-          value={formData.type || ""}
-          onChange={handleChange}
-        />
+        <div>
+          <select
+            name="type"
+            value={formData.type || ""}
+            onChange={handleChange}
+            className="w-full rounded-lg p-3 bg-[#1e2939] text-black border border-gray-300 focus:ring focus:ring-green-200"
+            required
+          >
+            <option value="">Select type</option>
+            {LISTING_TYPES.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+        </div>
 
         {/* 🔹 Purpose dropdown (light background so options visible) */}
         <div>

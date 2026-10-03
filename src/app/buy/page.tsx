@@ -57,8 +57,6 @@ export const metadata: Metadata = {
   },
 };
 
-const TYPE_FILTERS = ["All", "Apartment", "Villa", "Plot"];
-
 const GOA_LOCATIONS = [
   "All Locations",
   "Panaji",
@@ -110,7 +108,6 @@ export default async function BuyPage() {
         purpose="buy"
         basePath="/buy"
         listingLabel="for sale"
-        typeFilters={TYPE_FILTERS}
         locations={GOA_LOCATIONS}
         discovery={{
           eyebrow: "Browse by Type",
