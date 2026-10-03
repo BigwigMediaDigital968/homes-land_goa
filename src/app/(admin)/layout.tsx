@@ -1,29 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
-  Users,
   FileText,
-  ShieldQuestionMark,
   Menu,
   X,
   Building2,
   Contact,
   Handshake,
+  LogOut,
 } from "lucide-react";
 import Image from "next/image";
 import logo from "../../../assets/logo.png";
+import useAuth from "@/store/authStore";
 
 export default function AdminDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
+  const token = useAuth((state) => state.token);
+  const logOut = useAuth((state) => state.logOut);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  // The server has no saved token, so wait until mounted before deciding
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    if (mounted && !token) router.replace("/login");
+  }, [mounted, token, router]);
+
+  if (!mounted || !token) return null;
 
   const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -66,6 +80,15 @@ export default function AdminDashboardLayout({
               );
             })}
           </nav>
+          <div className="p-4 border-t border-gray-800">
+            <button
+              onClick={logOut}
+              className="flex w-full items-center space-x-3 p-2 rounded-lg text-gray-400 hover:bg-[#1a2332] hover:text-white transition-colors cursor-pointer"
+            >
+              <LogOut size={18} />
+              <span>Log out</span>
+            </button>
+          </div>
         </div>
       </div>
 

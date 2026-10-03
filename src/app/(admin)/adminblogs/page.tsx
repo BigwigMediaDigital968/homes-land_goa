@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Edit, Trash2, Code, ImageIcon } from "lucide-react";
 import Fuse from "fuse.js";
 import dynamic from "next/dynamic";
+import { authHeader } from "@/store/authStore";
 
 // Replace static import with dynamic:
 const AddBlog = dynamic(() => import("../../../../components/AddBlogs"), {
@@ -66,6 +67,7 @@ export default function AdminBlogsPage() {
         `${process.env.NEXT_PUBLIC_API_BASE}/blog/${slug}`,
         {
           method: "DELETE",
+          headers: authHeader(),
         }
       );
       const json = await res.json();
@@ -91,6 +93,7 @@ export default function AdminBlogsPage() {
         `${process.env.NEXT_PUBLIC_API_BASE}/blog/${editingSlug}/image`,
         {
           method: "PATCH",
+          headers: authHeader(),
           body: formData,
         }
       );
@@ -313,7 +316,10 @@ export default function AdminBlogsPage() {
                       `${process.env.NEXT_PUBLIC_API_BASE}/blog/${editingSlug}`,
                       {
                         method: "PUT",
-                        headers: { "Content-Type": "application/json" },
+                        headers: {
+                          "Content-Type": "application/json",
+                          ...authHeader(),
+                        },
                         body: JSON.stringify({ content: htmlContent }),
                       }
                     );

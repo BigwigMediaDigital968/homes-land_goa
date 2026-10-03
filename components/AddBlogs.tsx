@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
+import { authHeader } from "@/store/authStore";
 
 interface BlogPost {
   _id?: string;
@@ -120,6 +121,7 @@ const AddBlog = ({
           : `${process.env.NEXT_PUBLIC_API_BASE}/blog/add`,
         {
           method: existingBlog ? "PUT" : "POST",
+          headers: authHeader(),
           body: blogData,
         }
       );
