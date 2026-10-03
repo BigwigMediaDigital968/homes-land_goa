@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import { ArrowUpRight, ChevronDown, MessageSquare } from "lucide-react";
 
@@ -120,19 +121,19 @@ export default function Hero() {
               className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2"
             >
               {/* Primary Button: Solid rose gold */}
-              <a href="buy" className="w-full sm:w-auto">
+              <Link href="/buy" className="w-full sm:w-auto">
                 <button className="w-full sm:w-auto relative px-9 py-4.5 bg-primary hover:bg-primary-hover text-on-primary font-sans text-[10px] uppercase tracking-[0.2em] font-bold rounded-none transition-all duration-500 shadow-md flex items-center justify-center gap-3 group cursor-pointer border border-transparent">
                   <span className="relative z-10">Explore Properties</span>
                   <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                 </button>
-              </a>
+              </Link>
 
               {/* Secondary Button: Transparent Outline */}
-              <a href="contacts" className="w-full sm:w-auto">
+              <Link href="/contacts" className="w-full sm:w-auto">
                 <button className="w-full sm:w-auto relative px-9 py-4.5 bg-transparent hover:bg-primary/10 text-fg border-2 border-fg font-sans text-[10px] uppercase tracking-[0.2em] font-bold rounded-none transition-all duration-500 cursor-pointer">
                   Talk to Our Team
                 </button>
-              </a>
+              </Link>
             </motion.div>
           </motion.div>
 

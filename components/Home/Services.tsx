@@ -25,7 +25,7 @@ const services = [
     img: "/buy-img.webp",
     accent: "◈ Buy in Goa",
     ctaLabel: "Explore Listings",
-    ctaHref: "#contacts",
+    ctaHref: "/buy",
   },
   {
     id: "sell",
@@ -44,7 +44,7 @@ const services = [
     img: "/sell-img.jpg",
     accent: "◉ Sell in Goa",
     ctaLabel: "Get a Valuation",
-    ctaHref: "#contacts",
+    ctaHref: "/sell",
   },
   {
     id: "rent",

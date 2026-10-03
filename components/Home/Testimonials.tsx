@@ -173,6 +173,8 @@ export default function Testimonials({
               <button
                 key={i}
                 onClick={() => setActive(i)}
+                aria-label={`Show testimonial ${i + 1}`}
+                aria-current={i === active}
                 className="transition-all duration-500 rounded-none cursor-pointer"
                 style={{
                   width: i === active ? "32px" : "6px",

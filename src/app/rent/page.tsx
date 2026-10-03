@@ -156,8 +156,6 @@ export default async function RentPage() {
         faqs={rentFaqs}
         subtitle="Renter Questions"
         title="Frequently Asked Questions"
-        ctaLabel="Browse Rentals"
-        ctaHref="/contacts"
       />
     </main>
   );

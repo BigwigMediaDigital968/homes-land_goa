@@ -86,7 +86,7 @@ export default function Blogs() {
 
         {/* Clean, minimalist centered bottom action block (Replicated from screenshot) */}
         <div className="mt-16 flex justify-center">
-          <Link href="#all-blogs">
+          <Link href="/blogs">
             <button className="relative px-8 py-4 bg-transparent hover:bg-primary text-fg hover:text-on-primary border border-rosegold-700 hover:border-primary font-sans text-[10px] uppercase tracking-[0.25em] font-bold transition-all duration-500 flex items-center justify-center gap-3 rounded-none cursor-pointer group">
               <span>View All</span>
               <ArrowUpRight className="w-3.5 h-3.5 text-rosegold-500 group-hover:text-on-primary transition-colors duration-500" />
