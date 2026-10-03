@@ -250,7 +250,7 @@ async function Landing() {
       <CallToAction />
       <Testimonials />
       <HowItWorks />
-      <Blogs />
+      {/* <Blogs /> */}
       <div className="-mt-12">
         <FAQ />
       </div>
