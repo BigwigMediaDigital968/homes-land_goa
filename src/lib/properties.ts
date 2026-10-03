@@ -1,6 +1,6 @@
 import type { ListingProperty } from "../../components/listings/PropertyCard";
 
-export type ListingPurpose = "buy" | "rent";
+export type ListingPurpose = "buy" | "rent" | "upcoming";
 
 /** Options for the "property type" dropdowns (sell form, lead form). */
 export const PROPERTY_TYPES = [

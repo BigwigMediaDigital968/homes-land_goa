@@ -35,7 +35,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative w-full h-dvh flex flex-col justify-between bg-black-950 overflow-hidden text-fg"
+      className="relative w-full min-h-dvh flex flex-col justify-between bg-black-950 overflow-hidden text-fg"
       style={{ fontFamily: '"Cormorant Garamond", Georgia, serif' }}
     >
       {/* 1. Cinematic Fullscreen Background Video */}
@@ -67,7 +67,7 @@ export default function Hero() {
       </div>
 
       {/* 3. Main Editorial Content Area */}
-      <div className="relative z-20 w-full max-w-7xl mb-10 mx-auto px-4 flex-1 flex flex-col justify-end pb-16 pt-24">
+      <div className="relative z-20 w-full max-w-7xl mx-auto px-4 flex-1 flex flex-col justify-end pb-16 pt-32">
         <div className="w-full">
 
           {/* Left Column: Storytelling & Sharp Actions */}
@@ -78,7 +78,7 @@ export default function Hero() {
             animate="visible"
           >
             {/* Elegant Subtitle with Rose Gold Accent */}
-            <motion.div variants={fadeUpVariants} className="flex items-center gap-3 pt-20">
+            <motion.div variants={fadeUpVariants} className="flex items-center gap-3">
               <span className="w-8 h-px bg-primary" />
               <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-primary font-bold">
                 Real Estate Agents in Goa

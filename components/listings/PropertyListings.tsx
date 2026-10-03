@@ -42,7 +42,7 @@ interface PropertyListingsProps {
   fetchFailed: boolean;
   purpose: ListingPurpose;
   /** Listing page route; also the prefix of each card's detail link. */
-  basePath: "/buy" | "/rent";
+  basePath: "/buy" | "/rent" | "/upcoming-projects";
   /** Alt-text wording, e.g. "for sale" / "for rent". */
   listingLabel: string;
   /** Adds a location dropdown when provided (first entry = "All Locations"). */
