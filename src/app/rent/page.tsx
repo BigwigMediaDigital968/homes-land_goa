@@ -20,9 +20,9 @@ import {
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 const TITLE =
-  "Property for Rent in Goa | Apartments, Villas & Houses to Rent | Homes & Land Goa";
+  "Property for Rent in Goa | Homes & Land Goa";
 const DESCRIPTION =
-  "Find property for rent in Goa with Homes & Land Goa. Browse apartments, villas and houses for rent in Goa, filter by locality and budget, and get in touch to arrange a viewing.";
+  "Find property for rent in Goa with Homes & Land Goa. Browse apartments, villas and houses, explore suitable options, and arrange a viewing with local support.";
 const HERO_ALT = "Villas for rent in Goa listed by Homes & Land Goa";
 
 export const metadata: Metadata = {
