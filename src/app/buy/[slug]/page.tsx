@@ -34,31 +34,26 @@ const getProperty = cache(async (slug: string): Promise<Property | null> => {
   }
 });
 
-function buildTitle(p: Property) {
-  const where = p.location ? ` in ${p.location}` : " in Goa";
-  return `${p.title} for Sale${where} | ${SITE_NAME}`;
-}
+// function buildDescription(p: Property) {
+//   const text = p.description?.replace(/\s+/g, " ").trim();
+//   if (text) {
+//     return text.length > DESCRIPTION_MAX
+//       ? `${text.slice(0, DESCRIPTION_MAX - 1).trimEnd()}…`
+//       : text;
+//   }
 
-function buildDescription(p: Property) {
-  const text = p.description?.replace(/\s+/g, " ").trim();
-  if (text) {
-    return text.length > DESCRIPTION_MAX
-      ? `${text.slice(0, DESCRIPTION_MAX - 1).trimEnd()}…`
-      : text;
-  }
-
-  // No description in the CMS: fall back to the key facts
-  const beds = toRoomCount(p.bedrooms);
-  const area = toPositiveNumber(p.areaSqft);
-  const facts = [
-    beds && `${beds} bedroom`,
-    p.type?.toLowerCase() ?? "property",
-    "for sale",
-    p.location ? `in ${p.location}, Goa` : "in Goa",
-    area && `(${area.toLocaleString("en-IN")} sq ft)`,
-  ].filter(Boolean);
-  return `${facts.join(" ")}. View photos, price and details with ${SITE_NAME}.`;
-}
+//   // No description in the CMS: fall back to the key facts
+//   const beds = toRoomCount(p.bedrooms);
+//   const area = toPositiveNumber(p.areaSqft);
+//   const facts = [
+//     beds && `${beds} bedroom`,
+//     p.type?.toLowerCase() ?? "property",
+//     "for sale",
+//     p.location ? `in ${p.location}, Goa` : "in Goa",
+//     area && `(${area.toLocaleString("en-IN")} sq ft)`,
+//   ].filter(Boolean);
+//   return `${facts.join(" ")}. View photos, price and details with ${SITE_NAME}.`;
+// }
 
 export async function generateMetadata({
   params,
@@ -76,8 +71,8 @@ export async function generateMetadata({
   }
 
   const url = `${SITE_URL}/buy/${property.slug}`;
-  const title = buildTitle(property);
-  const description = buildDescription(property);
+  const title = property.metaTitle?.trim();
+  const description = property.metaDescription?.trim();
   const images = (property.images ?? []).slice(0, 4).map((src) => ({
     url: src,
     alt: `${property.title} for sale in ${property.location ?? "Goa"}`,
@@ -128,8 +123,8 @@ export default async function BuyDetailsPage({ params }: { params: Params }) {
         "@type": "ItemPage",
         "@id": `${url}#webpage`,
         url,
-        name: buildTitle(property),
-        description: buildDescription(property),
+        name: property.metaTitle?.trim(),
+        description: property.metaDescription?.trim(),
         inLanguage: "en-IN",
         isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
         breadcrumb: { "@id": `${url}#breadcrumb` },
@@ -150,58 +145,6 @@ export default async function BuyDetailsPage({ params }: { params: Params }) {
           { "@type": "ListItem", position: 3, name: property.title, item: url },
         ],
       },
-      // {
-      //   "@type": "RealEstateListing",
-      //   "@id": `${url}#listing`,
-      //   url,
-      //   name: property.title,
-      //   description: property.description || buildDescription(property),
-      //   ...(images.length && { image: images }),
-      //   ...(property.createdAt && { datePosted: property.createdAt }),
-      //   ...(property.updatedAt && { dateModified: property.updatedAt }),
-      //   about: { "@id": `${url}#residence` },
-      //   provider: { "@id": agentId },
-      //   ...(price && {
-      //     offers: {
-      //       "@type": "Offer",
-      //       price,
-      //       priceCurrency: "INR",
-      //       availability: "https://schema.org/InStock",
-      //       businessFunction: "http://purl.org/goodrelations/v1#Sell",
-      //       url,
-      //       seller: { "@id": agentId },
-      //     },
-      //   }),
-      // },
-      // {
-      //   "@type": "Residence",
-      //   "@id": `${url}#residence`,
-      //   name: property.title,
-      //   ...(property.type && { additionalType: property.type }),
-      //   address: {
-      //     "@type": "PostalAddress",
-      //     ...(property.location && { addressLocality: property.location }),
-      //     addressRegion: "Goa",
-      //     addressCountry: "IN",
-      //   },
-      //   ...(bedrooms && { numberOfBedrooms: bedrooms }),
-      //   ...(bathrooms && { numberOfBathroomsTotal: bathrooms }),
-      //   ...(area && {
-      //     floorSize: {
-      //       "@type": "QuantitativeValue",
-      //       value: area,
-      //       unitCode: "FTK",
-      //     },
-      //   }),
-      //   ...(featuresAmenities.length && {
-      //     amenityFeature: featuresAmenities.map((name) => ({
-      //       "@type": "LocationFeatureSpecification",
-      //       name,
-      //       value: true,
-      //     })),
-      //   }),
-      //   ...(property.googleMapUrl && { hasMap: property.googleMapUrl }),
-      // },
       {
         "@type": "RealEstateAgent",
         "@id": agentId,
@@ -216,6 +159,8 @@ export default async function BuyDetailsPage({ params }: { params: Params }) {
       },
     ],
   };
+
+  console.log(property)
 
   return (
     <>

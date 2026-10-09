@@ -43,6 +43,8 @@ export const toBhkSize = (bedrooms: number | string | null | undefined) => {
 export interface Property {
   _id: string;
   title: string;
+  metaTitle: string;
+  metaDescription: string;
   slug: string;
   type?: string;
   videoLink?: string;

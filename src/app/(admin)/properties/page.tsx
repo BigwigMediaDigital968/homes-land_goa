@@ -11,6 +11,8 @@ interface Property {
   title: string;
   slug: string;
   description: string;
+  metaTitle: string;
+  metaDescription: string;
   type: string;
   purpose: string;
   location: string;
@@ -82,7 +84,7 @@ export default function PropertiesAdmin() {
         <h1 className="text-2xl font-semibold">Manage Properties</h1>
         <button
           onClick={() => openFormModal()}
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow"
+          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow cursor-pointer"
         >
           <Plus size={18} /> Add Property
         </button>
@@ -111,19 +113,19 @@ export default function PropertiesAdmin() {
                   <td className="p-3 flex gap-3 justify-center">
                     <button
                       onClick={() => openViewModal(property)}
-                      className="p-2 bg-blue-500 hover:bg-blue-600 rounded-lg text-white"
+                      className="p-2 bg-blue-500 hover:bg-blue-600 rounded-lg text-white cursor-pointer"
                     >
                       <Eye size={16} />
                     </button>
                     <button
                       onClick={() => openFormModal(property)}
-                      className="p-2 bg-yellow-400 hover:bg-yellow-500 rounded-lg text-white"
+                      className="p-2 bg-yellow-400 hover:bg-yellow-500 rounded-lg text-white cursor-pointer"
                     >
                       <Pencil size={16} />
                     </button>
                     <button
                       onClick={() => handleDelete(property.slug)}
-                      className="p-2 bg-red-500 hover:bg-red-600 rounded-lg text-white"
+                      className="p-2 bg-red-500 hover:bg-red-600 rounded-lg text-white cursor-pointer"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -150,7 +152,7 @@ export default function PropertiesAdmin() {
           <div className="bg-gray-800 w-11/12 md:w-3/4 lg:w-2/3 max-h-[90vh] overflow-y-auto no-scrollbar rounded-lg shadow-lg p-6 relative">
             <button
               onClick={() => setIsViewModalOpen(false)}
-              className="absolute top-3 right-3 text-gray-400 hover:text-white"
+              className="absolute top-3 right-3 text-gray-400 hover:text-white cursor-pointer"
             >
               <X size={20} />
             </button>
@@ -254,7 +256,7 @@ export default function PropertiesAdmin() {
           <div className="bg-gray-800 w-11/12 md:w-3/4 lg:w-2/3 max-h-[90vh] overflow-y-auto no-scrollbar rounded-lg shadow-lg p-6 relative">
             <button
               onClick={() => setIsFormModalOpen(false)}
-              className="absolute top-3 right-3 text-gray-600 hover:text-black"
+              className="absolute top-3 right-3 text-gray-600 hover:text-black cursor-pointer"
             >
               <X size={20} />
             </button>
@@ -268,6 +270,8 @@ export default function PropertiesAdmin() {
                 editProperty
                   ? {
                       ...editProperty,
+                      metaTitle: editProperty.metaTitle ?? "",
+                      metaDescription: editProperty.metaDescription ?? "",
                       price: editProperty.price ?? "",
                       bedrooms: editProperty.bedrooms ?? "",
                       bathrooms: editProperty.bathrooms ?? "",

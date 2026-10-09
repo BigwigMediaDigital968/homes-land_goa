@@ -14,6 +14,8 @@ interface PropertyData {
   title: string;
   slug: string;
   description: string;
+  metaTitle: string;
+  metaDescription: string;
   type: string;
   purpose: string;
   location: string;
@@ -52,6 +54,8 @@ export default function PropertyForm({
   const [formData, setFormData] = useState<Partial<PropertyData>>({
     title: "",
     description: "",
+    metaTitle: "",
+    metaDescription: "",
     type: "",
     purpose: "",
     location: "",
@@ -79,6 +83,8 @@ export default function PropertyForm({
       setFormData({
         title: property.title,
         description: property.description,
+        metaTitle: property.metaTitle,
+        metaDescription: property.metaDescription,
         type: property.type,
         purpose: property.purpose,
         location: property.location,
@@ -354,6 +360,26 @@ export default function PropertyForm({
           value={formData.googleMapUrl || ""}
           onChange={handleChange}
         />
+      </div>
+
+       {/* Meta Title & Meta Description */}
+      <div className="space-y-3">
+        <InputField
+          label="Meta Title"
+          name="metaTitle"
+          value={formData.metaTitle || ""}
+          onChange={handleChange}
+          required
+        />
+
+        <InputField
+          label="Meta Description"
+          name="metaDescription"
+          value={formData.metaDescription || ""}
+          onChange={handleChange}
+          required
+        />
+
       </div>
 
       {/* Buttons */}
