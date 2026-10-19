@@ -26,13 +26,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  
   return (
     <html lang="en">
       <head>
         {/* Google Site Verification */}
-        <meta name="google-site-verification" content="aqkEfQg72x2Vs7VWgeJn5olVWbQ--mjjFBnkijjoTCg" />
-
+        <meta
+          name="google-site-verification"
+          content="aqkEfQg72x2Vs7VWgeJn5olVWbQ--mjjFBnkijjoTCg"
+        />
 
         {/* Google Translate hide styles */}
         <style>{`
@@ -68,10 +69,25 @@ export default function RootLayout({
         `}
       </Script>
 
+      {/* Meta Pixel */}
+      <Script id="meta-pixel" strategy="afterInteractive">
+        {`
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '2127079414596449');
+          fbq('track', 'PageView');
+        `}
+      </Script>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-
         <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
