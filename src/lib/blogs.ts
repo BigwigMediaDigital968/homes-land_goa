@@ -47,8 +47,14 @@ export async function getBlogs(): Promise<BlogListItem[] | null> {
 }
 
 /** Full post as /blogs/[slug] uses it. */
+export interface BlogFaq {
+  question: string;
+  answer: string;
+}
+
 export interface BlogPost extends BlogListItem {
   content: string;
+  faqs: BlogFaq[];
   lastUpdated?: string;
 }
 
@@ -65,7 +71,7 @@ export const getBlog = cache(async (slug: string): Promise<BlogPost | null> => {
     if (!res.ok) return null;
 
     const data = await res.json();
-    return data?.slug ? { ...data, tags: data.tags ?? [] } : null;
+    return data?.slug ? { ...data, tags: data.tags ?? [], faqs: data.faqs ?? [] } : null;
   } catch {
     return null;
   }

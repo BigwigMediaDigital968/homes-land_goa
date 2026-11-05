@@ -278,21 +278,6 @@ select option {
   background-color: #091d35 !important;
 }
 
-.react-quill-editor {
-  height: 300px; /* or whatever you prefer */
-  display: flex;
-  flex-direction: column;
-}
-
-.react-quill-editor .ql-toolbar {
-  flex-shrink: 0;
-}
-
-.react-quill-editor .ql-container {
-  flex: 1;
-  overflow-y: auto;
-}
-
 /* Hide number input arrows */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {

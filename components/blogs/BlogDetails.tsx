@@ -11,7 +11,8 @@ import {
 } from "lucide-react";
 
 import ContactInfo from "../ContactInfo";
-import styles from "./BlogDetails.module.css";
+import "@/features/blog-editor/rich-editor.css";
+import { normalizeLegacyHtml } from "@/features/blog-editor/legacy";
 import {
   formatBlogDate,
   readingMinutes,
@@ -124,9 +125,40 @@ export default function BlogDetails({
             )}
 
             <div
-              className={`${styles.content} mt-12 w-full max-w-5xl`}
-              dangerouslySetInnerHTML={{ __html: blog.content }}
+              className="rte-content mt-12 w-full max-w-5xl"
+              dangerouslySetInnerHTML={{ __html: normalizeLegacyHtml(blog.content) }}
             />
+
+            {blog.faqs.length > 0 && (
+              <section aria-labelledby="blog-faqs" className="mt-14 max-w-5xl">
+                <div className="mb-6 flex items-center gap-3">
+                  <span aria-hidden className="h-px w-8 bg-primary" />
+                  <h2 id="blog-faqs" className={eyebrowClass}>
+                    Frequently Asked Questions
+                  </h2>
+                </div>
+                <div className="divide-y divide-border border-y border-border">
+                  {blog.faqs.map((faq) => (
+                    <details key={faq.question} className="group py-5">
+                      <summary
+                        className={`flex cursor-pointer list-none items-start justify-between gap-6 font-serif text-xl text-fg transition-colors duration-300 hover:text-primary [&::-webkit-details-marker]:hidden ${focusClass}`}
+                      >
+                        {faq.question}
+                        <span
+                          aria-hidden
+                          className="mt-1 text-primary transition-transform duration-300 group-open:rotate-45"
+                        >
+                          +
+                        </span>
+                      </summary>
+                      <p className="mt-3 whitespace-pre-line font-sans text-[15px] leading-relaxed text-fg/75">
+                        {faq.answer}
+                      </p>
+                    </details>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Footer: tags + back link */}
             <footer className="mt-14 flex flex-col gap-6 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">

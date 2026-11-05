@@ -131,6 +131,19 @@ export default async function BlogDetailsPage({ params }: { params: Params }) {
         },
         inLanguage: "en-IN",
       },
+      ...(blog.faqs.length
+        ? [
+            {
+              "@type": "FAQPage",
+              "@id": `${url}#faq`,
+              mainEntity: blog.faqs.map((f) => ({
+                "@type": "Question",
+                name: f.question,
+                acceptedAnswer: { "@type": "Answer", text: f.answer },
+              })),
+            },
+          ]
+        : []),
     ],
   };
 
