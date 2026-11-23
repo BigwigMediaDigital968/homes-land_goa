@@ -22,7 +22,7 @@ import { SITE_NAME, SITE_URL } from "@/lib/site";
 const TITLE =
   "Sell Property in Goa | Free Valuation | Homes & Land Goa";
 const DESCRIPTION =
-  "Sell property in Goa with Homes & Land Goa. Get a free valuation, documentation guidance and support connecting with genuine buyers for your house, villa or plot.";
+  "Looking to buy property in Goa? Explore villas, flats, and plots in prime locations across North and South Goa with Homes & Land Goa.";
 const HERO_ALT = "Villa listed for sale by Homes & Land Goa in Goa";
 
 export const metadata: Metadata = {

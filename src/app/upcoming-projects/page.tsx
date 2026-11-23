@@ -9,9 +9,9 @@ import { listingPageSchema, realEstateAgentSchema } from "@/lib/schema";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 const TITLE =
-  "Upcoming Projects in Goa | New Villas, Apartments & Plots | Homes & Land Goa";
+  "Upcoming Real Estate Projects in Goa | Homes & Land Goa";
 const DESCRIPTION =
-  "Explore upcoming projects in Goa with Homes & Land Goa. Browse new villas, apartments and plots before launch, compare the details and connect with our team for pricing and site visits.";
+  "Find upcoming real estate projects in Goa. Explore new residential developments, property details and investment opportunities.";
 const HERO_ALT = "Upcoming residential project in Goa listed by Homes & Land Goa";
 
 export const metadata: Metadata = {

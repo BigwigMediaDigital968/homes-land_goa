@@ -1,16 +1,106 @@
-"use client";
+import type { Metadata } from "next";
 
-import Footer from "../../../components/Footer";
-import Navbar from "../../../components/Navbar";
+const SITE_URL = "https://homesandlandgoa.com";
+const PAGE_URL = `${SITE_URL}/terms-condition`; // Update if your route path differs
+
+export const metadata: Metadata = {
+  title: "Terms & Conditions | Homes & Land Goa",
+  description:
+    "Review the Terms and Conditions of Homes & Land Goa, including website usage, property information, enquiries and user responsibilities.",
+  alternates: {
+    canonical: PAGE_URL,
+  },
+  openGraph: {
+    title: "Terms & Conditions | Homes & Land Goa",
+    description:
+      "Review the Terms and Conditions of Homes & Land Goa, including website usage, property information, enquiries and user responsibilities.",
+    url: PAGE_URL,
+    siteName: "Homes & Land Goa",
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Terms & Conditions | Homes & Land Goa",
+    description:
+      "Review the Terms and Conditions of Homes & Land Goa, including website usage, property information, enquiries and user responsibilities.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function TermsPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${PAGE_URL}#webpage`,
+        url: PAGE_URL,
+        name: "Terms & Conditions | Homes & Land Goa",
+        description:
+          "Review the Terms and Conditions of Homes & Land Goa, including website usage, property information, enquiries and user responsibilities.",
+        dateModified: "2025-09-16",
+        inLanguage: "en-IN",
+        isPartOf: {
+          "@id": `${SITE_URL}#website`,
+        },
+        about: {
+          "@id": `${SITE_URL}#organization`,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${PAGE_URL}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: SITE_URL,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Terms & Conditions",
+            item: PAGE_URL,
+          },
+        ],
+      },
+      {
+        "@type": "RealEstateAgent",
+        "@id": `${SITE_URL}#organization`,
+        name: "Homes & Land Goa",
+        url: SITE_URL,
+        email: "supports@homesandlandgoa.com",
+        areaServed: {
+          "@type": "State",
+          name: "Goa",
+          containedInPlace: {
+            "@type": "Country",
+            name: "India",
+          },
+        },
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
 
       <main className="max-w-4xl mx-auto p-6 prose prose-lg pt-36">
         <h1 className="text-4xl pb-5">Terms and Conditions</h1>
         <p>
-          <strong>Last updated:</strong> September 16, 2025
+          <strong>Last updated:</strong>{" "}
+          <time dateTime="2025-09-16">September 16, 2025</time>
         </p>
 
         <p>
@@ -64,6 +154,7 @@ export default function TermsPage() {
           <a
             href="https://homesandlandgoa.com"
             target="_blank"
+            rel="noopener noreferrer"
             className="text-blue-600 underline"
           >
             https://homesandlandgoa.com/

@@ -17,7 +17,7 @@ import { getProperties } from "@/lib/properties";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 const TITLE =
-  "Real Estate Agents in Goa | Buy, Sell & Rent Property | Homes & Land Goa";
+  "Real Estate in Goa | Buy, Sell & Rent | Homes & Land Goa";
 const DESCRIPTION =
   "Homes & Land Goa, trusted real estate agents in Goa helping you buy, sell or rent property across North and South Goa. Explore listings or talk to our team today.";
 const OG_ALT = "Luxury villa in Goa listed by Homes & Land Goa";

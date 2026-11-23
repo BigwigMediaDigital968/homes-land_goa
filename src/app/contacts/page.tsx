@@ -7,9 +7,9 @@ import ContactLeadForm from "../../../components/contact/ContactLeadForm";
 import { realEstateAgentSchema, webPageSchema } from "@/lib/schema";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
-const TITLE = "Contact Homes & Land Goa | Property Agents in Calangute, Goa";
+const TITLE = "Contact Property Agents in Goa | Homes & Land Goa";
 const DESCRIPTION =
-  "Get in touch with Homes & Land Goa. Call +91 96238 58108, email info@homesandlandgoa.com, or visit our office in Calangute to talk about buying, selling or renting property in Goa.";
+  "Contact Homes & Land Goa for property enquiries, site visits and real estate assistance. Call +91 96238 58108 or visit our Calangute office.";
 const HERO_ALT = "The Homes & Land Goa office in Calangute, Goa";
 
 export const metadata: Metadata = {

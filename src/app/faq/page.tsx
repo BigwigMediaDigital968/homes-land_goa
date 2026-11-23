@@ -1,14 +1,54 @@
-"use client";
+import type { Metadata } from "next";
+import FAQClient, { FAQ } from "./FAQClient";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
+const SITE_URL = "https://www.homesandlandgoa.com"; // Replace with your actual production domain
+const PAGE_URL = `${SITE_URL}/faq`; // Replace with your actual route path
 
-interface FAQ {
-  question: string;
-  answer: string;
-}
+export const metadata: Metadata = {
+  title: "Goa Real Estate FAQs: Buying, Selling & Renting | Homes & Land Goa",
+  description:
+    "Find answers to common questions about buying, selling and renting property in Goa. Explore real estate guidance from Homes & Land Goa.",
+  keywords: [
+    "Goa real estate FAQs",
+    "buy property in Goa",
+    "sell property in Goa",
+    "rent villa in Goa",
+    "NRI property investment Goa",
+    "luxury villas Goa",
+    "Homes & Land Goa",
+  ],
+  alternates: {
+    canonical: PAGE_URL,
+  },
+  openGraph: {
+    title: "Goa Real Estate FAQs: Buying, Selling & Renting | Homes & Land Goa",
+    description:
+      "Find answers to common questions about buying, selling and renting property in Goa. Explore real estate guidance from Homes & Land Goa.",
+    url: PAGE_URL,
+    siteName: "Homes & Land Goa",
+    locale: "en_IN",
+    type: "website",
+    images: [
+      {
+        url: `${SITE_URL}/og-faq.jpg`, // Replace with your actual OG image path
+        width: 1200,
+        height: 630,
+        alt: "Homes & Land Goa - Real Estate FAQs",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Goa Real Estate FAQs: Buying, Selling & Renting | Homes & Land Goa",
+    description:
+      "Find answers to common questions about buying, selling and renting property in Goa. Explore real estate guidance from Homes & Land Goa.",
+    images: [`${SITE_URL}/og-faq.jpg`],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 const faqs: FAQ[] = [
   {
@@ -38,67 +78,70 @@ const faqs: FAQ[] = [
   },
 ];
 
-const FAQPage = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
+export default function FAQPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "FAQPage",
+        "@id": `${PAGE_URL}#faq`,
+        url: PAGE_URL,
+        name: "Goa Real Estate FAQs: Buying, Selling & Renting | Homes & Land Goa",
+        description:
+          "Find answers to common questions about buying, selling and renting property in Goa. Explore real estate guidance from Homes & Land Goa.",
+        mainEntity: faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${PAGE_URL}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: SITE_URL,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "FAQs",
+            item: PAGE_URL,
+          },
+        ],
+      },
+      {
+        "@type": "RealEstateAgent",
+        "@id": `${SITE_URL}#organization`,
+        name: "Homes & Land Goa",
+        url: SITE_URL,
+        areaServed: {
+          "@type": "State",
+          name: "Goa",
+          containedInPlace: {
+            "@type": "Country",
+            name: "India",
+          },
+        },
+      },
+    ],
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-
-      {/* FAQ Section */}
-      <section className="w-11/12 md:w-5/6 mx-auto py-28 px-6 font-raleway flex-grow">
-        <motion.h1
-          className="text-3xl md:text-5xl font-bold text-center mb-12 text-[var(--title)]"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          Frequently Asked Questions
-        </motion.h1>
-
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <motion.div
-              key={index}
-              className="border rounded-lg p-4 cursor-pointer shadow-sm hover:shadow-md transition"
-              onClick={() => toggleFAQ(index)}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold text-[var(--primary-color)]">
-                  {faq.question}
-                </h3>
-                <span className="text-xl font-bold text-[var(--primary-color)]">
-                  {openIndex === index ? "−" : "+"}
-                </span>
-              </div>
-
-              {/* Animate open/close */}
-              <AnimatePresence>
-                {openIndex === index && (
-                  <motion.p
-                    className="mt-3 text-gray-600"
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    {faq.answer}
-                  </motion.p>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+      <FAQClient faqs={faqs} />
+    </>
   );
-};
-
-export default FAQPage;
+}

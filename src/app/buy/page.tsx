@@ -23,9 +23,9 @@ import {
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 const TITLE =
-  "Property for Sale in Goa | Buy Villas, Apartments & Plots | Homes & Land Goa";
+  "Property for Sale in Goa: Villas & Flats | Homes & Land Goa";
 const DESCRIPTION =
-  "Explore property for sale in Goa with Homes & Land Goa. Browse villas, apartments and plots to buy property in Goa, shortlist your options and connect with our team to schedule a viewing.";
+  "Browse property for sale in Goa, including villas, apartments and plots. Explore available properties with Homes & Land Goa.";
 const HERO_ALT = "Villa for sale in North Goa listed by Homes & Land Goa";
 
 export const metadata: Metadata = {

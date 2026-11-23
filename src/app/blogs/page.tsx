@@ -10,7 +10,7 @@ import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 const TITLE = "Goa Property Blog | Buying, Selling & Renting Guides";
 const DESCRIPTION =
-  "Guides and updates on the Goa property market from Homes & Land Goa — what to check before you buy, what selling involves, and how renting works across North and South Goa.";
+  "Explore Goa real estate blogs covering property prices, buying tips, selling advice, rental trends and the latest property market updates.";
 const HERO_ALT = "A villa in Goa featured on the Homes & Land Goa blog";
 
 export const metadata: Metadata = {

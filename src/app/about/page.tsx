@@ -11,7 +11,7 @@ import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 const TITLE = "About Homes & Land Goa | Real Estate Agents in Goa";
 const DESCRIPTION =
-  "Learn about Homes & Land Goa, a real estate team based in Calangute helping people buy, sell and rent property across North and South Goa with a transparent, personal process.";
+  "Discover Homes & Land Goa, your trusted real estate team for buying, selling and renting properties across Goa.";
 const HERO_ALT = "Homes & Land Goa, property specialists in Goa";
 
 export const metadata: Metadata = {

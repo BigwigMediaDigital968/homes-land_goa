@@ -1,15 +1,107 @@
-"use client";
+import type { Metadata } from "next";
 
-import Footer from "../../../components/Footer";
-import Navbar from "../../../components/Navbar";
+const SITE_URL = "https://homesandlandgoa.com";
+const PAGE_URL = `${SITE_URL}/privacy-policy`; // Update if your route path differs
+
+export const metadata: Metadata = {
+  title: "Privacy Policy | Homes & Land Goa",
+  description:
+    "Read the Homes & Land Goa Privacy Policy to learn how your personal information is collected, used and protected.",
+  alternates: {
+    canonical: PAGE_URL,
+  },
+  openGraph: {
+    title: "Privacy Policy | Homes & Land Goa",
+    description:
+      "Read the Homes & Land Goa Privacy Policy to learn how your personal information is collected, used and protected.",
+    url: PAGE_URL,
+    siteName: "Homes & Land Goa",
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Privacy Policy | Homes & Land Goa",
+    description:
+      "Read the Homes & Land Goa Privacy Policy to learn how your personal information is collected, used and protected.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function PrivacyPolicy() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${PAGE_URL}#webpage`,
+        url: PAGE_URL,
+        name: "Privacy Policy | Homes & Land Goa",
+        description:
+          "Read the Homes & Land Goa Privacy Policy to learn how your personal information is collected, used and protected.",
+        dateModified: "2025-09-16",
+        inLanguage: "en-IN",
+        isPartOf: {
+          "@id": `${SITE_URL}#website`,
+        },
+        about: {
+          "@id": `${SITE_URL}#organization`,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${PAGE_URL}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: SITE_URL,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Privacy Policy",
+            item: PAGE_URL,
+          },
+        ],
+      },
+      {
+        "@type": "RealEstateAgent",
+        "@id": `${SITE_URL}#organization`,
+        name: "Homes & Land Goa",
+        url: SITE_URL,
+        email: "supports@homesandlandgoa.com",
+        areaServed: {
+          "@type": "State",
+          name: "Goa",
+          containedInPlace: {
+            "@type": "Country",
+            name: "India",
+          },
+        },
+      },
+    ],
+  };
+
   return (
-    <div className="flex flex-col min-h-screen bg-white text-gray-800">
+    <div className="flex flex-col min-h-screen text-white bg-gray-800">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+
       <main className="max-w-4xl mx-auto pt-32 pb-10">
         <h1 className="text-3xl font-semibold mb-6">Privacy Policy</h1>
 
-        <p className="mb-4">Last updated: September 16, 2025</p>
+        <p className="mb-4">
+          Last updated: <time dateTime="2025-09-16">September 16, 2025</time>
+        </p>
 
         <p className="mb-4">
           This Privacy Policy describes Our policies and procedures on the
@@ -32,7 +124,7 @@ export default function PrivacyPolicy() {
             our Service.
           </li>
           <li>
-            <strong>Company:</strong> Refers to HOMES & LAND GOA.
+            <strong>Company:</strong> Refers to HOMES &amp; LAND GOA.
           </li>
           <li>
             <strong>Cookies:</strong> Small files placed on Your Device.
@@ -59,10 +151,11 @@ export default function PrivacyPolicy() {
             the Service.
           </li>
           <li>
-            <strong>Website:</strong> HOMES & LAND GOA –{" "}
+            <strong>Website:</strong> HOMES &amp; LAND GOA –{" "}
             <a
               href="https://homesandlandgoa.com"
               target="_blank"
+              rel="noopener noreferrer"
               className="text-blue-600 underline"
             >
               https://homesandlandgoa.com
